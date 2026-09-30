@@ -1,0 +1,1418 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Nova Macabu | Ônibus intermunicipal em Macaé e região</title>
+<meta name="description" content="Linhas de ônibus entre Macaé, Conceição de Macabu, Trajano de Moraes e Santa Maria Madalena. Serviço Convencional e Semi-Leito, gratuidades e atendimento ao passageiro.">
+<link rel="canonical" href="https://novamacabu.com.br/">
+<meta name="theme-color" content="#1D1E4A">
+<meta name="color-scheme" content="light">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Nova Macabu">
+<meta property="og:title" content="Nova Macabu | Sua viagem começa aqui">
+<meta property="og:description" content="Conforto, segurança e pontualidade conectando Macaé a Conceição de Macabu, Trajano de Moraes, Santa Maria Madalena e região.">
+<meta property="og:url" content="https://novamacabu.com.br/">
+<meta property="og:image" content="https://novamacabu.com.br/assets/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ônibus da Nova Macabu">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon-192.png" type="image/png" sizes="192x192">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/albert-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Nova Macabu",
+  "legalName": "Transportadora Nova Macabu Ltda",
+  "url": "https://novamacabu.com.br/",
+  "logo": "https://novamacabu.com.br/assets/img/logo.png",
+  "email": "sac@novamacabu.com.br",
+  "foundingDate": "1997-10-23",
+  "taxID": "02.224.206/0001-20",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Rua Bento Andrade Lemos, 157 – Paraíso",
+    "addressLocality": "Conceição de Macabu",
+    "addressRegion": "RJ",
+    "postalCode": "28740-000",
+    "addressCountry": "BR"
+  },
+  "areaServed": ["Macaé", "Conceição de Macabu", "Trajano de Moraes", "Santa Maria Madalena"]
+}
+</script>
+<style>
+/* ============================================================
+   NOVA MACABU · site institucional · MODELO 2 (corporativo) · v0.2.0-piloto (30/09/2026)
+   Mesmo conteúdo do modelo 1, em layout corporativo: tipografia grande e leve, blocos planos
+   de canto reto, títulos de seção em coluna própria, faixa fotográfica larga e laranja só em
+   ações e detalhes.
+   Referência de layout: sites corporativos do setor de energia (ex.: equinor.com): título + lead,
+   imagem larga, números-chave, blocos foto + texto e listas de links relacionados com seta.
+   Só grade, hierarquia e ritmo; nenhuma marca, cor ou fonte de terceiros.
+   Cores da empresa (tiradas da logo): azul-marinho #1D1E4A, laranja #E86A38, cinza-escuro #2E3238.
+   Fonte única: Albert Sans, autohospedada em assets/fonts.
+   Conteúdo a confirmar: <span class="todo"> ou atributo data-todo. #revisao no endereço destaca tudo.
+   Contatos e EmailJS: bloco CONFIG no início do <script>, no fim do arquivo.
+   ============================================================ */
+@font-face{font-family:"Albert Sans";src:url("assets/fonts/albert-sans-latin-wght-normal.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
+
+/* Tema único claro (fundo branco), a pedido. Layout: coluna de 1240px; títulos de seção numa coluna à esquerda; blocos planos e cantos retos. */
+:root{
+  /* cores da empresa */
+  --navy:#1D1E4A; --navy-2:#2B2D66; --graphite:#2E3238; --orange:#E86A38; --orange-hover:#F28357; --alert:#D64545;
+  /* superfícies */
+  --bg:#FFFFFF; --bg-alt:#F2F3F5; --surface:#FFFFFF;
+  --line:#D9DDE3; --line-2:#E8EBEF; --field-line:#8A919B;
+  /* texto */
+  --heading:#1D1E4A; --text:#2E3238; --text-2:#555C66; --text-3:#686F79;
+  /* componentes */
+  --plate:#1D1E4A; --mark:#1D1E4A; --icon:#1D1E4A; --btn-dark-bg:#1D1E4A; --btn-dark-fg:#FFFFFF;
+  /* faixas escuras */
+  --band:#1D1E4A; --on-band:#FFFFFF; --on-band-2:#C3C6E0; --band-line:rgba(255,255,255,.16);
+  --foot:#2E3238; --foot-2:#25292E; --on-foot:#FFFFFF; --on-foot-2:#C3C8CF; --foot-line:rgba(255,255,255,.14);
+  /* estados */
+  --wa:#0F7F40; --wa-hover:#0B6A35;
+  --focus:#F1612F;
+  --ok:#1C7C4A; --ok-bg:#E7F5EC; --warn-bg:#FFF1EA; --err:#C23B3B; --err-bg:#FDECEC;
+  --review-bg:#FFF3B0; --review-fg:#3D3D3D; --review-line:#B58900;
+  /* tipo */
+  --f-sans:"Albert Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  /* ritmo */
+  --gutter:clamp(16px,4vw,48px); --container:1240px; --sp-section:clamp(72px,9vw,128px);
+  --radius:4px; --header-h:76px;
+  color-scheme:light;
+}
+@media (max-width:640px){:root{--header-h:64px}}
+
+/* ---------- base ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--f-sans);font-size:1.0625rem;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body.menu-open{overflow:hidden}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+h1,h2,h3,h4{margin:0;color:var(--heading);font-weight:400;line-height:1.1;letter-spacing:-.015em;text-wrap:balance}
+p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+button{font:inherit}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+[id]{scroll-margin-top:calc(var(--header-h) + 16px + env(safe-area-inset-top,0px))}
+.ic{width:24px;height:24px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip{position:absolute;left:-999px;top:8px;z-index:100;background:var(--navy);color:#fff;padding:10px 14px}
+.skip:focus{left:12px}
+.container{width:100%;max-width:var(--container);margin-inline:auto;padding-inline:var(--gutter)}
+.section{padding-block:var(--sp-section)}
+.alt{background:var(--bg-alt)}
+.eyebrow{display:flex;align-items:center;gap:12px;font-size:.78rem;font-weight:600;line-height:1.3;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2)}
+.eyebrow::before{content:"";width:20px;height:2px;flex:none;background:var(--orange)}
+.h2{font-size:clamp(2rem,3.8vw,3.25rem);font-weight:400;line-height:1.06;letter-spacing:-.022em}
+.lead{font-size:clamp(1.1rem,1.45vw,1.3rem);line-height:1.5;color:var(--text-2);max-width:56ch}
+.section-head{display:grid;gap:16px;max-width:780px;margin-bottom:clamp(36px,5vw,64px)}
+.split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px);align-items:start}
+.split-head{display:grid;gap:16px;align-content:start}
+@media (min-width:960px){.split-head.sticky{position:sticky;top:calc(var(--header-h) + 40px)}}
+@media (max-width:959px){.split{grid-template-columns:1fr}}
+.small{font-size:.92rem}
+
+/* ---------- botões e links ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:12px 24px;border-radius:var(--radius);border:1.5px solid transparent;font:600 1rem/1.2 var(--f-sans);text-decoration:none;cursor:pointer;transition:background .2s ease,border-color .2s ease,color .2s ease;white-space:nowrap}
+.btn .ic{width:20px;height:20px}
+.btn-primary{background:var(--orange);color:var(--navy)}
+.btn-primary:hover{background:var(--orange-hover);color:var(--navy)}
+.btn-dark{background:var(--btn-dark-bg);color:var(--btn-dark-fg)}
+.btn-dark:hover{background:var(--orange);color:var(--navy)}
+.btn-wa{background:var(--wa);color:#fff}
+.btn-wa:hover{background:var(--wa-hover);color:#fff}
+.btn-sm{min-height:44px;padding:9px 16px;font-size:.92rem}
+.btn[disabled],.btn[aria-disabled="true"]{opacity:.55;cursor:default}
+.arrow{display:inline-flex;align-items:center;gap:10px;min-height:44px;font-weight:600;color:var(--heading);text-decoration:none}
+.arrow .ic{width:20px;height:20px;color:var(--orange);transition:transform .2s ease}
+.arrow:hover{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.arrow:hover .ic{transform:translateX(4px)}
+
+/* ---------- cabeçalho ---------- */
+.header{position:fixed;inset:0 0 auto 0;z-index:50;padding-top:env(safe-area-inset-top,0px);background:var(--surface);border-bottom:1px solid var(--line-2);transition:box-shadow .2s ease}
+.header.scrolled{box-shadow:0 1px 0 var(--line)}
+.header .bar{display:flex;align-items:center;justify-content:space-between;gap:20px;height:var(--header-h)}
+.brand{display:inline-flex;align-items:center;gap:12px;text-decoration:none;color:var(--heading);white-space:nowrap}
+.brand-mark{width:38px;height:38px;flex:none;--mark-bg:var(--mark)}
+.brand-name{font-size:1.22rem;font-weight:600;letter-spacing:-.01em}
+.brand-name span{font-weight:300}
+.nav{display:flex;align-items:center;gap:2px}
+.nav a{position:relative;color:var(--text);text-decoration:none;font-weight:500;font-size:.98rem;padding:12px 12px}
+.nav a:not(.btn)::after{content:"";position:absolute;left:12px;right:12px;bottom:5px;height:2px;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform .2s ease}
+.nav a:not(.btn):hover{color:var(--heading)}
+.nav a:not(.btn):hover::after,.nav a.active::after{transform:scaleX(1)}
+.nav .btn{margin-left:14px;padding:12px 20px;font-size:.96rem}
+.menu-btn{display:none;align-items:center;gap:8px;min-height:44px;padding:8px 12px;border:0;background:transparent;color:var(--heading);font-weight:600;cursor:pointer}
+.menu-btn .i-close{display:none}
+.menu-btn[aria-expanded="true"] .i-open{display:none}
+.menu-btn[aria-expanded="true"] .i-close{display:block}
+@media (max-width:1079px){
+  .menu-btn{display:inline-flex}
+  .nav{position:fixed;left:0;right:0;bottom:0;top:calc(var(--header-h) + env(safe-area-inset-top,0px));display:none;flex-direction:column;align-items:stretch;gap:0;padding:8px var(--gutter) calc(28px + env(safe-area-inset-bottom,0px));background:var(--surface);overflow-y:auto;border-top:1px solid var(--line-2)}
+  .nav.open{display:flex}
+  .nav a:not(.btn){font-size:1.5rem;font-weight:300;padding:18px 0;border-bottom:1px solid var(--line-2)}
+  .nav a:not(.btn)::after{display:none}
+  .nav a.active{font-weight:500}
+  .nav .btn{margin:28px 0 0;font-size:1.05rem;padding:14px 20px}
+}
+@media (max-width:380px){.brand-name{font-size:1.08rem}.brand-mark{width:32px;height:32px}.menu-btn span{display:none}}
+
+/* ---------- hero ---------- */
+.hero{padding-top:calc(var(--header-h) + env(safe-area-inset-top,0px));background:var(--bg)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(32px,5vw,80px);align-items:end;padding-block:clamp(48px,7vw,104px) clamp(40px,5vw,64px)}
+.hero-copy{display:grid;gap:24px;justify-items:start}
+.hero h1{font-size:clamp(3rem,6.6vw,6rem);font-weight:300;line-height:.98;letter-spacing:-.035em}
+.hero .lead{max-width:40ch}
+.hero-cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px 30px;margin-top:6px}
+.lines-panel{background:var(--band);color:var(--on-band);padding:clamp(22px,2.6vw,32px);--heading:#FFFFFF;--focus:var(--orange)}
+.lp-title{font-size:.76rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--on-band-2);margin-bottom:6px}
+.lp-list li + li{border-top:1px solid var(--band-line)}
+.lp-list a{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;padding:16px 0;color:inherit;text-decoration:none}
+.lp-no{display:grid;place-items:center;min-width:60px;height:42px;padding:0 8px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.06);font-weight:600;font-size:1.05rem;letter-spacing:.03em}
+.lp-no.pending{border-style:dashed;color:var(--on-band-2)}
+.lp-route b{display:block;font-weight:500;font-size:1.02rem;line-height:1.3}
+.lp-route small{display:block;margin-top:3px;font-size:.88rem;color:var(--on-band-2)}
+.lp-list .ic{width:20px;height:20px;color:var(--orange);transition:transform .2s ease}
+.lp-list a:hover b{text-decoration:underline;text-underline-offset:3px}
+.lp-list a:hover .ic{transform:translateX(4px)}
+.lp-foot{margin-top:4px;padding-top:6px;border-top:1px solid var(--band-line)}
+.lp-foot .arrow{color:#fff}
+.pano{margin:0;position:relative;background:var(--band)}
+.pano img{width:100%;aspect-ratio:21/9;max-height:680px;object-fit:cover;object-position:50% 55%}
+.pano figcaption{position:absolute;left:0;right:0;bottom:0;padding-block:56px 16px;background:linear-gradient(0deg,rgba(29,30,74,.72),rgba(29,30,74,0));color:#fff;font-size:.86rem}
+@media (max-width:959px){.hero-grid{grid-template-columns:1fr;align-items:start}}
+@media (max-width:700px){.pano img{aspect-ratio:3/2}}
+@media (max-width:480px){.hero-cta .btn{width:100%}}
+
+/* ---------- por que ---------- */
+.values{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(24px,3vw,48px)}
+.value{display:grid;gap:12px;align-content:start;padding:28px 0 36px;border-top:1px solid var(--line)}
+.value .ic{width:34px;height:34px;color:var(--icon);stroke-width:1.4}
+.value h3{font-size:1.45rem;font-weight:500}
+.value p{color:var(--text-2)}
+@media (max-width:600px){.values{grid-template-columns:1fr}}
+
+/* ---------- tabela de linhas ---------- */
+.lines{width:100%;border-collapse:collapse;background:var(--surface);border-top:2px solid var(--heading)}
+.lines th,.lines td{padding:22px 18px;text-align:left;vertical-align:middle;border-bottom:1px solid var(--line)}
+.lines thead th{padding-block:14px;font-size:.74rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3)}
+.lines tbody th{font-weight:500;font-size:1.12rem;line-height:1.3;color:var(--heading)}
+.lines tbody th small,.svc small{display:block;margin-top:3px;font-size:.88rem;font-weight:400;color:var(--text-3)}
+.lines tbody tr{transition:background .2s ease}
+.lines tbody tr:hover{background:var(--bg-alt)}
+.plate{display:inline-grid;place-items:center;min-width:64px;height:44px;padding:0 10px;background:var(--plate);color:#FFFFFF;font-weight:600;font-size:1.1rem;letter-spacing:.03em}
+.plate.pending{background:transparent;color:var(--text-3);border:1.5px dashed var(--field-line)}
+.svc b{display:block;font-weight:500;color:var(--text)}
+.fare{font-weight:600;color:var(--heading);white-space:nowrap}
+.lines td.go{text-align:right;white-space:nowrap}
+.routes-foot{margin-top:28px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px}
+.routes-foot p{max-width:62ch;color:var(--text-2)}
+@media (max-width:899px){
+  .lines thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  .lines,.lines tbody{display:block}
+  .lines tr{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:16px;row-gap:4px;padding:20px 16px;border-bottom:1px solid var(--line)}
+  .lines th,.lines td{display:block;padding:0;border:0}
+  .lines td:first-child{grid-row:1/span 5}
+  .lines td[data-label]::before{content:attr(data-label) " ";color:var(--text-3);font-size:.86rem}
+  .lines td.go{grid-column:2;text-align:left;margin-top:4px}
+  .svc b,.svc small{display:inline;margin:0}
+}
+
+/* ---------- modalidades ---------- */
+.teaser{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);background:var(--bg-alt)}
+.teaser + .teaser{margin-top:clamp(24px,3vw,40px)}
+.teaser figure{margin:0;position:relative}
+.teaser img{width:100%;height:100%;min-height:100%;aspect-ratio:16/10;object-fit:cover}
+.teaser.conv img{object-position:50% 45%}
+.teaser.semi img{object-position:85% 55%}
+.teaser figcaption{position:absolute;left:0;bottom:0;padding:8px 12px;background:var(--navy);color:#FFFFFF;font-size:.76rem;font-weight:600;letter-spacing:.08em}
+.teaser-body{padding:clamp(28px,4vw,56px);display:grid;gap:16px;align-content:center;justify-items:start}
+.kicker{font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2)}
+.teaser h3{font-size:clamp(2rem,3.2vw,2.75rem);font-weight:300;letter-spacing:-.025em}
+.teaser p{color:var(--text)}
+.teaser.reverse{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
+.teaser.reverse figure{order:2}
+.specs{display:flex;flex-wrap:wrap;gap:8px 32px;margin:4px 0 0;padding-top:16px;border-top:1px solid var(--line);width:100%}
+.specs div{display:grid;gap:2px}
+.specs dt{font-size:.74rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3)}
+.specs dd{margin:0;font-weight:600;font-size:1.12rem;color:var(--heading)}
+@media (max-width:859px){.teaser,.teaser.reverse{grid-template-columns:1fr}.teaser.reverse figure{order:0}}
+
+/* ---------- gratuidade ---------- */
+.rights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2vw,24px)}
+.right{display:flex;flex-direction:column;gap:12px;padding:clamp(24px,3vw,36px);background:var(--surface);border-top:3px solid var(--heading)}
+.right-tag{font-size:clamp(2.6rem,4vw,3.4rem);font-weight:300;line-height:1;letter-spacing:-.035em;color:var(--heading)}
+.right h3{font-size:1.4rem;font-weight:500;margin-top:6px}
+.right-sub{margin-top:-6px;font-size:.92rem;color:var(--text-3)}
+.right p{color:var(--text)}
+.right a{color:var(--heading);font-weight:600;text-underline-offset:3px}
+.law{display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:14px;border-top:1px solid var(--line-2);font-size:.86rem;font-weight:600;color:var(--text-2)}
+.law::before{content:"";width:8px;height:8px;flex:none;background:var(--orange)}
+.note{margin-top:24px;font-size:.92rem;color:var(--text-2);max-width:72ch}
+.note a{color:var(--heading);font-weight:600;text-underline-offset:3px}
+@media (max-width:899px){.rights{grid-template-columns:1fr}}
+
+/* ---------- institucional ---------- */
+.band{background:var(--band);color:var(--on-band);--heading:#FFFFFF;--text:#E4E9F0;--text-2:var(--on-band-2);--focus:var(--orange)}
+.band .eyebrow{color:var(--on-band-2)}
+.about{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(32px,6vw,96px);align-items:center}
+.about-copy{display:grid;gap:18px}
+.prose{display:grid;gap:1em;max-width:60ch;color:var(--text)}
+.about figure{margin:0}
+.about img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:30% 50%}
+.about figcaption{margin-top:12px;font-size:.86rem;color:var(--on-band-2)}
+.figures{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin:clamp(48px,6vw,88px) 0 0}
+.figures div{position:relative;display:flex;flex-direction:column-reverse;justify-content:flex-end;gap:10px;padding-top:22px;border-top:1px solid var(--band-line)}
+.figures div::before{content:"";position:absolute;top:-2px;left:0;width:40px;height:3px;background:var(--orange)}
+.figures dd{margin:0;font-size:clamp(2.6rem,5vw,4.2rem);font-weight:300;line-height:1;letter-spacing:-.035em;color:#FFFFFF}
+.figures dt{font-size:.95rem;line-height:1.35;color:var(--on-band-2)}
+@media (max-width:899px){.about{grid-template-columns:1fr}.about img{aspect-ratio:4/3;object-position:40% 60%}}
+.related{margin-top:clamp(40px,5vw,64px)}
+.related-t{margin-bottom:12px;font-size:.76rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--on-band-2)}
+.related ul{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:24px}
+.related li{border-top:1px solid var(--band-line)}
+.related .arrow{display:flex;justify-content:space-between;width:100%;min-height:60px;padding-block:14px;color:#FFFFFF;font-weight:500}
+@media (max-width:899px){.related ul{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.related ul{grid-template-columns:1fr}}
+@media (max-width:640px){.figures{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:32px}}
+
+/* ---------- dúvidas ---------- */
+.faq-list{border-top:1px solid var(--line)}
+.qa{border-bottom:1px solid var(--line)}
+.qa summary{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:64px;padding:20px 0;cursor:pointer;list-style:none;font-size:1.15rem;font-weight:500;line-height:1.35;color:var(--heading)}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary:hover{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.pm{position:relative;width:18px;height:18px;flex:none;color:var(--orange)}
+.pm::before,.pm::after{content:"";position:absolute;left:0;top:50%;width:18px;height:2px;margin-top:-1px;background:currentColor;transition:transform .25s ease}
+.pm::after{transform:rotate(90deg)}
+.qa[open] .pm::after{transform:rotate(0deg)}
+.qa-a{padding:0 44px 24px 0;color:var(--text-2);max-width:70ch}
+.qa-a a{color:var(--heading);font-weight:600;text-underline-offset:3px}
+.help{margin-top:12px;display:grid;gap:14px;justify-items:start;padding:28px;background:var(--graphite);color:#FFFFFF;--focus:var(--orange)}
+.help h3{color:#FFFFFF;font-size:1.4rem;font-weight:500}
+.help p{color:#D2D7DE}
+.help .arrow{color:#FFFFFF}
+
+/* ---------- atendimento ---------- */
+.channels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+@media (max-width:899px){.channels{grid-template-columns:1fr}}
+@media (max-width:560px){.channels{grid-template-columns:1fr}}
+.channel{display:flex;flex-direction:column;gap:10px;min-width:0;padding:28px;background:var(--surface)}
+.ch-ic{width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line);color:var(--icon);margin-bottom:6px}
+.channel.wa .ch-ic{background:var(--wa);border-color:var(--wa);color:#FFFFFF}
+.channel h3{font-size:1.25rem;font-weight:500}
+.ch-val{font-weight:600;color:var(--heading);overflow-wrap:anywhere}
+.ch-val a{color:inherit;text-decoration:none}
+.ch-val a:hover{text-decoration:underline}
+.ch-desc{font-size:.95rem;color:var(--text-2)}
+.ch-list{display:grid;gap:10px;font-size:.95rem;color:var(--text-2)}
+.ch-list b{display:block;font-weight:600;color:var(--text)}
+.ch-actions{margin-top:auto;padding-top:8px;display:flex;flex-wrap:wrap;gap:8px}
+.copy{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;border-radius:var(--radius);border:1.5px solid var(--field-line);background:transparent;color:var(--heading);font-weight:600;font-size:.9rem;cursor:pointer;text-decoration:none}
+.copy:hover{border-color:var(--heading)}
+.copy .ic{width:17px;height:17px}
+.copy[data-done]{border-color:var(--ok);color:var(--ok)}
+.sac{margin-top:clamp(40px,5vw,64px);display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);background:var(--surface);border:1px solid var(--line)}
+@media (max-width:899px){.sac{grid-template-columns:1fr}}
+.sac-side{display:grid;gap:16px;align-content:start;padding:clamp(28px,4vw,48px);background:var(--band);color:var(--on-band);--heading:#FFFFFF;--focus:var(--orange)}
+.sac-side .eyebrow{color:var(--on-band-2)}
+.sac-side h3{font-size:clamp(1.8rem,2.8vw,2.4rem);font-weight:300;letter-spacing:-.02em}
+.sac-side p{color:var(--on-band-2)}
+.steps{counter-reset:s;margin-top:8px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:baseline;padding:14px 0;border-top:1px solid var(--band-line);color:#FFFFFF}
+.steps li::before{content:counter(s,decimal-leading-zero);font-weight:600;color:var(--orange)}
+.sac-main{padding:clamp(28px,4vw,48px)}
+.form{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
+@media (max-width:560px){.form{grid-template-columns:1fr}}
+.field{display:grid;gap:6px;min-width:0;align-content:start}
+.field.full{grid-column:1/-1}
+.field label{font-weight:600;font-size:.92rem;color:var(--text)}
+.opt{font-weight:400;color:var(--text-3)}
+.field input,.field select,.field textarea{width:100%;min-height:50px;padding:12px 14px;border-radius:2px;border:1px solid var(--field-line);background:var(--bg);color:var(--text);font:inherit;font-size:1rem}
+.field textarea{resize:vertical;min-height:150px;line-height:1.5}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 1px var(--orange)}
+.field [aria-invalid="true"]{border-color:var(--err);box-shadow:0 0 0 1px var(--err)}
+.err{font-size:.85rem;color:var(--err)}
+.field .err:empty{display:none}
+.hint{display:flex;justify-content:space-between;gap:12px;font-size:.82rem;color:var(--text-3)}
+.hint p:last-child{margin-left:auto}
+.nw{white-space:nowrap}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.form-foot{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;padding-top:4px}
+.consent{font-size:.86rem;color:var(--text-3);max-width:44ch}
+.status{grid-column:1/-1}
+.st{display:grid;gap:10px;padding:18px 20px;border-left:4px solid var(--line)}
+.st h4{font-size:1.05rem;font-weight:600;color:var(--heading)}
+.st p{color:var(--text)}
+.st-ok{background:var(--ok-bg);border-left-color:var(--ok)}
+.st-warn{background:var(--warn-bg);border-left-color:var(--orange)}
+.st-err{background:var(--err-bg);border-left-color:var(--err)}
+.st textarea{width:100%;min-height:120px;padding:10px 12px;border:1px solid var(--line);border-radius:2px;background:var(--bg);color:var(--text);font:.88rem/1.5 ui-monospace,Menlo,Consolas,monospace;resize:vertical}
+.st-actions{display:flex;flex-wrap:wrap;gap:8px}
+.ticket{font:700 1.02rem/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em;color:var(--heading);white-space:nowrap}
+
+/* ---------- rodapé ---------- */
+.footer{background:var(--foot);color:var(--on-foot-2);font-size:.95rem;--focus:var(--orange)}
+.foot-grid{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(3,minmax(0,1fr));gap:40px;padding-block:clamp(56px,7vw,88px) 48px}
+@media (max-width:979px){.foot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.foot-grid{grid-template-columns:1fr}}
+.footer .brand{color:#FFFFFF}
+.footer .brand-mark{--mark-bg:#0B1628}
+.foot-brand{display:grid;gap:16px;align-content:start}
+.foot-brand p{max-width:36ch}
+.foot-h{margin-bottom:16px;font-size:.76rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#FFFFFF}
+.footer ul{display:grid;gap:10px}
+.footer a{color:var(--on-foot);text-decoration:none}
+.footer a:hover{text-decoration:underline;text-underline-offset:3px}
+.footer address{font-style:normal;line-height:1.6}
+.foot-bottom{background:var(--foot-2);padding-block:18px calc(18px + env(safe-area-inset-bottom,0px))}
+.foot-bottom .container{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;font-size:.86rem}
+
+/* ---------- flutuantes ---------- */
+.fab{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:45;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--wa);color:#FFFFFF;box-shadow:0 8px 20px rgba(0,0,0,.22);transition:background .2s ease}
+.fab:hover{background:var(--wa-hover);color:#FFFFFF}
+.fab .ic{width:26px;height:26px}
+.totop{position:fixed;right:24px;bottom:calc(88px + env(safe-area-inset-bottom,0px));z-index:45;width:44px;height:44px;display:grid;place-items:center;background:var(--navy);color:#FFFFFF;border:1px solid rgba(255,255,255,.2);opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .2s ease,transform .2s ease}
+.totop.on{opacity:1;transform:none;pointer-events:auto}
+.totop:hover{background:var(--orange);color:var(--navy)}
+.totop .ic{width:20px;height:20px}
+@media (max-width:560px){.fab{width:52px;height:52px;right:14px}.totop{right:18px;bottom:calc(78px + env(safe-area-inset-bottom,0px))}}
+
+/* ---------- logo ---------- */
+.brand .logo{height:46px;width:auto}
+.logo-dark{display:none}
+.footer .brand .logo{height:52px}
+@media (max-width:640px){.brand .logo{height:38px}}
+
+/* ---------- código de linha ---------- */
+.lc{display:inline-grid;grid-template-columns:4px auto;grid-template-rows:auto auto;column-gap:10px;align-items:center;padding:6px 12px 6px 0;background:var(--surface);border:1px solid var(--line);line-height:1;min-width:92px}
+.lc::before{content:"";grid-row:1/span 2;align-self:stretch;background:var(--lc,var(--navy))}
+.lc small{font-size:.62rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3)}
+.lc b{font-size:1.3rem;font-weight:600;letter-spacing:.02em;color:var(--heading);font-variant-numeric:tabular-nums;margin-top:3px}
+.lc-parador{--lc:var(--navy)} .lc-direto{--lc:var(--orange)} .lc-serra{--lc:#5E8C61}
+
+/* ---------- localizador ---------- */
+.finder-form{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;margin-top:6px}
+.ff{display:grid;gap:6px;min-width:0}
+.ff label{font-size:.8rem;font-weight:600;color:var(--on-band-2)}
+.ff select{width:100%;min-height:48px;padding:10px 12px;border-radius:2px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.06);color:#fff;font:inherit;font-size:1rem;color-scheme:dark}
+.ff select option{color:#111;background:#fff}
+.swap{justify-self:end;margin-block:-4px -26px;position:relative;z-index:1;display:grid;place-items:center;width:44px;height:44px;background:var(--band);border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;cursor:pointer}
+.swap:hover{border-color:var(--orange);color:var(--orange)}
+.finder-out{margin-top:16px;display:grid;gap:10px}
+.fr{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;align-items:center;padding:14px;background:rgba(255,255,255,.06);border-left:3px solid var(--on-band-2)}
+.fr-direto{border-left-color:var(--orange)}
+.fr p{grid-column:2;margin:0}
+.fr-svc{font-size:.84rem;color:var(--on-band-2)}
+.fr-fare b{font-size:1.45rem;font-weight:600;font-variant-numeric:tabular-nums;margin-right:8px}
+.fr-fare small{display:block;font-size:.82rem}
+.fr-next{font-size:.88rem;color:var(--on-band-2)}
+.fr-next b{color:#fff}
+.finder-conn{font-size:.92rem;color:var(--on-band-2)}
+.finder-conn b{color:#fff}
+.fr .lc{grid-row:1/span 4;align-self:start;justify-self:start;background:#fff;border-color:#fff}
+.fr a{grid-column:2}
+.fr .lc b{color:#1D1E4A}.fr .lc small{color:#686F79}
+.fr b{font-weight:600}
+.fr small{color:var(--on-band-2);font-size:.88rem}
+.fr a{color:#fff;font-weight:600;font-size:.88rem;text-underline-offset:3px}
+.finder-empty{color:var(--on-band-2);font-size:.95rem}
+.finder-empty a{color:#fff}
+.finder-note{margin-top:14px;font-size:.82rem;color:var(--on-band-2)}
+.finder-note a{color:#fff;text-underline-offset:3px}
+
+
+/* ---------- quadro de horários ---------- */
+.pilot{margin-bottom:24px;padding:12px 16px;border-left:4px solid var(--orange);background:var(--warn-bg);font-size:.92rem;color:var(--text);max-width:70ch}
+.tt{border:1px solid var(--line);background:var(--surface)}
+.tt-controls{display:flex;flex-wrap:wrap;gap:12px 24px;padding:20px;border-bottom:1px solid var(--line)}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--field-line)}
+.seg button{min-height:44px;padding:8px 16px;border:0;background:transparent;color:var(--text);font-weight:600;font-size:.92rem;cursor:pointer}
+.seg button + button{border-left:1px solid var(--field-line)}
+.seg button[aria-checked="true"]{background:var(--heading);color:var(--bg)}
+.tt-head{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;padding:20px}
+.tt-head h3{font-size:1.35rem;font-weight:500}
+.tt-head .meta{color:var(--text-2);font-size:.95rem}
+.tt-head .meta b{color:var(--heading)}
+.tt-times{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));border-top:1px solid var(--line)}
+.tt-times li{border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface);padding:16px 10px;text-align:center;font-size:1.3rem;font-weight:500;font-variant-numeric:tabular-nums;color:var(--heading)}
+.tt-times li.next{background:var(--orange);color:var(--navy)}
+.tt-times li.next small{display:block;font-size:.66rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.tt-times li.past{color:var(--text-3)}
+.tt-foot{padding:14px 20px;color:var(--text-2)}
+.tt-times li small.only{display:block;font-size:.66rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3)}
+.tt-times li.none{grid-column:1/-1;font-size:1rem;color:var(--text-3)}
+.tt-fares{width:100%;border-collapse:collapse;border-top:1px solid var(--line);font-size:.95rem}
+.tt-fares caption{text-align:left;padding:18px 20px 8px;font-size:.76rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2)}
+.tt-fares th,.tt-fares td{padding:10px 20px;border-bottom:1px solid var(--line);text-align:left;font-weight:400}
+.tt-fares td{text-align:right;font-weight:600;font-variant-numeric:tabular-nums;color:var(--heading);white-space:nowrap}
+.fare small{display:block;font-size:.8rem;font-weight:400;color:var(--text-3)}
+.flow-foot{margin-top:16px;color:var(--text-3)}
+
+/* ---------- itinerários (fluxograma) ---------- */
+.routes-flow{display:grid;gap:20px}
+.rf{background:var(--surface);border:1px solid var(--line);padding:clamp(20px,3vw,32px)}
+.rf-head{display:flex;align-items:center;gap:16px;margin-bottom:22px}
+.rf-head h3{font-size:1.3rem;font-weight:500}
+.rf-head p{color:var(--text-3);font-size:.92rem}
+.flow{--fg:48px;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:var(--fg)}
+.flow.long{--fg:26px}
+.flow.long .node{padding:12px}
+.flow.long .node b{font-size:.98rem}
+.node{position:relative;display:grid;gap:4px;align-content:start;padding:16px 18px;border:1.5px solid var(--line);background:var(--bg)}
+.node + .node::before{content:"";position:absolute;left:calc(4px - var(--fg));top:50%;width:calc(var(--fg) - 12px);height:2px;background:var(--heading)}
+.node + .node::after{content:"";position:absolute;left:-12px;top:calc(50% - 5px);border:5px solid transparent;border-left:7px solid var(--heading)}
+.node.start,.node.end{border-color:var(--heading)}
+.node.end{background:var(--heading)}
+.node.end b,.node.end .nk{color:var(--bg)}
+.node.end small{color:var(--bg);opacity:.8}
+.node.express{border-style:dashed}
+.nk{font-size:.7rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--orange)}
+.node b{font-size:1.08rem;font-weight:600;color:var(--heading)}
+.node small{font-size:.85rem;color:var(--text-3)}
+@media (max-width:1179px){
+  .flow.long{grid-auto-flow:row;gap:22px}
+  .flow.long .node{grid-template-columns:104px 1fr;align-items:baseline;gap:2px 12px}
+  .flow.long .node small{grid-column:2}
+  .flow.long .node + .node::before{left:24px;top:-18px;width:2px;height:12px}
+  .flow.long .node + .node::after{left:20px;top:-8px;border:5px solid transparent;border-top:7px solid var(--heading)}
+}
+@media (max-width:759px){
+  .flow{grid-auto-flow:row;gap:28px}
+  .node + .node::before{left:24px;top:-24px;width:2px;height:18px}
+  .node + .node::after{left:20px;top:-8px;border:5px solid transparent;border-top:7px solid var(--heading)}
+}
+
+/* ---------- modo revisão ---------- */
+.review-badge{position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;align-items:center;gap:10px;max-width:calc(100% - 100px);padding:6px 6px 6px 14px;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:.82rem;line-height:1.2}
+.rb-dot{width:9px;height:9px;background:var(--orange);flex:none}
+.review-badge button{min-height:36px;padding:8px 12px;border:0;background:var(--bg-alt);color:var(--heading);font-weight:600;font-size:.8rem;cursor:pointer;white-space:nowrap}
+.review-badge button[aria-pressed="true"]{background:var(--review-bg);color:var(--review-fg)}
+@media (max-width:480px){.rb-txt{display:none}}
+body.review .todo{background:var(--review-bg);color:var(--review-fg);box-shadow:0 0 0 2px var(--review-bg)}
+body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-mark" viewBox="0 0 64 64">
+    <rect width="64" height="64" rx="6" style="fill:var(--mark-bg,#0B1628)"/>
+    <path d="M15 38V12h7.2L32 25.4 41.8 12H49v26h-7V23.6L32 37.2 22 23.6V38Z" style="fill:#FFFFFF"/>
+    <path d="M8 52C24 44 42 46 56 38" style="fill:none;stroke:#F1612F;stroke-width:6;stroke-linecap:round"/>
+  </symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.6 3.1 8 7.5 9.5 4.4-1.5 7.5-4.9 7.5-9.5V6L12 3Z"/><path d="m8.8 12.2 2.2 2.2 4.4-4.6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-seat" viewBox="0 0 24 24"><path d="M8 3.5h5.5a2 2 0 0 1 2 2V12H9.5A1.5 1.5 0 0 1 8 10.5v-7Z"/><path d="M5.6 12.5h12.8a1 1 0 0 1 1 1.2l-.5 2.6a1.5 1.5 0 0 1-1.5 1.2H6.6a1.5 1.5 0 0 1-1.5-1.3l-.4-2.5a1 1 0 0 1 .9-1.2Z"/><path d="M8.5 17.5V21M15.5 17.5V21"/></symbol>
+  <symbol id="i-phone-app" viewBox="0 0 24 24"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M20 11.6a8 8 0 0 1-11.7 7.1L4 20l1.4-4A8 8 0 1 1 20 11.6Z"/><path d="M9 10.5h6M9 13.5h4"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.8 3.5h2.4l1.5 4-2 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-2 4 1.5v2.4a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.8 5.7a2 2 0 0 1 2-2.2Z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="1"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M3.5 7.5a1 1 0 0 1 1-1h15a1 1 0 0 1 1 1V10a2 2 0 0 0 0 4v2.5a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1V14a2 2 0 0 0 0-4V7.5Z"/><path d="M14.5 7v2M14.5 11v2M14.5 15v2"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11" height="11" rx="1"/><path d="M15.5 8.5V6A1.5 1.5 0 0 0 14 4.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5"/></symbol>
+  <symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 4v16M3.5 16.5 7 20l3.5-3.5M17 20V4M13.5 7.5 17 4l3.5 3.5"/></symbol>
+  <symbol id="i-id" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1.5"/><circle cx="9" cy="11" r="2.3"/><path d="M5.8 16c.6-1.6 1.8-2.4 3.2-2.4s2.6.8 3.2 2.4M14.5 10h4M14.5 13.5h3"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24"><rect x="5" y="7" width="14" height="13" rx="1.5"/><path d="M9 7V4.5h6V7M9 11v6M15 11v6"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+</svg>
+
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<!-- ============================ CABEÇALHO ============================ -->
+<header class="header" id="topo">
+  <div class="container bar">
+    <a class="brand" href="#inicio" aria-label="Nova Macabu, início"><img class="logo logo-light" src="assets/img/logo-horizontal.png" width="588" height="128" alt="Nova Macabu"><img class="logo logo-dark" src="assets/img/logo-horizontal-branco.png" width="588" height="128" alt="Nova Macabu"></a>
+    <nav class="nav" id="nav" aria-label="Principal">
+      <a href="#rotas">Linhas</a>
+      <a href="#horarios">Horários</a>
+      <a href="#paradas">Itinerários</a>
+      <a href="#gratuidade">Gratuidade</a>
+      <a href="#viagem">Antes de viajar</a>
+      <a href="#atendimento">Atendimento</a>
+      <a class="btn btn-primary" href="#atendimento" data-wa=""><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg>Autoatendimento</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="nav"><svg class="ic i-open" aria-hidden="true"><use href="#i-menu"/></svg><svg class="ic i-close" aria-hidden="true"><use href="#i-close"/></svg><span>Menu</span></button>
+  </div>
+</header>
+
+<main id="conteudo">
+<!-- ============================ HERO ============================ -->
+<section class="hero" id="inicio" aria-labelledby="hero-t">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">Transporte intermunicipal · Macaé e interior do RJ</p>
+      <h1 id="hero-t">Sua viagem começa aqui!</h1>
+      <p class="lead">Conforto, segurança e pontualidade conectando Macaé a Conceição, Madalena, Trajano &amp; Região</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#horarios"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Consultar horários</a>
+        <a class="arrow" href="#atendimento" data-wa="">Autoatendimento no WhatsApp<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+    <aside class="lines-panel finder" aria-labelledby="lp-t">
+      <p class="lp-title" id="lp-t">Encontre sua linha</p>
+      <form class="finder-form" id="finder" novalidate>
+        <div class="ff"><label for="fd-de">Saindo de</label><select id="fd-de"></select></div>
+        <button class="swap" type="button" id="fd-swap" aria-label="Inverter origem e destino"><svg class="ic" aria-hidden="true"><use href="#i-swap"/></svg></button>
+        <div class="ff"><label for="fd-para">Indo para</label><select id="fd-para"></select></div>
+      </form>
+      <div class="finder-out" id="finder-out" aria-live="polite"></div>
+      <p class="finder-note">Escolha qualquer ponto de parada. Tarifa por trecho e próxima saída pelo quadro vigente. <a href="#horarios">Ver quadro completo</a></p>
+    </aside>
+  </div>
+  <figure class="pano">
+    <!-- frota-panorama.webp 2200×1167 (desktop) · frota-panorama-m.webp 1100×750 (celular) -->
+    <picture>
+      <source media="(max-width: 700px)" srcset="assets/img/frota-panorama-m.webp" width="1100" height="750">
+      <img src="assets/img/frota-panorama.webp" width="2200" height="1167" alt="Dois ônibus da Nova Macabu no pátio da garagem ao entardecer" fetchpriority="high" decoding="async">
+    </picture>
+  </figure>
+</section>
+
+<!-- ============================ POR QUE ============================ -->
+<section class="section" id="porque" aria-labelledby="porque-t">
+  <div class="container split">
+    <div class="split-head sticky">
+      <p class="eyebrow">Nova fase</p>
+      <h2 class="h2" id="porque-t">Por que viajar com a Nova Macabu?</h2>
+      <p class="lead">Uma nova fase, com mais conforto, tecnologia e cuidado com você.</p>
+    </div>
+    <div class="values">
+      <article class="value">
+        <svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg>
+        <h3>Segurança em primeiro lugar</h3>
+        <p>Frota com manutenção preventiva rigorosa e motoristas treinados continuamente.</p>
+      </article>
+      <article class="value">
+        <svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>
+        <h3>Pontualidade</h3>
+        <p>Horários cumpridos com rigor. <span class="todo">Monitoramento em tempo real de toda a operação.</span></p>
+      </article>
+      <article class="value">
+        <svg class="ic" aria-hidden="true"><use href="#i-seat"/></svg>
+        <h3>Conforto renovado</h3>
+        <p>Veículos com poltronas reclináveis, ar-condicionado e ambiente limpo.</p>
+      </article>
+      <article class="value">
+        <svg class="ic" aria-hidden="true"><use href="#i-phone-app"/></svg>
+        <h3>Atendimento digital</h3>
+        <p>Fale com a gente pelo WhatsApp ou abra um chamado pelo site e receba o número do atendimento por e-mail.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ ROTAS ============================ -->
+<section class="section alt" id="rotas" aria-labelledby="rotas-t">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Linhas</p>
+      <h2 class="h2" id="rotas-t">Principais rotas</h2>
+      <p class="lead">Conectando você aos destinos da sua vida!</p>
+    </div>
+    <table class="lines">
+      <caption class="sr-only">Linhas regulares da Nova Macabu, com serviço, tempo de viagem e tarifa</caption>
+      <thead>
+        <tr><th scope="col">Linha</th><th scope="col">Trajeto</th><th scope="col">Serviço</th><th scope="col">Tempo de viagem</th><th scope="col">Tarifa <small>trecho completo</small></th><th scope="col"><span class="sr-only">Horários</span></th></tr>
+      </thead>
+      <tbody>
+        <tr id="linha-1000">
+          <td><span class="lc lc-parador"><small>Linha</small><b>1000</b></span></td>
+          <th scope="row">Macaé – Conceição de Macabu<small>via Lagomar, Trevo dos 40, Brejo Grande e Curato</small></th>
+          <td class="svc" data-label="Serviço:"><b>Convencional</b> <small>parador</small></td>
+          <td data-label="Tempo:">cerca de 1h30</td>
+          <td class="fare" data-label="Tarifa:">R$&nbsp;15,90<small>trechos a partir de R$&nbsp;8,25</small></td>
+          <td class="go"><a class="arrow" href="#horarios" data-line="1000">Horários<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a></td>
+        </tr>
+        <tr id="linha-1001">
+          <td><span class="lc lc-direto"><small>Linha</small><b>1001</b></span></td>
+          <th scope="row">Macaé – Conceição de Macabu<small>viagem direta, sem paradas</small></th>
+          <td class="svc" data-label="Serviço:"><b>Semi-Leito</b> <small>direto</small></td>
+          <td data-label="Tempo:">cerca de 1h</td>
+          <td class="fare" data-label="Tarifa:"><span class="todo">R$&nbsp;20,80</span></td>
+          <td class="go"><a class="arrow" href="#horarios" data-line="1001">Horários<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a></td>
+        </tr>
+        <tr id="linha-2000">
+          <td><span class="lc lc-serra"><small>Linha</small><b>2000</b></span></td>
+          <th scope="row">Macaé – Santa Maria Madalena<small>via Conceição, Triunfo, Visconde do Imbé, Dr. Loreti e Trajano de Moraes</small></th>
+          <td class="svc" data-label="Serviço:"><b>Convencional</b> <small>parador</small></td>
+          <td data-label="Tempo:"><span class="todo">a confirmar</span></td>
+          <td class="fare" data-label="Tarifa:">R$&nbsp;51,35<small>trechos a partir de R$&nbsp;5,45</small></td>
+          <td class="go"><a class="arrow" href="#horarios" data-line="2000">Horários<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="routes-foot">
+      <p class="small">Tarifas por seção publicadas no Diário Oficial (<span class="todo">confirmar data de vigência</span>), sujeitas a reajuste. Para um ponto de parada, use o localizador no topo ou a tabela de trechos no quadro de horários.</p>
+      <a class="btn btn-dark" href="#horarios">Ver quadro de horários</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ HORÁRIOS E TARIFAS ============================ -->
+<section class="section" id="horarios" aria-labelledby="hor-t">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Horários e tarifas</p>
+      <h2 class="h2" id="hor-t">Quadro de horários</h2>
+      <p class="lead">Escolha a linha, o sentido e o dia da viagem. A tarifa de cada trecho aparece abaixo do quadro.</p>
+    </div>
+    <p class="pilot" data-todo="conferir quadro e tarifas com a operação"><b>Quadro vigente desde 02/03/2026.</b> Horários de saída dos pontos iniciais, conforme o autoatendimento. Tarifas por trecho conforme o quadro de seções do Diário Oficial. Conferir com a operação antes da publicação.</p>
+    <div class="tt" id="tt">
+      <div class="tt-controls">
+        <div class="seg" role="radiogroup" aria-label="Linha" id="tt-line"></div>
+        <div class="seg" role="radiogroup" aria-label="Sentido" id="tt-dir"></div>
+        <div class="seg" role="radiogroup" aria-label="Dia da viagem" id="tt-day"></div>
+      </div>
+      <div class="tt-head" id="tt-head"></div>
+      <ol class="tt-times" id="tt-times" aria-label="Horários de partida"></ol>
+      <p class="tt-foot small" id="tt-foot"></p>
+      <table class="tt-fares" id="tt-fares"></table>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ ITINERÁRIOS ============================ -->
+<section class="section alt" id="paradas" aria-labelledby="par-t">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Itinerários</p>
+      <h2 class="h2" id="par-t">Paradas registradas por linha</h2>
+      <p class="lead">Ponto inicial, paradas e ponto final de cada linha, no sentido Macaé → destino, com a tarifa até cada ponto. Na volta, o trajeto é o mesmo em sentido contrário.</p>
+    </div>
+    <div class="routes-flow" id="rflow" aria-live="off"></div>
+    <p class="small flow-foot">Ordem das paradas e locais de embarque a confirmar com a operação. Tarifas “desde Macaé” conforme as seções publicadas; trechos sem seção própria ficam como “a confirmar”.</p>
+  </div>
+</section>
+
+<!-- ============================ MODALIDADES ============================ -->
+<section class="section" id="modalidades" aria-labelledby="mod-t">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Serviços</p>
+      <h2 class="h2" id="mod-t">Modalidades de serviço</h2>
+      <p class="lead">Conheça os tipos de serviço disponíveis nas nossas linhas.</p>
+    </div>
+    <article class="teaser conv">
+      <figure>
+        <img src="assets/img/convencional.webp" width="960" height="720" loading="lazy" decoding="async" alt="Frente de um ônibus da Nova Macabu, com o aviso de ar-condicionado e o símbolo de acessibilidade no para-brisa">
+              </figure>
+      <div class="teaser-body">
+        <p class="kicker">Linha 1000 · parador</p>
+        <h3>Convencional</h3>
+        <p>Serviço parador com paradas ao longo do trajeto. Ar condicionado, acessibilidade e tarifa econômica.</p>
+        <dl class="specs">
+          <div><dt>Tempo de viagem</dt><dd>cerca de 1h30</dd></div>
+          <div><dt>Tarifa</dt><dd>R$&nbsp;15,90</dd></div>
+        </dl>
+        <a class="arrow" href="#linha-1000">Ver na tabela de linhas<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
+    </article>
+    <article class="teaser semi reverse">
+      <figure>
+        <img src="assets/img/semi-leito.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Ônibus rodoviário da Nova Macabu, com pintura branca, vermelha e azul e a porta aberta">
+              </figure>
+      <div class="teaser-body">
+        <p class="kicker">Linha 1001 · direto</p>
+        <h3>Semi-Leito</h3>
+        <p>Serviço direto com poltronas reclináveis, mais espaço entre assentos e maior conforto para viagens mais longas.</p>
+        <dl class="specs">
+          <div><dt>Tempo de viagem</dt><dd>cerca de 1h</dd></div>
+          <div><dt>Tarifa</dt><dd>R$&nbsp;20,80</dd></div>
+        </dl>
+        <a class="arrow" href="#linha-1001">Ver na tabela de linhas<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============================ GRATUIDADE ============================ -->
+<section class="section alt" id="gratuidade" aria-labelledby="grat-t">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Direitos do passageiro</p>
+      <h2 class="h2" id="grat-t">Gratuidade e direitos do passageiro</h2>
+      <p class="lead">Saiba quem tem direito à gratuidade ou desconto e como solicitar.</p>
+    </div>
+    <div class="rights">
+      <article class="right">
+        <p class="right-tag" aria-hidden="true">60+</p>
+        <h3>Idoso</h3>
+        <p class="right-sub">60 anos ou mais</p>
+        <p><span class="todo">Direito garantido pelo Estatuto do Idoso.</span> Apresente documento oficial com foto na bilheteria com antecedência mínima de 3 horas para retirada do bilhete gratuito.</p>
+        <p class="law"><span class="todo">Estatuto do Idoso</span></p>
+      </article>
+      <article class="right">
+        <p class="right-tag" aria-hidden="true">PcD</p>
+        <h3>Pessoa com deficiência</h3>
+        <p class="right-sub">Vale Social</p>
+        <p>Gratuidade garantida pela legislação estadual (Lei 4.510/2005). São reservadas 2 poltronas com isenção total; demais vagas com 50% de desconto. Solicite o benefício pelo Vale Social <span class="todo">(Setrans-RJ)</span> em <a class="todo" href="https://www.valesocial.rj.gov.br" target="_blank" rel="noopener">www.valesocial.rj.gov.br</a></p>
+        <p class="law">Lei Estadual 4.510/2005 · Vale Social</p>
+      </article>
+      <article class="right">
+        <p class="right-tag" aria-hidden="true">0–5</p>
+        <h3>Criança de colo</h3>
+        <p class="right-sub">0 a 5 anos</p>
+        <p>Crianças de 0 a 5 anos viajam gratuitamente no colo do responsável, sem ocupar poltrona, conforme legislação vigente. Apresente documento de identificação da criança (certidão de nascimento) no momento do embarque.</p>
+        <p class="law">Legislação vigente</p>
+      </article>
+    </div>
+    <p class="note">Conteúdo informativo, com base na legislação vigente. <span class="todo">Textos em revisão jurídica.</span> Em caso de dúvida, fale com o nosso <a href="#atendimento">atendimento</a>.</p>
+  </div>
+</section>
+
+<!-- ============================ ANTES DE VIAJAR ============================ -->
+<section class="section" id="viagem" aria-labelledby="via-t">
+  <div class="container split">
+    <div class="split-head sticky">
+      <p class="eyebrow">Antes de viajar</p>
+      <h2 class="h2" id="via-t">Informações para o embarque</h2>
+      <p class="lead">O essencial para uma viagem tranquila.</p>
+      <p class="pilot" data-todo="regras de embarque"><b>Piloto.</b> Regras a validar com a operação antes da publicação.</p>
+    </div>
+    <div class="values">
+      <article class="value"><svg class="ic" aria-hidden="true"><use href="#i-id"/></svg><h3>Documentos</h3><p><span class="todo">Tenha em mãos um documento oficial com foto. Para gratuidades, leve também o documento exigido pelo benefício.</span></p></article>
+      <article class="value"><svg class="ic" aria-hidden="true"><use href="#i-bag"/></svg><h3>Bagagem</h3><p><span class="todo">Volumes maiores vão no bagageiro. Consulte limites de peso e tamanho no autoatendimento.</span></p></article>
+      <article class="value"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg><h3>Chegue antes</h3><p><span class="todo">Esteja no ponto de embarque 15 minutos antes do horário de partida.</span></p></article>
+      <article class="value"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><h3>Achados e perdidos</h3><p>Esqueceu algo no ônibus? Abra um chamado no <a href="#chamado">SAC</a> informando linha, dia e horário da viagem.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ SOBRE ============================ -->
+<section class="section band" id="sobre" aria-labelledby="sobre-t">
+  <div class="container">
+    <div class="about">
+      <div class="about-copy">
+        <p class="eyebrow">Institucional</p>
+        <h2 class="h2" id="sobre-t">Sobre a Nova Macabu</h2>
+        <div class="prose">
+          <p><span class="todo">Desde 1997</span>, a Transportadora Nova Macabu liga Macaé ao interior do estado do Rio de Janeiro. Nossas linhas atendem Conceição de Macabu, Trajano de Moraes e Santa Maria Madalena, com viagens regulares para quem trabalha, estuda e visita a região.</p>
+          <p>Estamos em uma nova fase: ônibus com ar-condicionado e acessibilidade, dois tipos de serviço e atendimento digital, com informação clara sobre tarifas, horários e direitos do passageiro.</p>
+          <p>Nossa sede e garagem ficam em Conceição de Macabu.</p>
+        </div>
+      </div>
+      <figure>
+        <img src="assets/img/sobre.webp" width="1200" height="1320" loading="lazy" decoding="async" alt="Ônibus rodoviário da Nova Macabu estacionado sobre calçamento de paralelepípedos">
+      </figure>
+    </div>
+    <dl class="figures">
+      <div><dt>ano de fundação</dt><dd class="todo">1997</dd></div>
+      <div><dt>linhas regulares</dt><dd>3</dd></div>
+      <div><dt>municípios atendidos</dt><dd class="todo">4</dd></div>
+      <div><dt>modalidades de serviço</dt><dd>2</dd></div>
+    </dl>
+    <nav class="related" aria-labelledby="related-t">
+      <p class="related-t" id="related-t">Veja também</p>
+      <ul>
+        <li><a class="arrow" href="#horarios">Quadro de horários e tarifas<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+        <li><a class="arrow" href="#gratuidade">Gratuidade e direitos do passageiro<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+        <li><a class="arrow" href="#chamado">Abrir um chamado no SAC<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+        <li><a class="arrow" href="#duvidas">Perguntas frequentes<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+      </ul>
+    </nav>
+  </div>
+</section>
+
+<!-- ============================ DÚVIDAS ============================ -->
+<section class="section" id="duvidas" aria-labelledby="faq-t">
+  <div class="container split">
+    <div class="split-head sticky">
+      <p class="eyebrow">Dúvidas</p>
+      <h2 class="h2" id="faq-t">Perguntas frequentes</h2>
+      <p class="lead">Tire suas dúvidas mais comuns sobre nossas viagens.</p>
+      <div class="help">
+        <h3>Não encontrou sua dúvida?</h3>
+        <p>Use o autoatendimento pelo WhatsApp ou abra um chamado no SAC.</p>
+        <a class="btn btn-wa btn-sm" href="#atendimento" data-wa="Olá! Tenho uma dúvida sobre as viagens da Nova Macabu."><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg>Falar no WhatsApp</a>
+        <a class="arrow" href="#chamado">Abrir um chamado<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+    <div class="faq-list">
+      <details class="qa">
+        <summary>Qual a diferença entre a Linha 1000 e a Linha 1001?<span class="pm" aria-hidden="true"></span></summary>
+        <div class="qa-a"><p>As duas ligam Macaé a Conceição de Macabu. A Linha 1000 é o serviço Convencional, parador: faz paradas ao longo do trajeto, leva cerca de 1h30 e custa R$&nbsp;15,90. A Linha 1001 é o serviço Semi-Leito, direto: leva cerca de 1h, tem poltronas reclináveis e custa R$&nbsp;20,80.</p></div>
+      </details>
+      <details class="qa">
+        <summary>Como compro minha passagem?<span class="pm" aria-hidden="true"></span></summary>
+        <div class="qa-a"><p>Nas nossas bilheterias. Os endereços e os horários de funcionamento estão na seção <a href="#atendimento">Atendimento</a>, e você também pode tirar dúvidas pelo WhatsApp.</p></div>
+      </details>
+      <details class="qa">
+        <summary>Onde consulto os horários das linhas?<span class="pm" aria-hidden="true"></span></summary>
+        <div class="qa-a"><p>No <a href="#horarios">quadro de horários</a> desta página ou no autoatendimento pelo WhatsApp (22)&nbsp;2298-0121. Informe a linha e o dia da viagem para receber os horários atualizados.</p></div>
+      </details>
+      <details class="qa">
+        <summary>Qual linha vai para Santa Maria Madalena?<span class="pm" aria-hidden="true"></span></summary>
+        <div class="qa-a"><p>A Linha 2000 liga Macaé a Santa Maria Madalena, passando por Trajano de Moraes. Veja paradas e horários em <a href="#paradas">Itinerários</a> e no <a href="#horarios">quadro de horários</a>.</p></div>
+      </details>
+      <details class="qa">
+        <summary>Idosos têm direito à gratuidade?<span class="pm" aria-hidden="true"></span></summary>
+        <div class="qa-a"><p><span class="todo">Sim, pelo Estatuto do Idoso.</span> Passageiros com 60 anos ou mais devem apresentar documento oficial com foto na bilheteria, com antecedência mínima de 3 horas, para retirar o bilhete gratuito. Veja os detalhes em <a href="#gratuidade">Gratuidade</a>.</p></div>
+      </details>
+      <details class="qa">
+        <summary>Como funciona a gratuidade para pessoa com deficiência?<span class="pm" aria-hidden="true"></span></summary>
+        <div class="qa-a"><p>A gratuidade é concedida pelo Vale Social, programa do Governo do Estado do Rio de Janeiro previsto na Lei Estadual 4.510/2005. O cadastro é feito no próprio Vale Social, com laudo médico. Depois, basta apresentar o cartão válido na bilheteria.</p></div>
+      </details>
+      <details class="qa">
+        <summary>Criança paga passagem?<span class="pm" aria-hidden="true"></span></summary>
+        <div class="qa-a"><p>Crianças de 0 a 5 anos viajam gratuitamente no colo do responsável, sem ocupar poltrona. Leve a certidão de nascimento ou outro documento de identificação da criança.</p></div>
+      </details>
+      <details class="qa">
+        <summary>Esqueci um objeto no ônibus. O que faço?<span class="pm" aria-hidden="true"></span></summary>
+        <div class="qa-a"><p>Abra um chamado no <a href="#chamado">formulário de atendimento</a> com o assunto “Achados e perdidos”. Informe a linha, o dia e o horário da viagem e descreva o objeto. Nossa equipe responde pelo e-mail informado.</p></div>
+      </details>
+      <details class="qa">
+        <summary>Como acompanho o meu chamado?<span class="pm" aria-hidden="true"></span></summary>
+        <div class="qa-a"><p>Ao enviar o formulário, você recebe por e-mail o número do chamado, no formato NM-260930-K7Q4. Guarde esse número e informe-o sempre que falar com o SAC sobre o mesmo assunto.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ ATENDIMENTO ============================ -->
+<section class="section alt" id="atendimento" aria-labelledby="at-t">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Atendimento</p>
+      <h2 class="h2" id="at-t">Fale com a Nova Macabu</h2>
+      <p class="lead">Escolha o canal mais prático para você. Reclamações, sugestões, elogios e achados e perdidos: abra um chamado pelo formulário.</p>
+    </div>
+    <div class="channels">
+      <article class="channel wa">
+        <span class="ch-ic"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg></span>
+        <h3>Autoatendimento</h3>
+        <p class="ch-val"><span data-wa-number>(22) 2298-0121</span></p>
+        <p class="ch-desc">Atendimento automático pelo WhatsApp: linhas, horários, tarifas e informações.</p>
+        <div class="ch-actions"><a class="btn btn-wa btn-sm" href="#atendimento" data-wa="" data-wa-button>Abrir conversa</a></div>
+      </article>
+      <article class="channel">
+        <span class="ch-ic"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg></span>
+        <h3>E-mail</h3>
+        <p class="ch-val"><a href="mailto:sac@novamacabu.com.br" id="sac-mail">sac@novamacabu.com.br</a></p>
+        <p class="ch-desc">Para assuntos que precisam de registro.</p>
+        <div class="ch-actions"><button class="copy" type="button" data-copy="sac@novamacabu.com.br" data-copy-target="sac-mail"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg><span class="copy-label">Copiar e-mail</span></button></div>
+      </article>
+      <article class="channel">
+        <span class="ch-ic"><svg class="ic" aria-hidden="true"><use href="#i-ticket"/></svg></span>
+        <h3>Bilheterias</h3>
+        <ul class="ch-list">
+          <li><b>Macaé</b><span class="todo">endereço e horário a confirmar</span></li>
+          <li><b>Conceição de Macabu</b><span class="todo">endereço e horário a confirmar</span></li>
+        </ul>
+        <p class="ch-desc">Compra de passagens e retirada do bilhete gratuito.</p>
+      </article>
+    </div>
+
+    <div class="sac" id="chamado">
+      <div class="sac-side">
+        <p class="eyebrow">SAC</p>
+        <h3>Abra um chamado</h3>
+        <p>Reclamações, sugestões, elogios e achados e perdidos. Nossa equipe responde pelo e-mail que você informar.</p>
+        <ol class="steps">
+          <li>Preencha o formulário</li>
+          <li>Receba o número do chamado por <span class="nw">e-mail</span></li>
+          <li>Acompanhe a resposta do SAC</li>
+        </ol>
+      </div>
+      <div class="sac-main">
+        <form class="form" id="sacForm" novalidate>
+          <div class="field">
+            <label for="f-nome">Nome completo</label>
+            <input id="f-nome" name="name" type="text" autocomplete="name" maxlength="120" required aria-describedby="f-nome-err">
+            <p class="err" id="f-nome-err"></p>
+          </div>
+          <div class="field">
+            <label for="f-email">E-mail</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="160" required aria-describedby="f-email-err">
+            <p class="err" id="f-email-err"></p>
+          </div>
+          <div class="field">
+            <label for="f-tel">Telefone ou WhatsApp <span class="opt">(opcional)</span></label>
+            <input id="f-tel" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="20">
+          </div>
+          <div class="field">
+            <label for="f-assunto">Assunto</label>
+            <select id="f-assunto" name="subject" required aria-describedby="f-assunto-err">
+              <option value="">Selecione</option>
+              <option>Informações e horários</option>
+              <option>Passagens e tarifas</option>
+              <option>Gratuidade</option>
+              <option>Achados e perdidos</option>
+              <option>Reclamação</option>
+              <option>Sugestão</option>
+              <option>Elogio</option>
+              <option>Outro assunto</option>
+            </select>
+            <p class="err" id="f-assunto-err"></p>
+          </div>
+          <div class="field full">
+            <label for="f-msg">Mensagem</label>
+            <textarea id="f-msg" name="message" rows="5" maxlength="2000" required aria-describedby="f-msg-err f-msg-hint"></textarea>
+            <div class="hint"><p class="err" id="f-msg-err"></p><p id="f-msg-hint"><span id="f-count">0</span>/2000</p></div>
+          </div>
+          <div class="hp" aria-hidden="true"><label for="f-empresa">Empresa</label><input id="f-empresa" name="company" type="text" tabindex="-1" autocomplete="off"></div>
+          <div class="form-foot">
+            <p class="consent">Usamos seus dados apenas para responder a este chamado.</p>
+            <button class="btn btn-primary" type="submit"><span class="btn-label">Enviar mensagem</span></button>
+          </div>
+          <div class="status" id="formStatus" role="status" aria-live="polite" tabindex="-1" hidden></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============================ RODAPÉ ============================ -->
+<footer class="footer">
+  <div class="container foot-grid">
+    <div class="foot-brand">
+      <a class="brand" href="#inicio" aria-label="Nova Macabu, início"><img class="logo" src="assets/img/logo-horizontal-branco.png" width="588" height="128" alt="Nova Macabu"></a>
+      <p>Transporte intermunicipal de passageiros entre Macaé e o interior do Rio de Janeiro, desde 1997.</p>
+    </div>
+    <nav aria-label="Rodapé">
+      <h2 class="foot-h">Navegação</h2>
+      <ul>
+        <li><a href="#rotas">Rotas e tarifas</a></li>
+        <li><a href="#modalidades">Modalidades</a></li>
+        <li><a href="#gratuidade">Gratuidade</a></li>
+        <li><a href="#sobre">Sobre a Nova Macabu</a></li>
+        <li><a href="#duvidas">Perguntas frequentes</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h2 class="foot-h">Atendimento</h2>
+      <ul>
+        <li><a href="#atendimento" data-wa="">WhatsApp (22) 2298-0121</a></li>
+        <li><a href="mailto:sac@novamacabu.com.br">sac@novamacabu.com.br</a></li>
+        <li><a href="#chamado">Abrir um chamado (SAC)</a></li>
+        <li><a href="#atendimento">Bilheterias</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="foot-h">Sede e garagem</h2>
+      <address>Rua Bento Andrade Lemos, 157<br>Paraíso, Conceição de Macabu – RJ<br>CEP 28740-000</address>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <div class="container">
+      <p>© <span id="year">2026</span> Transportadora Nova Macabu Ltda · CNPJ 02.224.206/0001-20</p>
+      <a href="#inicio">Voltar ao topo</a>
+    </div>
+  </div>
+</footer>
+
+<a class="fab" href="#atendimento" data-wa="" aria-label="Fale com a Nova Macabu pelo WhatsApp"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg></a>
+<a class="totop" id="toTop" href="#inicio" aria-label="Voltar ao topo"><svg class="ic" aria-hidden="true"><use href="#i-up"/></svg></a>
+<div class="review-badge" id="reviewBadge" hidden>
+  <span class="rb-dot" aria-hidden="true"></span><span class="rb-txt">Prévia · modelo 2 · piloto</span>
+  <button type="button" id="reviewToggle" aria-pressed="false">Destacar pendências (<span id="reviewCount">0</span>)</button>
+</div>
+
+<script>
+(() => {
+  'use strict';
+  /* ===== CONFIG · edite só este bloco ===== */
+  const CONFIG = {
+    // WhatsApp: DDI + DDD + número, só dígitos (ex.: '5522999990000').
+    // Vazio: os botões levam para a seção Atendimento.
+    whatsapp: '552222980121', // autoatendimento via WhatsApp
+    whatsappMsg: 'Olá! Gostaria de informações sobre as linhas da Nova Macabu.',
+    sacEmail: 'sac@novamacabu.com.br',
+    emailjs: {
+      publicKey: '',                          // EmailJS → Account → General → Public Key
+      serviceId: 'service_eznl1kh',           // Gmail novamacabu@gmail.com
+      templateSac: 'template_d6xeh56',        // "Contact Us": aviso interno ao SAC
+      templateAutoReply: 'template_g6293un',  // "Auto-Reply": confirmação ao passageiro
+      src: 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4.4.1/dist/email.min.js',
+      sri: 'sha384-SALc35EccAf6RzGw4iNsyj7kTPr33K7RoGzYu+7heZhT8s0GZouafRiCg1qy44AS'
+    },
+    prodHost: /(^|\.)novamacabu\.com\.br$/i
+  };
+
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
+  const root = document.documentElement;
+  if (!root.getAttribute('lang')) root.setAttribute('lang', 'pt-BR');
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  /* ---- WhatsApp ---- */
+  const fmtPhone = n => {
+    const d = String(n).replace(/\D/g, '').replace(/^55/, '');
+    const ddd = d.slice(0, 2), r = d.slice(2);
+    return r.length === 9 ? `(${ddd}) ${r.slice(0, 5)}-${r.slice(5)}` : `(${ddd}) ${r.slice(0, 4)}-${r.slice(4)}`;
+  };
+  if (CONFIG.whatsapp) {
+    $$('[data-wa]').forEach(a => {
+      a.href = 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(a.dataset.wa || CONFIG.whatsappMsg);
+      a.target = '_blank';
+      a.rel = 'noopener';
+    });
+    $$('[data-wa-number]').forEach(el => { el.textContent = fmtPhone(CONFIG.whatsapp); el.classList.remove('todo'); });
+  } else {
+    $$('[data-wa-button]').forEach(b => { b.setAttribute('aria-disabled', 'true'); b.setAttribute('data-todo', 'número do WhatsApp'); b.addEventListener('click', e => e.preventDefault()); });
+    const fab = $('.fab'); if (fab) fab.setAttribute('data-todo', 'número do WhatsApp');
+  }
+
+  /* ===== LINHAS =====
+     Horários: quadro vigente desde 02/03/2026 (autoatendimento). "*" = só de segunda a quinta.
+     Tarifas: seções publicadas no Diário Oficial (quadro TARIFA do ERP). Chave "A|B" na ordem de stops; null = a confirmar. */
+  const LINES = {
+    '1000': { kind: 'parador', a: 'Macaé', b: 'Conceição de Macabu', service: 'Convencional · parador', time: 'cerca de 1h30',
+      stops: ['Macaé', 'Lagomar', 'Trevo dos 40', 'Brejo Grande', 'Curato', 'Conceição de Macabu'],
+      fares: { 'Macaé|Conceição de Macabu': 15.90, 'Macaé|Trevo dos 40': 9.95, 'Macaé|Brejo Grande': 12.05, 'Macaé|Curato': 15.90, 'Brejo Grande|Conceição de Macabu': 8.25 },
+      times: { ida: { uteis: ['06:15','07:15','10:00','12:15','14:00','16:30','16:45','17:00','17:50','19:45','21:00'], sabado: ['10:00','12:15','14:00','17:00','18:10','19:45'], domingo: ['08:30','10:00','12:15','14:00','16:00','17:50','19:45'] },
+               volta: { uteis: ['04:50','05:15','05:50','06:10','06:15','07:00','10:00','14:30','15:30*','19:00'], sabado: ['04:50','06:10','07:00','10:00','14:00','15:00'], domingo: ['04:50','05:50','06:45','10:00','13:00','15:00','17:30'] } } },
+    '1001': { kind: 'direto', a: 'Macaé', b: 'Conceição de Macabu', service: 'Semi-Leito · direto', time: 'cerca de 1h',
+      stops: ['Macaé', 'Conceição de Macabu'],
+      fares: { 'Macaé|Conceição de Macabu': 20.80 },
+      times: { ida: { uteis: ['11:30','15:10','17:30','18:30'], sabado: [], domingo: [] },
+               volta: { uteis: ['06:00','07:30','12:00','16:30'], sabado: [], domingo: [] } } },
+    '2000': { kind: 'serra', a: 'Macaé', b: 'Santa Maria Madalena', service: 'Convencional · parador', time: 'a confirmar',
+      stops: ['Macaé', 'Conceição de Macabu', 'Triunfo', 'Visconde do Imbé', 'Dr. Loreti', 'Trajano de Moraes', 'Santa Maria Madalena'],
+      fares: { 'Macaé|Conceição de Macabu': null, 'Macaé|Santa Maria Madalena': 51.35, 'Conceição de Macabu|Santa Maria Madalena': 31.05, 'Macaé|Triunfo': 25.80, 'Macaé|Trajano de Moraes': 35.10,
+               'Triunfo|Trajano de Moraes': 9.30, 'Triunfo|Santa Maria Madalena': 25.55, 'Trajano de Moraes|Santa Maria Madalena': 16.25, 'Conceição de Macabu|Visconde do Imbé': 7.00,
+               'Visconde do Imbé|Santa Maria Madalena': 12.40, 'Conceição de Macabu|Trajano de Moraes': 14.15, 'Conceição de Macabu|Triunfo': 5.45 },
+      times: { ida: { uteis: ['08:30','16:00'], sabado: ['08:30','16:00'], domingo: ['19:00'] },
+               volta: { uteis: ['06:30','15:15'], sabado: ['06:30','15:15'], domingo: ['15:15'] } },
+      pass: { volta: { 'Conceição de Macabu': { uteis: ['08:45','17:45'], sabado: ['08:45','17:45'], domingo: ['17:45'] } } },
+      note: 'Entre Macaé e Conceição de Macabu segue o trajeto da linha 1000.' }
+  };
+  const PLACES = ['Macaé', 'Lagomar', 'Trevo dos 40', 'Brejo Grande', 'Curato', 'Conceição de Macabu', 'Triunfo', 'Visconde do Imbé', 'Dr. Loreti', 'Trajano de Moraes', 'Santa Maria Madalena'];
+  const DAYS = { uteis: 'Dias úteis', sabado: 'Sábados', domingo: 'Domingos' };
+  const WD = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const dayType = i => i === 0 ? 'domingo' : i === 6 ? 'sabado' : 'uteis';
+  const spNow = () => {
+    const p = new Intl.DateTimeFormat('en-GB', { timeZone: 'America/Sao_Paulo', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date());
+    const g = t => (p.find(x => x.type === t) || {}).value;
+    const wd = WD.indexOf(g('weekday'));
+    return { wd, day: dayType(wd), tomorrow: dayType((wd + 1) % 7), min: (+g('hour') % 24) * 60 + (+g('minute')) };
+  };
+  const clean = t => t.replace('*', '');
+  const toMin = t => +t.slice(0, 2) * 60 + (+t.slice(3, 5));
+  const runs = (t, wd) => !t.endsWith('*') || (wd >= 1 && wd <= 4);
+  const brl = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  const short = s => s.replace('Conceição de Macabu', 'Conceição').replace('Santa Maria Madalena', 'Madalena');
+  const lcHTML = n => `<span class="lc lc-${LINES[n].kind}"><small>Linha</small><b>${n}</b></span>`;
+
+  /* tarifa do trecho: valor publicado da seção; se o trecho não tem seção própria, vale a menor seção que o contém */
+  const fareOf = (n, o, d) => {
+    const L = LINES[n]; let i = L.stops.indexOf(o), j = L.stops.indexOf(d);
+    if (i < 0 || j < 0 || i === j) return null;
+    if (i > j) [i, j] = [j, i];
+    const k = L.stops[i] + '|' + L.stops[j];
+    if (k in L.fares) return L.fares[k] == null ? { v: null } : { v: L.fares[k], exact: true };
+    let best = null;
+    for (const [key, v] of Object.entries(L.fares)) {
+      if (v == null) continue;
+      const [p, q] = key.split('|').map(x => L.stops.indexOf(x));
+      if (p <= i && q >= j && (!best || v < best.v)) best = { v, sec: key.replace('|', ' – ') };
+    }
+    return best || { v: null };
+  };
+  const fullFare = n => { const L = LINES[n]; return fareOf(n, L.stops[0], L.stops.at(-1)); };
+  const fareTxt = f => f && f.v != null ? brl(f.v) : 'a confirmar';
+
+  /* ---- quadro de horários ---- */
+  const tt = { line: '1000', dir: 'ida', day: spNow().day };
+  const seg = (el, items, key) => {
+    el.innerHTML = items.map(([v, label]) => `<button type="button" role="radio" data-v="${v}" aria-checked="${tt[key] === v}">${label}</button>`).join('');
+    el.onclick = e => { const b = e.target.closest('button'); if (!b) return; tt[key] = b.dataset.v; renderTT(); };
+  };
+  const renderTT = () => {
+    const L = LINES[tt.line];
+    seg($('#tt-line'), Object.keys(LINES).map(n => [n, 'Linha ' + n]), 'line');
+    seg($('#tt-dir'), [['ida', short(L.a) + ' → ' + short(L.b)], ['volta', short(L.b) + ' → ' + short(L.a)]], 'dir');
+    seg($('#tt-day'), Object.entries(DAYS), 'day');
+    const [o, d] = tt.dir === 'ida' ? [L.a, L.b] : [L.b, L.a];
+    const ff = fullFare(tt.line);
+    $('#tt-head').innerHTML = `${lcHTML(tt.line)}<h3>${o} → ${d}</h3><p class="meta">${L.service} · ${L.time} · tarifa do trecho completo <b>${fareTxt(ff)}</b></p>`;
+    const now = spNow(), list = L.times[tt.dir][tt.day], today = now.day === tt.day;
+    const nextIdx = today ? list.findIndex(t => runs(t, now.wd) && toMin(t) >= now.min) : -1;
+    $('#tt-times').innerHTML = list.length ? list.map((t, i) => {
+      const cls = i === nextIdx ? 'next' : (today && toMin(t) < now.min ? 'past' : '');
+      return `<li class="${cls}">${i === nextIdx ? '<small>Próxima</small>' : ''}${clean(t)}${t.endsWith('*') ? '<small class="only">seg a qui</small>' : ''}</li>`;
+    }).join('') : '<li class="none">Sem partidas neste dia</li>';
+    const pass = L.pass && L.pass[tt.dir] ? Object.entries(L.pass[tt.dir]).map(([st, ts]) => ts[tt.day] && ts[tt.day].length ? ` Passagem por ${st}: ${ts[tt.day].join(', ')}.` : '').join('') : '';
+    $('#tt-foot').textContent = `${list.length} partida${list.length === 1 ? '' : 's'} · ${DAYS[tt.day]} · horários de saída de ${o}.${pass}`;
+    const rows = Object.entries(L.fares).map(([k, v]) => `<tr><th scope="row">${k.replace('|', ' ↔ ')}</th><td>${v == null ? '<span class="todo">a confirmar</span>' : brl(v)}</td></tr>`).join('');
+    $('#tt-fares').innerHTML = `<caption>Tarifas por trecho · linha ${tt.line}</caption><tbody>${rows}</tbody>`;
+  };
+  if ($('#tt')) renderTT();
+  document.addEventListener('click', e => {
+    const a = e.target.closest('[data-line]');
+    if (a) { tt.line = a.dataset.line; tt.dir = a.dataset.dir || 'ida'; renderTT(); }
+  });
+
+  /* ---- itinerários: fluxograma de paradas por linha ---- */
+  const rflow = $('#rflow');
+  if (rflow) rflow.innerHTML = Object.entries(LINES).map(([n, L]) => {
+    const last = L.stops.length - 1;
+    const nodes = L.stops.map((st, i) => {
+      const kind = i === 0 ? 'start' : i === last ? 'end' : 'stop';
+      const label = i === 0 ? 'Ponto inicial' : i === last ? 'Ponto final' : 'Parada';
+      const f = i ? fareOf(n, L.stops[0], st) : null;
+      const sub = i === 0 ? 'embarque' : (f && f.exact ? brl(f.v) + ' desde ' + short(L.stops[0]) : '<span class="todo">tarifa a confirmar</span>');
+      return `<li class="node ${kind}"><span class="nk">${label}</span><b>${st}</b><small>${sub}</small></li>`;
+    });
+    if (L.kind === 'direto') nodes.splice(1, 0, `<li class="node express"><span class="nk">Sem paradas</span><b>Viagem direta</b><small>${L.time}</small></li>`);
+    return `<article class="rf"><header class="rf-head">${lcHTML(n)}<div><h3>${L.a} – ${L.b}</h3><p>${L.service} · ${L.stops.length} pontos registrados${L.note ? ' · ' + L.note : ''}</p></div></header>
+      <ol class="flow${nodes.length > 4 ? ' long' : ''}" style="--n:${nodes.length}">${nodes.join('')}</ol></article>`;
+  }).join('');
+
+  /* ---- localizador: qualquer parada como origem ou destino ---- */
+  const de = $('#fd-de'), para = $('#fd-para'), out = $('#finder-out');
+  if (de && para) {
+    const opts = sel => PLACES.map(pl => `<option${pl === sel ? ' selected' : ''}>${pl}</option>`).join('');
+    de.innerHTML = opts('Macaé'); para.innerHTML = opts('Conceição de Macabu');
+    const linesWith = (o, d) => Object.keys(LINES).filter(n => { const S = LINES[n].stops; return S.includes(o) && S.includes(d) && o !== d; });
+    const nextDep = (n, o, d) => {
+      const L = LINES[n], dir = L.stops.indexOf(o) < L.stops.indexOf(d) ? 'ida' : 'volta';
+      const start = dir === 'ida' ? L.stops[0] : L.stops.at(-1);
+      const passT = L.pass && L.pass[dir] && L.pass[dir][o];
+      const src = o === start ? L.times[dir] : passT || L.times[dir];
+      const at = o === start || passT ? ' de ' + short(o) : ' de ' + short(start);
+      const now = spNow();
+      const t = (src[now.day] || []).find(x => runs(x, now.wd) && toMin(x) >= now.min);
+      const t2 = !t && (src[now.tomorrow] || []).find(x => runs(x, (now.wd + 1) % 7));
+      const txt = t ? `Próxima saída${at}: <b>${clean(t)}</b>` : t2 ? `Próxima saída${at}: amanhã, <b>${clean(t2)}</b>` : 'Sem saídas hoje e amanhã';
+      return { dir, txt: txt + (o !== start && !passT && (t || t2) ? ' · <span class="todo">horário de passagem em ' + short(o) + ' a confirmar</span>' : '') };
+    };
+    const card = (n, o, d) => {
+      const L = LINES[n], f = fareOf(n, o, d), nd = nextDep(n, o, d);
+      const fnote = f.v == null ? `${short(o)} → ${short(d)}` : f.exact ? `${short(o)} → ${short(d)}` : `<span class="todo">seção ${short(f.sec)}; valor do trecho a confirmar</span>`;
+      return `<div class="fr fr-${L.kind}">${lcHTML(n)}
+        <p class="fr-svc">${L.service}</p>
+        <p class="fr-fare"><b${f.v == null ? ' class="todo"' : ''}>${fareTxt(f)}</b><small>${fnote}</small></p>
+        <p class="fr-next">${nd.txt}</p>
+        <a href="#horarios" data-line="${n}" data-dir="${nd.dir}">Horários da linha ${n}</a></div>`;
+    };
+    const renderFinder = () => {
+      const o = de.value, d = para.value;
+      if (o === d) { out.innerHTML = '<p class="finder-empty">Escolha um destino diferente da origem.</p>'; return; }
+      const found = linesWith(o, d);
+      if (found.length) { out.innerHTML = found.map(n => card(n, o, d)).join(''); return; }
+      /* sem linha única: conexão no ponto comum que dá o menor percurso */
+      let best = null;
+      for (const n1 of Object.keys(LINES).filter(n => LINES[n].stops.includes(o)))
+        for (const n2 of Object.keys(LINES).filter(n => LINES[n].stops.includes(d) && n !== n1))
+          for (const h of LINES[n1].stops.filter(x => x !== o && x !== d && LINES[n2].stops.includes(x))) {
+            const S1 = LINES[n1].stops, S2 = LINES[n2].stops;
+            const cost = Math.abs(S1.indexOf(o) - S1.indexOf(h)) + Math.abs(S2.indexOf(h) - S2.indexOf(d));
+            if (!best || cost < best.cost) best = { n1, n2, h, cost };
+          }
+      if (best) {
+        const { n1, n2, h } = best, f1 = fareOf(n1, o, h), f2 = fareOf(n2, h, d);
+        const tot = f1.v != null && f2.v != null ? ` · total <b>${brl(f1.v + f2.v)}</b>` : '';
+        out.innerHTML = `<p class="finder-conn">Sem linha única entre ${short(o)} e ${short(d)}. Faça conexão em <b>${short(h)}</b>${tot}.</p>` + card(n1, o, h) + card(n2, h, d);
+        return;
+      }
+      out.innerHTML = `<p class="finder-empty">Não encontramos linha entre ${o} e ${d}. Fale com o <a href="#atendimento">autoatendimento</a>.</p>`;
+    };
+    de.addEventListener('change', renderFinder); para.addEventListener('change', renderFinder);
+    $('#fd-swap').addEventListener('click', () => { const t = de.value; de.value = para.value; para.value = t; renderFinder(); });
+    renderFinder();
+  }
+
+  /* ---- cabeçalho, menu e voltar ao topo ---- */
+  const header = $('.header'), nav = $('#nav'), menuBtn = $('#menuBtn'), toTop = $('#toTop');
+  const onScroll = () => {
+    const y = window.scrollY || 0;
+    header.classList.toggle('scrolled', y > 8);
+    toTop.classList.toggle('on', y > 600);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  const setMenu = open => {
+    nav.classList.toggle('open', open);
+    menuBtn.setAttribute('aria-expanded', String(open));
+    document.body.classList.toggle('menu-open', open);
+  };
+  menuBtn.addEventListener('click', () => setMenu(!nav.classList.contains('open')));
+  nav.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && nav.classList.contains('open')) { setMenu(false); menuBtn.focus(); } });
+  matchMedia('(min-width: 1080px)').addEventListener('change', e => { if (e.matches) setMenu(false); });
+
+  /* ---- item ativo do menu ---- */
+  const navLinks = $$('.nav a[href^="#"]:not(.btn)');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    navLinks.forEach(a => { const s = $(a.getAttribute('href')); if (s) io.observe(s); });
+  }
+
+  /* ---- copiar ---- */
+  document.addEventListener('click', async e => {
+    const btn = e.target.closest('[data-copy]');
+    if (!btn) return;
+    let ok = false;
+    try { await navigator.clipboard.writeText(btn.dataset.copy); ok = true; } catch (err) { ok = false; }
+    if (!ok) {
+      const t = btn.dataset.copyTarget && document.getElementById(btn.dataset.copyTarget);
+      if (t && (t.tagName === 'TEXTAREA' || t.tagName === 'INPUT')) { t.focus(); t.select(); }
+      else if (t) { const r = document.createRange(); r.selectNodeContents(t); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+    }
+    const label = btn.querySelector('.copy-label') || btn;
+    const prev = label.dataset.prev || label.textContent;
+    label.dataset.prev = prev;
+    label.textContent = ok ? 'Copiado' : 'Texto selecionado';
+    btn.dataset.done = '1';
+    clearTimeout(btn._t);
+    btn._t = setTimeout(() => { label.textContent = prev; delete btn.dataset.done; }, 1800);
+  });
+
+  /* ---- formulário do SAC (EmailJS) ---- */
+  const form = $('#sacForm');
+  if (form) {
+    const status = $('#formStatus');
+    const submit = form.querySelector('button[type="submit"]');
+    const msg = $('#f-msg'), count = $('#f-count');
+    const configured = Boolean(CONFIG.emailjs.publicKey);
+    let loading = null;
+    const loadEmailJS = () => {
+      if (window.emailjs) return Promise.resolve(window.emailjs);
+      if (loading) return loading;
+      loading = new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = CONFIG.emailjs.src;
+        s.integrity = CONFIG.emailjs.sri;
+        s.crossOrigin = 'anonymous';
+        s.async = true;
+        s.onload = () => (window.emailjs ? resolve(window.emailjs) : reject(new Error('EmailJS indisponível')));
+        s.onerror = () => { loading = null; reject(new Error('Falha ao carregar o EmailJS')); };
+        document.head.appendChild(s);
+      });
+      return loading;
+    };
+    if (configured) form.addEventListener('focusin', () => { loadEmailJS().catch(() => {}); }, { once: true });
+    msg.addEventListener('input', () => { count.textContent = msg.value.length; });
+
+    const fields = [
+      { el: $('#f-nome'), check: v => v.trim().length >= 3 || 'Informe seu nome completo.' },
+      { el: $('#f-email'), check: v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) || 'Informe um e-mail válido, como nome@exemplo.com.' },
+      { el: $('#f-assunto'), check: v => Boolean(v) || 'Escolha o assunto.' },
+      { el: msg, check: v => v.trim().length >= 10 || 'Escreva a sua mensagem, com pelo menos 10 caracteres.' }
+    ];
+    const mark = (f, res) => {
+      const err = document.getElementById(f.el.id + '-err');
+      if (res === true) { f.el.removeAttribute('aria-invalid'); if (err) err.textContent = ''; return true; }
+      f.el.setAttribute('aria-invalid', 'true');
+      if (err) err.textContent = res;
+      return false;
+    };
+    fields.forEach(f => {
+      f.el.addEventListener('blur', () => { if (f.el.value) mark(f, f.check(f.el.value)); });
+      f.el.addEventListener('input', () => { if (f.el.getAttribute('aria-invalid')) mark(f, f.check(f.el.value)); });
+    });
+
+    const today = () => {
+      const p = new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', year: '2-digit', month: '2-digit', day: '2-digit' }).formatToParts(new Date());
+      const g = t => (p.find(x => x.type === t) || {}).value || '';
+      return g('year') + g('month') + g('day');
+    };
+    const ticketId = () => {
+      const abc = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      const r = new Uint32Array(4);
+      crypto.getRandomValues(r);
+      return 'NM-' + today() + '-' + Array.from(r, x => abc[x % abc.length]).join('');
+    };
+    const now = () => new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo', dateStyle: 'short', timeStyle: 'short' });
+    const summary = (id, d) => `Chamado ${id}\nNome: ${d.name}\nE-mail: ${d.email}` + (d.phone ? `\nTelefone: ${d.phone}` : '') + `\nAssunto: ${d.subject}\n\n${d.message}`;
+    const show = html => { status.innerHTML = html; status.hidden = false; status.focus({ preventScroll: true }); status.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); };
+    const manual = (id, d) => {
+      const text = summary(id, d);
+      const mailto = 'mailto:' + CONFIG.sacEmail + '?subject=' + encodeURIComponent(`[${id}] ${d.subject}`) + '&body=' + encodeURIComponent(text);
+      return `<textarea id="st-resumo" readonly rows="6" aria-label="Resumo do chamado">${esc(text)}</textarea>
+        <div class="st-actions">
+          <button class="copy" type="button" data-copy="${esc(text)}" data-copy-target="st-resumo"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg><span class="copy-label">Copiar resumo</span></button>
+          <a class="copy" href="${esc(mailto)}"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg>Abrir no e-mail</a>
+        </div>`;
+    };
+    const setBusy = on => {
+      submit.disabled = on;
+      form.setAttribute('aria-busy', String(on));
+      submit.querySelector('.btn-label').textContent = on ? 'Enviando…' : 'Enviar mensagem';
+    };
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      if (form.elements.company.value) return; // campo-armadilha: só robôs preenchem
+      let firstBad = null;
+      fields.forEach(f => { if (!mark(f, f.check(f.el.value)) && !firstBad) firstBad = f.el; });
+      if (firstBad) { firstBad.focus(); return; }
+      const d = {
+        name: $('#f-nome').value.trim(),
+        email: $('#f-email').value.trim(),
+        phone: $('#f-tel').value.trim(),
+        subject: $('#f-assunto').value,
+        message: msg.value.trim()
+      };
+      const id = ticketId();
+      const params = { name: d.name, email: d.email, reply_to: d.email, phone: d.phone, subject: d.subject, message: d.message, ticket_id: id, time: now() };
+
+      if (!configured) {
+        show(`<div class="st st-warn"><h4>Envio automático em ativação</h4>
+          <p>Seu número de chamado é <span class="ticket">${esc(id)}</span>. Enquanto o envio pelo site não é ativado, copie o resumo e envie para <strong>${esc(CONFIG.sacEmail)}</strong>.</p>${manual(id, d)}</div>`);
+        return;
+      }
+      setBusy(true);
+      loadEmailJS()
+        .then(api => {
+          const opts = { publicKey: CONFIG.emailjs.publicKey };
+          const toSac = Object.assign({}, params, { message: d.phone ? `Telefone/WhatsApp: ${d.phone}\n\n${d.message}` : d.message });
+          return api.send(CONFIG.emailjs.serviceId, CONFIG.emailjs.templateSac, toSac, opts)
+            .then(() => api.send(CONFIG.emailjs.serviceId, CONFIG.emailjs.templateAutoReply, params, opts).then(() => true, () => false));
+        })
+        .then(replied => {
+          show(`<div class="st st-ok"><h4>Mensagem enviada</h4>
+            <p>Número do chamado: <span class="ticket">${esc(id)}</span></p>
+            <p>${replied
+              ? `Enviamos uma confirmação para <strong>${esc(d.email)}</strong>. Guarde este número para acompanhar seu atendimento.`
+              : 'O SAC recebeu sua mensagem, mas não conseguimos enviar a confirmação para o seu e-mail. Guarde este número para acompanhar seu atendimento.'}</p></div>`);
+          form.reset();
+          count.textContent = '0';
+        })
+        .catch(() => {
+          show(`<div class="st st-err"><h4>Não foi possível enviar agora</h4>
+            <p>Verifique sua conexão e tente de novo. Se preferir, copie o resumo e envie para <strong>${esc(CONFIG.sacEmail)}</strong>, informando o chamado <span class="ticket">${esc(id)}</span>.</p>${manual(id, d)}</div>`);
+        })
+        .finally(() => setBusy(false));
+    });
+  }
+
+  /* ---- ano no rodapé ---- */
+  const year = $('#year');
+  if (year) year.textContent = String(new Date().getFullYear());
+
+  /* ---- modo revisão: prévia fora do domínio oficial ou #revisao no endereço ---- */
+  const badge = $('#reviewBadge');
+  const todos = $$('.todo, [data-todo]');
+  const isProd = CONFIG.prodHost.test(location.hostname);
+  const wants = /revis|review/i.test(location.hash + location.search);
+  if (badge && todos.length && (!isProd || wants)) {
+    const btn = $('#reviewToggle');
+    $('#reviewCount').textContent = String(todos.length);
+    const set = on => { document.body.classList.toggle('review', on); btn.setAttribute('aria-pressed', String(on)); };
+    set(wants);
+    btn.addEventListener('click', () => set(!document.body.classList.contains('review')));
+    badge.hidden = false;
+  }
+})();
+</script>
+</body>
+</html>
