@@ -23,6 +23,40 @@
 <link rel="icon" href="favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/albert-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<!-- Seções online/offline: o ERP (Marketing › Site Oficial) publica dados/secoes.js. A cada minuto o endereço muda, para não ficar preso no cache. -->
+<script>document.write('<script src="dados/secoes.js?v=' + Math.floor(Date.now() / 60000) + '"><\/script>');</script>
+<script>
+(function () {
+  /* "inicio" (o topo com o logo e a busca) não pode ficar offline */
+  var IDS = ['porque', 'rotas', 'horarios', 'paradas', 'modalidades', 'gratuidade', 'viagem', 'sobre', 'duvidas', 'atendimento'];
+  var S = window.NM_SECOES || {}, off = String(S.offline || '').split(',').filter(function (x) { return IDS.indexOf(x) >= 0; });
+  if (off.indexOf('atendimento') >= 0) off.push('chamado');   /* o formulário do SAC fica dentro de Atendimento (os botões de WhatsApp continuam: é outro canal) */
+  window.NM_OFF = off;
+  if (!off.length) return;
+  var alvoOff = function (href) { var h = String(href || ''); if (h.charAt(0) !== '#') return false; h = h.slice(1); if (/^linha-/.test(h)) h = 'rotas'; return off.indexOf(h) >= 0; };
+  var sel = [], selLi = [];
+  off.forEach(function (id) {
+    var q = '[href="#' + id + '"]', h = 'a' + q;
+    sel.push('#' + id, '.nav ' + h, 'footer ' + h, '.related ' + h, '.finder-out ' + h, 'a.btn' + q, 'a.arrow' + q);
+    selLi.push('li:has(>' + h + ')');
+  });
+  if (off.indexOf('rotas') >= 0) sel.push('a.arrow[href^="#linha-"]');
+  /* duas regras: navegador sem :has descarta só a segunda */
+  var st = document.createElement('style'); st.id = 'nm-off'; st.textContent = sel.join(',') + '{display:none!important}' + selLi.join(',') + '{display:none!important}'; document.head.appendChild(st);
+  var limpaHash = function () { if (alvoOff(location.hash)) { history.replaceState(null, '', location.pathname + location.search); window.scrollTo(0, 0); } };
+  /* clique num link para seção offline (inclusive os criados depois, como o cartão do localizador) não faz nada */
+  document.addEventListener('click', function (e) { var a = e.target.closest && e.target.closest('a[href^="#"]'); if (a && alvoOff(a.getAttribute('href'))) e.preventDefault(); }, true);
+  window.addEventListener('hashchange', limpaHash);
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('a[href^="#"]').forEach(function (a) {   /* link no meio do texto vira texto simples */
+      if (!alvoOff(a.getAttribute('href'))) return;
+      if (a.closest('.nav,footer,.related,.finder-out') || a.classList.contains('btn') || a.classList.contains('arrow') || a.classList.contains('brand') || a.id) return;
+      a.replaceWith(document.createTextNode(a.textContent));
+    });
+    limpaHash();
+  });
+})();
+</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
