@@ -35,10 +35,13 @@
   if (/[?&]nmerp=1(&|$)/.test(location.search)) {
     var ALVO = function (id) { return id === 'topo' ? '#inicio .hero-copy' : id === 'busca' ? '#inicio .finder' : '#' + id; };
     var NOME = { topo: 'Topo — destaque', busca: 'Encontre sua linha' };
-    var est = { off: off.slice(), man: S.manutencao === 'sim', pOff: off.slice(), pMan: S.manutencao === 'sim' };
+    var est = { off: off.slice(), man: S.manutencao === 'sim', pOff: off.slice(), pMan: S.manutencao === 'sim', pode: false };
+    /* clique na etiqueta (ou na faixa da manutenção) pede ao ERP para trocar; o ERP confere a permissão e só marca "a publicar" */
+    var pede = function (id) { if (est.pode && window.parent !== window) window.parent.postMessage({ nmSecoesTroca: id }, '*'); };
     var se = document.createElement('style'); se.id = 'nm-erp';
     se.textContent = '.nm-erp-alvo{position:relative}.nm-erp-alvo.nm-erp-off{outline:3px dashed #B23A2F;outline-offset:-3px}.nm-erp-alvo.nm-erp-off>*:not(.nm-erp-tag){opacity:.45}'
-      + '.nm-erp-tag{position:absolute;top:8px;left:8px;z-index:40;display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font:700 12px/1.2 system-ui,sans-serif;letter-spacing:.02em;color:#fff;background:#2F7D4F;box-shadow:0 1px 4px rgba(0,0,0,.25);pointer-events:none}'
+      + '.nm-erp-tag{position:absolute;top:8px;left:8px;z-index:40;display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font:700 12px/1.2 system-ui,sans-serif;letter-spacing:.02em;color:#fff;background:#2F7D4F;box-shadow:0 1px 4px rgba(0,0,0,.25);pointer-events:none;border:0}'
+      + '.nm-erp-pode .nm-erp-tag{pointer-events:auto;cursor:pointer}.nm-erp-pode .nm-erp-tag:hover{filter:brightness(1.12);box-shadow:0 0 0 3px rgba(255,255,255,.6),0 1px 4px rgba(0,0,0,.25)}.nm-erp-pode #nm-erp-man{cursor:pointer}'
       + '.nm-erp-off>.nm-erp-tag{background:#B23A2F}.nm-erp-tag i{font-style:normal;font-weight:500;opacity:.9}'
       + '#nm-erp-man{position:fixed;left:0;right:0;bottom:0;z-index:2147483646;padding:10px 16px;background:#B23A2F;color:#fff;font:600 14px/1.3 system-ui,sans-serif;text-align:center}';
     document.head.appendChild(se);
@@ -48,20 +51,25 @@
         var el = document.querySelector(ALVO(id)); if (!el) return;
         var o = est.off.indexOf(id) >= 0, pend = o !== (est.pOff.indexOf(id) >= 0);
         el.classList.add('nm-erp-alvo'); el.classList.toggle('nm-erp-off', o);
-        var t = el.querySelector(':scope>.nm-erp-tag'); if (!t) { t = document.createElement('span'); t.className = 'nm-erp-tag'; el.insertBefore(t, el.firstChild); }
+        var t = el.querySelector(':scope>.nm-erp-tag'); if (!t) { t = document.createElement('button'); t.type = 'button'; t.className = 'nm-erp-tag'; t.addEventListener('click', function (ev) { ev.preventDefault(); ev.stopPropagation(); pede(id); }); el.insertBefore(t, el.firstChild); }
+        t.tabIndex = est.pode ? 0 : -1;
+        t.title = est.pode ? 'Clique para deixar ' + (o ? 'online' : 'offline') + ' (fica pendente até Publicar no site, no ERP)' : '';
         t.innerHTML = (o ? 'Offline' : 'Online') + ' · ' + (NOME[id] || ('#' + id)) + (pend ? ' <i>(a publicar)</i>' : '');
       });
       var b = document.getElementById('nm-erp-man');
-      if (est.man || est.pMan) { if (!b) { b = document.createElement('div'); b.id = 'nm-erp-man'; document.body.appendChild(b); }
+      document.documentElement.classList.toggle('nm-erp-pode', !!est.pode);
+      if (est.man || est.pMan) { if (!b) { b = document.createElement('div'); b.id = 'nm-erp-man'; b.addEventListener('click', function () { pede('_manut'); }); document.body.appendChild(b); }
         b.style.background = est.man ? '#B23A2F' : '#5C6670';
         b.textContent = est.man ? 'Site em manutenção' + (est.pMan ? '' : ' (a publicar)') + ': o visitante vê só a sala de espera. Aqui no ERP você vê o site por trás.' : 'Manutenção desligada (a publicar): o site volta para o visitante.'; }
       else if (b) b.remove();
     };
     window.addEventListener('message', function (e) {
+      if (e.source !== window.parent) return;
       var d = e.data && e.data.nmSecoes; if (!d || typeof d !== 'object') return;
       est.off = String(d.offline || '').split(',').filter(function (x) { return IDS.indexOf(x) >= 0; }); est.man = d.manutencao === 'sim';
       if (typeof d.pubOffline === 'string') est.pOff = d.pubOffline.split(',').filter(function (x) { return IDS.indexOf(x) >= 0; });
       if (typeof d.pubManutencao === 'string') est.pMan = d.pubManutencao === 'sim';
+      est.pode = d.pode === true;
       pinta();
     });
     document.addEventListener('DOMContentLoaded', pinta);
