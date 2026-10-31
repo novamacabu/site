@@ -1,2 +1,1 @@
-/* Seções do site fora do ar. Gerado pelo ERP (Marketing › Site Oficial) via Make; não edite à mão. */
-window.NM_SECOES = {"offline":"","em":"","por":""};
+window.NM_SECOES = {"offline":"porque,gratuidade","em":"2026-10-31 14:16","por":"adm@novamacabu.com.br"};
