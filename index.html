@@ -23,8 +23,8 @@
 <link rel="icon" href="favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/albert-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<!-- Seções online/offline: o ERP (Marketing › Site Oficial) publica dados/secoes.js. A cada minuto o endereço muda, para não ficar preso no cache. -->
-<script>document.write('<script src="dados/secoes.js?v=' + Math.floor(Date.now() / 60000) + '"><\/script>');</script>
+<!-- Seções online/offline (dados/secoes.js) e horários/tarifas (dados/horarios.js, dados/tarifas.js): publicados pelo ERP via Make. A cada minuto o endereço muda, para não ficar preso no cache. -->
+<script>(function () { var v = Math.floor(Date.now() / 60000); ['secoes', 'horarios', 'tarifas'].forEach(function (f) { document.write('<script src="dados/' + f + '.js?v=' + v + '"><\/script>'); }); })();</script>
 <script>
 (function () {
   /* "topo" (o destaque "Sua viagem começa aqui!"), "busca" (Encontre sua linha) e "foto" (foto da frota) escondem partes do #inicio; o âncora #inicio fica (logo e "voltar ao topo") */
@@ -1248,6 +1248,61 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
   };
   const fullFare = n => { const L = LINES[n]; return fareOf(n, L.stops[0], L.stops.at(-1)); };
   const fareTxt = f => f && f.v != null ? brl(f.v) : 'a confirmar';
+
+  /* ===== Horários e tarifas publicados pelo ERP ("Sincronizar no site" em Operacional › Tabela de Horários / Tarifas ou
+     Marketing › Site Oficial). O Make grava dados/horarios.js e dados/tarifas.js com o JSON do ERP em base64 — nada ali
+     vira código. Sem os arquivos, ou se algo não bater, vale o quadro escrito acima. ===== */
+  const erpJSON = b64 => { try { if (!b64 || typeof b64 !== 'string') return null; const bin = atob(b64), u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); const o = JSON.parse(new TextDecoder().decode(u)); return o && typeof o === 'object' ? o : null; } catch (e) { return null; } };
+  const NOMES = { 'MACAÉ': 'Macaé', 'LAGOMAR': 'Lagomar', 'TREVO DOS 40': 'Trevo dos 40', 'BREJO GRANDE': 'Brejo Grande', 'CURATO': 'Curato', 'CONCEIÇÃO DE MACABU': 'Conceição de Macabu', 'CONCEIÇÃO': 'Conceição de Macabu',
+    'TRIUNFO': 'Triunfo', 'IMBÉ': 'Visconde do Imbé', 'VISCONDE DO IMBÉ': 'Visconde do Imbé', 'LORETI': 'Dr. Loreti', 'DR. LORETI': 'Dr. Loreti', 'TRAJANO DE MORAES': 'Trajano de Moraes',
+    'STª MARIA MADALENA': 'Santa Maria Madalena', 'STª Mª MADALENA': 'Santa Maria Madalena', 'STA MARIA MADALENA': 'Santa Maria Madalena', 'SANTA MARIA MADALENA': 'Santa Maria Madalena', 'MADALENA': 'Santa Maria Madalena' };
+  const nomeERP = x => NOMES[String(x || '').trim().replace(/\s+/g, ' ').toUpperCase()] || null;
+  const fmtBR = d => /^\d{4}-\d{2}-\d{2}/.test(String(d || '')) ? String(d).slice(8, 10) + '/' + String(d).slice(5, 7) + '/' + String(d).slice(0, 4) : '';
+  const ERP_T = erpJSON(window.NM_TAR_B64), ERP_H = erpJSON(window.NM_HOR_B64);
+  try { if (ERP_T && Array.isArray(ERP_T.secoes)) {
+    const novo = {};
+    ERP_T.secoes.forEach(x => {
+      const n = String(x && x.linha || ''), L = LINES[n], v = Number(x && x.valor); if (!L || !(v > 0) || v > 1000) return;
+      const trs = Array.isArray(x.trechos) ? x.trechos : String(x.trecho || '').split(' / ');
+      trs.forEach(t => {
+        if (/\(TARIFA/i.test(t)) return;   /* tarifa alternativa do guichê (ex.: "TARIFA A"): não é a do trecho */
+        const ab = String(t).split(/\s+x\s+/i).map(nomeERP); if (ab.length !== 2 || !ab[0] || !ab[1]) return;
+        let i = L.stops.indexOf(ab[0]), j = L.stops.indexOf(ab[1]); if (i < 0 || j < 0 || i === j) return; if (i > j) [i, j] = [j, i];
+        (novo[n] = novo[n] || {})[L.stops[i] + '|' + L.stops[j]] = Math.round(v * 100) / 100;
+      });
+    });
+    Object.keys(novo).forEach(n => { LINES[n].fares = novo[n]; });
+  } } catch (e) { /* estrutura inesperada: fica o quadro da página */ }
+  try { if (ERP_H && Array.isArray(ERP_H.quadros)) {
+    const DIA = { 'Segunda a sexta': 'uteis', 'Sábados': 'sabado', 'Domingos e feriados': 'domingo' };
+    const T = {}, P = { uteis: [], sabado: [], domingo: [] };
+    const vazio = () => ({ ida: { uteis: [], sabado: [], domingo: [] }, volta: { uteis: [], sabado: [], domingo: [] } });
+    const add = (n, dir, day, h) => { if (!LINES[n]) return; T[n] = T[n] || vazio(); if (!T[n][dir][day].includes(h)) T[n][dir][day].push(h); };
+    ERP_H.quadros.forEach(q => { const day = DIA[q && q.quadro]; if (!day) return; (q.blocos || []).forEach(b => (b.origens || []).forEach(o => (o.partidas || []).forEach(p => {
+      const hh = String(p && p.horario || '').trim(); if (!/^\d{2}:\d{2}$/.test(hh)) return;
+      const obs = String(p.obs || ''), serv = String(p.servico || ''), lin = String(p.linha || '').replace(/\D/g, '');
+      const h = hh + (/2ª a 5ª|2a a 5a|segunda a quinta/i.test(obs) ? '*' : '');
+      if (b.bloco === 'Madalena') { add('2000', o.origem === 'Madalena' ? 'volta' : 'ida', day, h); return; }
+      if (b.bloco !== 'Linha') return;   /* fretamento não vai para o site */
+      const dir = o.origem === 'Macaé' ? 'ida' : o.origem === 'Macabu' ? 'volta' : null; if (!dir) return;
+      if (lin === '2000' || serv === 'Madalena' || /madalena/i.test(obs)) { if (dir === 'volta' && !P[day].includes(h)) P[day].push(h); return; }   /* vem de Madalena e passa em Conceição; a saída de Macaé já está no bloco Madalena */
+      add(LINES[lin] ? lin : (serv === 'Direto' || serv === 'Preço Único') ? '1001' : '1000', dir, day, h);
+    }))); });
+    if (T['1000']) {   /* só troca quando o quadro do ERP tem a linha principal */
+      const ord = a => a.sort((x, y) => toMin(clean(x)) - toMin(clean(y)));
+      Object.keys(LINES).forEach(n => { const t = T[n] || vazio(); ['ida', 'volta'].forEach(d => Object.keys(t[d]).forEach(k => ord(t[d][k]))); LINES[n].times = t; });
+      Object.keys(P).forEach(k => ord(P[k]));
+      LINES['2000'].pass = { volta: { 'Conceição de Macabu': P } };
+      const vg = fmtBR(ERP_H.vigencia), pil = $('#horarios .pilot b'); if (vg && pil) pil.textContent = 'Quadro vigente desde ' + vg + '.';
+    }
+  } } catch (e) { /* estrutura inesperada: fica o quadro da página */ }
+  /* tabela de rotas: tarifa do trecho completo e menor trecho, sempre pelo quadro em uso */
+  if (ERP_T) Object.keys(LINES).forEach(n => {   /* só quando o ERP publicou as tarifas; sem elas, fica a tabela escrita na página */
+    const td = $('#linha-' + n + ' td.fare'); if (!td) return;
+    const f = fullFare(n), vs = Object.values(LINES[n].fares).filter(v => v != null), min = vs.length ? Math.min(...vs) : null;
+    td.innerHTML = f && f.v != null ? brl(f.v).replace(/\s/, '&nbsp;') + (min != null && min < f.v ? `<small>trechos a partir de ${brl(min).replace(/\s/, '&nbsp;')}</small>` : '') : '<span class="todo">a confirmar</span>';
+  });
+  if (ERP_T && fmtBR(ERP_T.atualizadoEm)) { const sp = $('.routes-foot .small .todo'); if (sp) sp.replaceWith(document.createTextNode('vigência ' + fmtBR(ERP_T.atualizadoEm))); }
 
   /* ---- quadro de horários ---- */
   const tt = { line: '1000', dir: 'ida', day: spNow().day };
