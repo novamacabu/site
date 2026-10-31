@@ -25,11 +25,15 @@ assets/
   - `emailjs.publicKey`: chave pública do EmailJS (Account → General). Vazio mantém o formulário em modo manual (gera o número do chamado e oferece o resumo para enviar ao SAC).
 - **Textos a confirmar:** marcados com `class="todo"` ou `data-todo`. Abra o site com `#revisao` no fim do endereço para destacá-los em amarelo.
 
-## Fase atual: validação (piloto)
+## Endereço oficial
 
-O site está publicado só no endereço do GitHub Pages (https://novamacabu.github.io/site/). O domínio novamacabu.com.br continua apontando para o site antigo na Hostinger. Por isso o arquivo `CNAME` **não** está no repositório: se ele existir antes da troca de DNS, o GitHub redireciona para o domínio e o site novo fica inacessível.
+Desde 31/10/2026 o site está em **https://novamacabu.com.br** (GitHub Pages com Custom domain; o arquivo `CNAME` foi criado pelo GitHub e **não deve ser apagado**). O antigo novamacabu.github.io/site redireciona para o domínio. `www.novamacabu.com.br` também aponta para cá.
 
-Na virada para o domínio: crie o arquivo `CNAME` com `novamacabu.com.br`, configure o Custom domain no Pages e troque o DNS conforme abaixo. Não renomeie este repositório para `novamacabu.github.io`: isso faria `novamacabu.github.io/erp` redirecionar para o domínio e quebraria o login do ERP.
+Não renomeie este repositório para `novamacabu.github.io`: isso faria `novamacabu.github.io/erp` redirecionar para o domínio e quebraria o login do ERP.
+
+## Seções online/offline (ERP)
+
+`dados/secoes.js` é gravado pelo ERP (Marketing › Site Oficial › Seções do site) via Make. Não edite à mão. O `<head>` do `index.html` lê o arquivo e esconde as seções offline e os links para elas. O topo (Início) fica sempre online.
 
 ## Publicar no GitHub Pages
 
@@ -39,7 +43,7 @@ Na virada para o domínio: crie o arquivo `CNAME` com `novamacabu.com.br`, confi
 
 ## DNS (no painel que gerencia a zona DNS do domínio: Hostinger ou Registro.br)
 
-Apague os registros A/AAAA antigos do domínio raiz que apontam para a hospedagem da Hostinger e crie:
+Configuração feita em 31/10/2026 (estado anterior guardado no projeto do ERP: `claude/dns-novamacabu-antes-da-troca-2026-10-31.md`):
 
 | Tipo  | Nome | Valor                  |
 |-------|------|------------------------|
@@ -51,9 +55,9 @@ Apague os registros A/AAAA antigos do domínio raiz que apontam para a hospedage
 | AAAA  | @    | 2606:50c0:8001::153    |
 | AAAA  | @    | 2606:50c0:8002::153    |
 | AAAA  | @    | 2606:50c0:8003::153    |
-| CNAME | www  | `<usuario>.github.io`  |
+| CNAME | www  | `novamacabu.github.io` |
 
-Não altere os registros **MX**, **SPF/TXT** e **DKIM**: são eles que mantêm os e-mails @novamacabu.com.br funcionando na Hostinger.
+Não altere os registros **MX**, **SPF/TXT**, **_dmarc**, **autodiscover** e **DKIM**: o e-mail @novamacabu.com.br é do Microsoft 365. O registro `erp` (CNAME para novamacabu.github.io) é do ERP.
 
 ## EmailJS
 
