@@ -27,14 +27,14 @@
 <script>document.write('<script src="dados/secoes.js?v=' + Math.floor(Date.now() / 60000) + '"><\/script>');</script>
 <script>
 (function () {
-  /* "topo" (o destaque "Sua viagem começa aqui!") e "busca" (Encontre sua linha) escondem partes do #inicio; o âncora #inicio fica (logo e "voltar ao topo") */
-  var IDS = ['topo', 'busca', 'porque', 'rotas', 'horarios', 'paradas', 'modalidades', 'gratuidade', 'viagem', 'sobre', 'duvidas', 'atendimento'];
+  /* "topo" (o destaque "Sua viagem começa aqui!"), "busca" (Encontre sua linha) e "foto" (foto da frota) escondem partes do #inicio; o âncora #inicio fica (logo e "voltar ao topo") */
+  var IDS = ['topo', 'busca', 'foto', 'porque', 'rotas', 'horarios', 'paradas', 'modalidades', 'gratuidade', 'viagem', 'sobre', 'duvidas', 'atendimento'];
   var S = window.NM_SECOES || {}, off = String(S.offline || '').split(',').filter(function (x) { return IDS.indexOf(x) >= 0; });
   /* Dentro do ERP (?nmerp=1, iframe da página Site Oficial): nada é escondido; cada seção ganha uma etiqueta Online/Offline
      e o ERP manda por postMessage o estado que está sendo editado (antes de publicar). Só visual, só nesta aba. */
   if (/[?&]nmerp=1(&|$)/.test(location.search)) {
-    var ALVO = function (id) { return id === 'topo' ? '#inicio .hero-copy' : id === 'busca' ? '#inicio .finder' : '#' + id; };
-    var NOME = { topo: 'Topo — destaque', busca: 'Encontre sua linha' };
+    var ALVO = function (id) { return id === 'topo' ? '#inicio .hero-copy' : id === 'busca' ? '#inicio .finder' : id === 'foto' ? '#inicio .pano' : '#' + id; };
+    var NOME = { topo: 'Topo — destaque', busca: 'Encontre sua linha', foto: 'Foto da frota' };
     var est = { off: off.slice(), man: S.manutencao === 'sim', pOff: off.slice(), pMan: S.manutencao === 'sim', pode: false };
     /* clique na etiqueta (ou na faixa da manutenção) pede ao ERP para trocar; o ERP confere a permissão e só marca "a publicar" */
     var pede = function (id) { if (est.pode && window.parent !== window) window.parent.postMessage({ nmSecoesTroca: id }, '*'); };
@@ -121,8 +121,9 @@
   if (tOff && bOff) css += '#inicio .hero-grid{padding-block:0!important}';
   if (tOff || bOff) css += '#inicio .hero-grid{grid-template-columns:minmax(0,1fr)}';
   if (tOff && !bOff) css += '#inicio .finder{max-width:560px}';
+  if (off.indexOf('foto') >= 0) sel.push('#inicio .pano');
   off.forEach(function (id) {
-    if (id === 'topo' || id === 'busca') return;
+    if (id === 'topo' || id === 'busca' || id === 'foto') return;
     var q = '[href="#' + id + '"]', h = 'a' + q;
     sel.push('#' + id, '.nav ' + h, 'footer ' + h, '.related ' + h, '.finder-out ' + h, 'a.btn' + q, 'a.arrow' + q);
     selLi.push('li:has(>' + h + ')');
@@ -438,6 +439,7 @@ button{font:inherit}
 .ch-desc{font-size:.95rem;color:var(--text-2)}
 .ch-list{display:grid;gap:10px;font-size:.95rem;color:var(--text-2)}
 .ch-list b{display:block;font-weight:600;color:var(--text)}
+.ch-list .soon{display:inline-block;margin-top:2px;padding:2px 10px;border-radius:999px;background:var(--orange);color:var(--navy);font-size:.8rem;font-weight:600;letter-spacing:.02em}
 .ch-actions{margin-top:auto;padding-top:8px;display:flex;flex-wrap:wrap;gap:8px}
 .copy{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;border-radius:var(--radius);border:1.5px solid var(--field-line);background:transparent;color:var(--heading);font-weight:600;font-size:.9rem;cursor:pointer;text-decoration:none}
 .copy:hover{border-color:var(--heading)}
@@ -1029,8 +1031,9 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
         <span class="ch-ic"><svg class="ic" aria-hidden="true"><use href="#i-ticket"/></svg></span>
         <h3>Bilheterias</h3>
         <ul class="ch-list">
-          <li><b>Macaé</b><span class="todo">endereço e horário a confirmar</span></li>
-          <li><b>Conceição de Macabu</b><span class="todo">endereço e horário a confirmar</span></li>
+          <li><b>Macaé</b>Horário comercial · <span class="todo">endereço a confirmar</span></li>
+          <li><b>Conceição de Macabu</b>Horário comercial · <span class="todo">endereço a confirmar</span></li>
+          <li><b>Vendas online</b><span class="soon">Em breve</span></li>
         </ul>
         <p class="ch-desc">Compra de passagens e retirada do bilhete gratuito.</p>
       </article>
