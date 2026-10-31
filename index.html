@@ -27,22 +27,101 @@
 <script>document.write('<script src="dados/secoes.js?v=' + Math.floor(Date.now() / 60000) + '"><\/script>');</script>
 <script>
 (function () {
-  /* "inicio" (o topo com o logo e a busca) não pode ficar offline */
-  var IDS = ['porque', 'rotas', 'horarios', 'paradas', 'modalidades', 'gratuidade', 'viagem', 'sobre', 'duvidas', 'atendimento'];
+  /* "topo" (o destaque "Sua viagem começa aqui!") e "busca" (Encontre sua linha) escondem partes do #inicio; o âncora #inicio fica (logo e "voltar ao topo") */
+  var IDS = ['topo', 'busca', 'porque', 'rotas', 'horarios', 'paradas', 'modalidades', 'gratuidade', 'viagem', 'sobre', 'duvidas', 'atendimento'];
   var S = window.NM_SECOES || {}, off = String(S.offline || '').split(',').filter(function (x) { return IDS.indexOf(x) >= 0; });
+  /* Dentro do ERP (?nmerp=1, iframe da página Site Oficial): nada é escondido; cada seção ganha uma etiqueta Online/Offline
+     e o ERP manda por postMessage o estado que está sendo editado (antes de publicar). Só visual, só nesta aba. */
+  if (/[?&]nmerp=1(&|$)/.test(location.search)) {
+    var ALVO = function (id) { return id === 'topo' ? '#inicio .hero-copy' : id === 'busca' ? '#inicio .finder' : '#' + id; };
+    var NOME = { topo: 'Topo — destaque', busca: 'Encontre sua linha' };
+    var est = { off: off.slice(), man: S.manutencao === 'sim', pOff: off.slice(), pMan: S.manutencao === 'sim' };
+    var se = document.createElement('style'); se.id = 'nm-erp';
+    se.textContent = '.nm-erp-alvo{position:relative}.nm-erp-alvo.nm-erp-off{outline:3px dashed #B23A2F;outline-offset:-3px}.nm-erp-alvo.nm-erp-off>*:not(.nm-erp-tag){opacity:.45}'
+      + '.nm-erp-tag{position:absolute;top:8px;left:8px;z-index:40;display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font:700 12px/1.2 system-ui,sans-serif;letter-spacing:.02em;color:#fff;background:#2F7D4F;box-shadow:0 1px 4px rgba(0,0,0,.25);pointer-events:none}'
+      + '.nm-erp-off>.nm-erp-tag{background:#B23A2F}.nm-erp-tag i{font-style:normal;font-weight:500;opacity:.9}'
+      + '#nm-erp-man{position:fixed;left:0;right:0;bottom:0;z-index:2147483646;padding:10px 16px;background:#B23A2F;color:#fff;font:600 14px/1.3 system-ui,sans-serif;text-align:center}';
+    document.head.appendChild(se);
+    var pinta = function () {
+      if (!document.body) return;
+      IDS.forEach(function (id) {
+        var el = document.querySelector(ALVO(id)); if (!el) return;
+        var o = est.off.indexOf(id) >= 0, pend = o !== (est.pOff.indexOf(id) >= 0);
+        el.classList.add('nm-erp-alvo'); el.classList.toggle('nm-erp-off', o);
+        var t = el.querySelector(':scope>.nm-erp-tag'); if (!t) { t = document.createElement('span'); t.className = 'nm-erp-tag'; el.insertBefore(t, el.firstChild); }
+        t.innerHTML = (o ? 'Offline' : 'Online') + ' · ' + (NOME[id] || ('#' + id)) + (pend ? ' <i>(a publicar)</i>' : '');
+      });
+      var b = document.getElementById('nm-erp-man');
+      if (est.man || est.pMan) { if (!b) { b = document.createElement('div'); b.id = 'nm-erp-man'; document.body.appendChild(b); }
+        b.style.background = est.man ? '#B23A2F' : '#5C6670';
+        b.textContent = est.man ? 'Site em manutenção' + (est.pMan ? '' : ' (a publicar)') + ': o visitante vê só a sala de espera. Aqui no ERP você vê o site por trás.' : 'Manutenção desligada (a publicar): o site volta para o visitante.'; }
+      else if (b) b.remove();
+    };
+    window.addEventListener('message', function (e) {
+      var d = e.data && e.data.nmSecoes; if (!d || typeof d !== 'object') return;
+      est.off = String(d.offline || '').split(',').filter(function (x) { return IDS.indexOf(x) >= 0; }); est.man = d.manutencao === 'sim';
+      if (typeof d.pubOffline === 'string') est.pOff = d.pubOffline.split(',').filter(function (x) { return IDS.indexOf(x) >= 0; });
+      if (typeof d.pubManutencao === 'string') est.pMan = d.pubManutencao === 'sim';
+      pinta();
+    });
+    document.addEventListener('DOMContentLoaded', pinta);
+    window.NM_OFF = []; return;
+  }
+  /* Manutenção ("sala de espera"): cobre o site inteiro. ?ver=1 mostra o site por trás (para quem administra). */
+  if (S.manutencao === 'sim' && !/[?&]ver=1(&|$)/.test(location.search)) {
+    var sm = document.createElement('style'); sm.id = 'nm-manut';
+    sm.textContent = 'html,body{overflow:hidden!important}body>*:not(#nm-espera){visibility:hidden!important}'
+      + '#nm-espera{position:fixed;inset:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;padding:24px;color:#fff;font-family:"Albert Sans",system-ui,sans-serif;text-align:center;'
+      + 'background:linear-gradient(rgba(29,30,74,.88),rgba(29,30,74,.94)),url(assets/img/frota-panorama-m.webp) center/cover no-repeat #1D1E4A}'
+      + '#nm-espera .cx{max-width:560px}#nm-espera img{width:220px;max-width:70%;height:auto;margin:0 auto 28px;display:block}'
+      + '#nm-espera h1{color:#fff!important;font-size:clamp(1.8rem,5vw,2.6rem);font-weight:400;line-height:1.1;margin:0 0 14px;letter-spacing:-.02em}'
+      + '#nm-espera p{margin:0 0 10px;color:rgba(255,255,255,.82);font-size:1.05rem;line-height:1.5}'
+      + '#nm-espera .rua{position:relative;height:56px;margin:26px auto 26px;max-width:420px;overflow:hidden;border-bottom:3px dashed rgba(255,255,255,.35)}'
+      + '#nm-espera .rua svg{position:absolute;bottom:4px;left:-90px;width:84px;height:42px;animation:nmBus 6s linear infinite}'
+      + '@keyframes nmBus{to{transform:translateX(520px)}}'
+      + '#nm-espera .pts{display:inline-flex;gap:6px;margin-left:4px}#nm-espera .pts i{width:6px;height:6px;border-radius:50%;background:#E86A38;animation:nmPt 1.2s infinite}'
+      + '#nm-espera .pts i:nth-child(2){animation-delay:.2s}#nm-espera .pts i:nth-child(3){animation-delay:.4s}@keyframes nmPt{0%,100%{opacity:.25}50%{opacity:1}}'
+      + '#nm-espera a.wa{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:13px 22px;background:#E86A38;color:#1D1E4A;font-weight:600;text-decoration:none}'
+      + '#nm-espera a.wa:hover{background:#F28357}#nm-espera small{display:block;margin-top:22px;color:rgba(255,255,255,.6)}'
+      + '@media (prefers-reduced-motion:reduce){#nm-espera .rua svg,#nm-espera .pts i{animation:none}#nm-espera .rua svg{left:calc(50% - 42px)}}';
+    document.head.appendChild(sm);
+    var monta = function () {
+      if (document.getElementById('nm-espera')) return;
+      var d = document.createElement('div'); d.id = 'nm-espera'; d.setAttribute('role', 'main');
+      d.innerHTML = '<div class="cx"><img src="assets/img/logo-horizontal-branco.png" alt="Nova Macabu" width="588" height="128">'
+        + '<h1>Estamos ajustando o nosso site</h1>'
+        + '<p>Voltamos em instantes<span class="pts" aria-hidden="true"><i></i><i></i><i></i></span></p>'
+        + '<div class="rua" aria-hidden="true"><svg viewBox="0 0 84 42"><rect x="2" y="4" width="78" height="28" rx="6" fill="#fff"/><rect x="2" y="22" width="78" height="5" fill="#E86A38"/>'
+        + '<rect x="8" y="9" width="12" height="9" rx="1.5" fill="#2B2D66"/><rect x="24" y="9" width="12" height="9" rx="1.5" fill="#2B2D66"/><rect x="40" y="9" width="12" height="9" rx="1.5" fill="#2B2D66"/><rect x="56" y="9" width="10" height="9" rx="1.5" fill="#2B2D66"/><rect x="69" y="9" width="9" height="15" rx="1.5" fill="#2B2D66"/>'
+        + '<circle cx="18" cy="34" r="6" fill="#2E3238" stroke="#fff" stroke-width="2"/><circle cx="64" cy="34" r="6" fill="#2E3238" stroke="#fff" stroke-width="2"/></svg></div>'
+        + '<p>Enquanto isso, os ônibus seguem rodando normalmente. Para horários, tarifas e informações, fale com o nosso autoatendimento.</p>'
+        + '<a class="wa" href="https://wa.me/552222980121?text=' + encodeURIComponent('Olá! Gostaria de informações sobre as linhas da Nova Macabu.') + '" target="_blank" rel="noopener">Autoatendimento no WhatsApp</a>'
+        + '<small>Transportadora Nova Macabu · sac@novamacabu.com.br</small></div>';
+      document.body.appendChild(d);
+    };
+    if (document.body) monta(); else document.addEventListener('DOMContentLoaded', monta);
+  }
   if (off.indexOf('atendimento') >= 0) off.push('chamado');   /* o formulário do SAC fica dentro de Atendimento (os botões de WhatsApp continuam: é outro canal) */
   window.NM_OFF = off;
   if (!off.length) return;
   var alvoOff = function (href) { var h = String(href || ''); if (h.charAt(0) !== '#') return false; h = h.slice(1); if (/^linha-/.test(h)) h = 'rotas'; return off.indexOf(h) >= 0; };
-  var sel = [], selLi = [];
+  var sel = [], selLi = [], css = '';
+  var tOff = off.indexOf('topo') >= 0, bOff = off.indexOf('busca') >= 0;
+  /* o título (h1) some da tela, mas continua para leitores de tela e buscadores */
+  if (tOff) { sel.push('#inicio .hero-copy>:not(h1)'); css += '#inicio .hero-copy h1{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}'; }
+  if (bOff) sel.push('#inicio .finder');
+  if (tOff && bOff) css += '#inicio .hero-grid{padding-block:0!important}';
+  if (tOff || bOff) css += '#inicio .hero-grid{grid-template-columns:minmax(0,1fr)}';
+  if (tOff && !bOff) css += '#inicio .finder{max-width:560px}';
   off.forEach(function (id) {
+    if (id === 'topo' || id === 'busca') return;
     var q = '[href="#' + id + '"]', h = 'a' + q;
     sel.push('#' + id, '.nav ' + h, 'footer ' + h, '.related ' + h, '.finder-out ' + h, 'a.btn' + q, 'a.arrow' + q);
     selLi.push('li:has(>' + h + ')');
   });
   if (off.indexOf('rotas') >= 0) sel.push('a.arrow[href^="#linha-"]');
   /* duas regras: navegador sem :has descarta só a segunda */
-  var st = document.createElement('style'); st.id = 'nm-off'; st.textContent = sel.join(',') + '{display:none!important}' + selLi.join(',') + '{display:none!important}'; document.head.appendChild(st);
+  var st = document.createElement('style'); st.id = 'nm-off'; st.textContent = sel.join(',') + '{display:none!important}' + css + (selLi.length ? selLi.join(',') + '{display:none!important}' : ''); document.head.appendChild(st);
   var limpaHash = function () { if (alvoOff(location.hash)) { history.replaceState(null, '', location.pathname + location.search); window.scrollTo(0, 0); } };
   /* clique num link para seção offline (inclusive os criados depois, como o cartão do localizador) não faz nada */
   document.addEventListener('click', function (e) { var a = e.target.closest && e.target.closest('a[href^="#"]'); if (a && alvoOff(a.getAttribute('href'))) e.preventDefault(); }, true);
@@ -1066,7 +1145,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
     whatsappMsg: 'Olá! Gostaria de informações sobre as linhas da Nova Macabu.',
     sacEmail: 'sac@novamacabu.com.br',
     emailjs: {
-      publicKey: '',                          // EmailJS → Account → General → Public Key
+      publicKey: 'ULQ6pw70FS26Qj-JM',         // EmailJS → Account → General → Public Key (pública por natureza; a conta é a do service_eznl1kh)
       serviceId: 'service_eznl1kh',           // Gmail novamacabu@gmail.com
       templateSac: 'template_d6xeh56',        // "Contact Us": aviso interno ao SAC
       templateAutoReply: 'template_g6293un',  // "Auto-Reply": confirmação ao passageiro
