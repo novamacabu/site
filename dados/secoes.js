@@ -1,1 +1,1 @@
-window.NM_SECOES = {"offline":"gratuidade","em":"2026-10-31 14:20","por":"adm@novamacabu.com.br"};
+window.NM_SECOES = {"offline":"rotas,horarios,paradas,modalidades,gratuidade,viagem,sobre","em":"2026-10-31 15:35","por":"adm@novamacabu.com.br"};
