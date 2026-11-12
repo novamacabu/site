@@ -109,7 +109,7 @@
     };
     if (document.body) monta(); else document.addEventListener('DOMContentLoaded', monta);
   }
-  if (off.indexOf('atendimento') >= 0) off.push('chamado');   /* o formulário do SAC fica dentro de Atendimento (os botões de WhatsApp continuam: é outro canal) */
+  if (off.indexOf('atendimento') >= 0) off.push('chamado', 'trabalhe-conosco');   /* o formulário do SAC fica dentro de Atendimento (os botões de WhatsApp continuam: é outro canal) */
   window.NM_OFF = off;
   if (!off.length) return;
   var alvoOff = function (href) { var h = String(href || ''); if (h.charAt(0) !== '#') return false; h = h.slice(1); if (/^linha-/.test(h)) h = 'rotas'; return off.indexOf(h) >= 0; };
@@ -484,6 +484,26 @@ button{font:inherit}
 .st textarea{width:100%;min-height:120px;padding:10px 12px;border:1px solid var(--line);border-radius:2px;background:var(--bg);color:var(--text);font:.88rem/1.5 ui-monospace,Menlo,Consolas,monospace;resize:vertical}
 .st-actions{display:flex;flex-wrap:wrap;gap:8px}
 .ticket{font:700 1.02rem/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em;color:var(--heading);white-space:nowrap}
+
+/* ---------- Trabalhe Conosco (12/11/2026): cartão em Atendimento e janela expandida com o envio do currículo ---------- */
+@media (min-width:1100px){.channels.has-tc{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media (min-width:621px) and (max-width:1099px){.channel.tc{grid-column:1/-1}}
+.channel.tc .ch-ic{background:var(--orange);border-color:var(--orange);color:var(--navy)}
+.tc-dialog{width:min(1080px,calc(100vw - 32px));max-width:none;max-height:calc(100dvh - 32px);padding:0;border:0;border-radius:var(--radius);background:var(--surface);color:var(--text);box-shadow:0 30px 80px rgba(11,22,40,.35);overflow:hidden}
+.tc-dialog::backdrop{background:rgba(16,18,40,.62)}
+.tc-dialog[open]{display:flex;flex-direction:column}
+.tc-wrap{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);min-height:0;flex:1;overflow:auto}
+@media (max-width:899px){.tc-wrap{grid-template-columns:1fr}}
+.tc-wrap .sac-side{position:relative}
+.tc-close{position:absolute;top:12px;right:12px;z-index:2;width:44px;height:44px;display:grid;place-items:center;border:1.5px solid var(--field-line);border-radius:var(--radius);background:var(--surface);color:var(--heading);cursor:pointer}
+.tc-close:hover{border-color:var(--heading)}
+.tc-close .ic{width:20px;height:20px}
+.tc-main{padding:clamp(24px,3.4vw,44px);padding-top:clamp(56px,5vw,64px)}
+.tc-file{display:grid;gap:8px;padding:16px;border:1.5px dashed var(--field-line);border-radius:2px;background:var(--bg)}
+.tc-file input[type=file]{min-height:auto;padding:8px 0;border:0;background:transparent}
+.tc-file .tc-file-info{font-size:.88rem;color:var(--text-3)}
+.tc-check{display:flex;gap:10px;align-items:flex-start;font-weight:500;font-size:.92rem;color:var(--text)}
+.tc-check input{width:20px;height:20px;min-height:20px;margin-top:2px;flex:none;accent-color:var(--orange)}
 
 /* ---------- rodapé ---------- */
 .footer{background:var(--foot);color:var(--on-foot-2);font-size:.95rem;--focus:var(--orange)}
@@ -1013,7 +1033,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
       <h2 class="h2" id="at-t">Fale com a Nova Macabu</h2>
       <p class="lead">Escolha o canal mais prático para você. Reclamações, sugestões, elogios e achados e perdidos: abra um chamado pelo formulário.</p>
     </div>
-    <div class="channels">
+    <div class="channels has-tc">
       <article class="channel wa">
         <span class="ch-ic"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg></span>
         <h3>Autoatendimento</h3>
@@ -1042,6 +1062,13 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
         <h3>Vendas online</h3>
         <p class="ch-val"><span class="soon">Em breve</span></p>
         <p class="ch-desc">Compra de passagens pelo site, sem fila no guichê. Enquanto isso, compre nas bilheterias.</p>
+      </article>
+      <article class="channel tc" id="trabalhe-conosco">
+        <span class="ch-ic"><svg class="ic" aria-hidden="true"><use href="#i-bag"/></svg></span>
+        <h3>Trabalhe Conosco</h3>
+        <p class="ch-val"><a href="mailto:curriculo@novamacabu.com.br">curriculo@novamacabu.com.br</a></p>
+        <p class="ch-desc">Quer fazer parte da equipe? Envie seu currículo direto para o RH da Nova Macabu.</p>
+        <div class="ch-actions"><button class="btn btn-primary btn-sm" type="button" data-tc-open>Enviar currículo</button></div>
       </article>
     </div>
 
@@ -1103,6 +1130,108 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
     </div>
   </div>
 </section>
+<!-- Trabalhe Conosco: janela expandida (envio pelo Make → curriculo@novamacabu.com.br e Banco de Talentos do RH) -->
+<dialog class="tc-dialog" id="tcDialog" aria-labelledby="tc-t">
+  <div class="tc-wrap">
+    <div class="sac-side">
+      <p class="eyebrow">Trabalhe Conosco</p>
+      <h3 id="tc-t">Envie seu currículo</h3>
+      <p>Seu currículo vai direto para o RH da Nova Macabu. Quando houver vaga compatível com o seu perfil, entramos em contato pelo e-mail ou telefone informado.</p>
+      <ol class="steps">
+        <li><span>Preencha seus dados profissionais</span></li>
+        <li><span>Anexe o currículo (PDF, Word ou foto, até 2,5 MB)</span></li>
+        <li><span>Receba o número do envio por <span class="nw">e-mail</span></span></li>
+      </ol>
+    </div>
+    <div class="tc-main">
+      <button class="tc-close" type="button" data-tc-close aria-label="Fechar"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button>
+      <form class="form" id="tcForm" novalidate>
+        <div class="field">
+          <label for="tc-nome">Nome completo</label>
+          <input id="tc-nome" name="nome" type="text" autocomplete="name" maxlength="120" required aria-describedby="tc-nome-err">
+          <p class="err" id="tc-nome-err"></p>
+        </div>
+        <div class="field">
+          <label for="tc-cpf">CPF <span class="opt">(opcional)</span></label>
+          <input id="tc-cpf" name="cpf" type="text" inputmode="numeric" autocomplete="off" maxlength="14" placeholder="000.000.000-00" aria-describedby="tc-cpf-err">
+          <p class="err" id="tc-cpf-err"></p>
+        </div>
+        <div class="field">
+          <label for="tc-email">E-mail</label>
+          <input id="tc-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="160" required aria-describedby="tc-email-err">
+          <p class="err" id="tc-email-err"></p>
+        </div>
+        <div class="field">
+          <label for="tc-tel">Telefone ou WhatsApp</label>
+          <input id="tc-tel" name="telefone" type="tel" autocomplete="tel" inputmode="tel" maxlength="20" required aria-describedby="tc-tel-err">
+          <p class="err" id="tc-tel-err"></p>
+        </div>
+        <div class="field">
+          <label for="tc-cidade">Cidade onde mora</label>
+          <input id="tc-cidade" name="cidade" type="text" autocomplete="address-level2" maxlength="80" required aria-describedby="tc-cidade-err">
+          <p class="err" id="tc-cidade-err"></p>
+        </div>
+        <div class="field">
+          <label for="tc-cargo">Cargo de interesse</label>
+          <select id="tc-cargo" name="cargo" required aria-describedby="tc-cargo-err">
+            <option value="">Selecione</option>
+            <option>Motorista</option>
+            <option>Cobrador / Agente de bordo</option>
+            <option>Mecânico</option>
+            <option>Eletricista</option>
+            <option>Borracheiro</option>
+            <option>Lavador</option>
+            <option>Agente de agência</option>
+            <option>Administrativo</option>
+            <option>Financeiro</option>
+            <option>Tesouraria</option>
+            <option>RH</option>
+            <option>TI</option>
+            <option>Jovem aprendiz</option>
+            <option>Outro</option>
+          </select>
+          <p class="err" id="tc-cargo-err"></p>
+        </div>
+        <div class="field">
+          <label for="tc-cnh">CNH <span class="opt">(opcional)</span></label>
+          <select id="tc-cnh" name="cnh">
+            <option value="">Selecione</option>
+            <option>Sem CNH</option>
+            <option>A</option>
+            <option>B</option>
+            <option>AB</option>
+            <option>C</option>
+            <option>D</option>
+            <option>E</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="tc-msg">Apresentação <span class="opt">(opcional)</span></label>
+          <textarea id="tc-msg" name="mensagem" rows="4" maxlength="2000" aria-describedby="tc-msg-hint" placeholder="Experiência, cursos (como transporte coletivo de passageiros), disponibilidade de horário…"></textarea>
+          <div class="hint"><p id="tc-msg-hint"><span id="tc-count">0</span>/2000</p></div>
+        </div>
+        <div class="field full">
+          <label for="tc-arq">Currículo</label>
+          <div class="tc-file">
+            <input id="tc-arq" name="arquivo" type="file" accept=".pdf,.doc,.docx,.odt,.rtf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" required aria-describedby="tc-arq-err tc-arq-info">
+            <p class="tc-file-info" id="tc-arq-info">PDF, Word (DOC/DOCX), ODT, RTF ou foto (JPG/PNG), até 2,5 MB.</p>
+          </div>
+          <p class="err" id="tc-arq-err"></p>
+        </div>
+        <div class="field full">
+          <label class="tc-check"><input id="tc-ok" name="consentimento" type="checkbox" value="sim" required aria-describedby="tc-ok-err"> <span>Autorizo a Nova Macabu a guardar e usar meus dados e meu currículo somente em processos seletivos.</span></label>
+          <p class="err" id="tc-ok-err"></p>
+        </div>
+        <div class="hp" aria-hidden="true"><label for="tc-empresa">Empresa</label><input id="tc-empresa" name="company" type="text" tabindex="-1" autocomplete="off"></div>
+        <div class="form-foot">
+          <p class="consent">Você pode pedir a exclusão dos seus dados a qualquer momento pelo e-mail curriculo@novamacabu.com.br.</p>
+          <button class="btn btn-primary" type="submit"><span class="btn-label">Enviar currículo</span></button>
+        </div>
+        <div class="status" id="tcStatus" role="status" aria-live="polite" tabindex="-1" hidden></div>
+      </form>
+    </div>
+  </div>
+</dialog>
 </main>
 
 <!-- ============================ RODAPÉ ============================ -->
@@ -1128,6 +1257,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
         <li><a href="#atendimento" data-wa="">WhatsApp (22) 2298-0121</a></li>
         <li><a href="mailto:sac@novamacabu.com.br">sac@novamacabu.com.br</a></li>
         <li><a href="#chamado">Abrir um chamado (SAC)</a></li>
+        <li><a href="#trabalhe-conosco" data-tc-open>Trabalhe Conosco</a></li>
         <li><a href="#atendimento">Bilheterias</a></li>
       </ul>
     </div>
@@ -1161,6 +1291,9 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
     whatsapp: '552222980121', // autoatendimento via WhatsApp
     whatsappMsg: 'Olá! Gostaria de informações sobre as linhas da Nova Macabu.',
     sacEmail: 'sac@novamacabu.com.br',
+    curriculoEmail: 'curriculo@novamacabu.com.br',
+    curriculoHook: 'https://hook.us2.make.com/cnfiin1cu4gx94fsed2u26xf43dcw3rr',   // Make "Site — Trabalhe Conosco": e-mail para curriculo@ + Banco de Talentos do RH
+    curriculoMax: 2.5 * 1024 * 1024,
     emailjs: {
       publicKey: 'ULQ6pw70FS26Qj-JM',         // EmailJS → Account → General → Public Key (pública por natureza; a conta é a do service_eznl1kh)
       serviceId: 'service_eznl1kh',           // Gmail novamacabu@gmail.com
@@ -1577,6 +1710,79 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
             <p>Verifique sua conexão e tente de novo. Se preferir, copie o resumo e envie para <strong>${esc(CONFIG.sacEmail)}</strong>, informando o chamado <span class="ticket">${esc(id)}</span>.</p>${manual(id, d)}</div>`);
         })
         .finally(() => setBusy(false));
+    });
+  }
+
+  /* ---- Trabalhe Conosco (janela expandida; Make → curriculo@ e Banco de Talentos) ---- */
+  const tcDlg = $('#tcDialog'), tcForm = $('#tcForm');
+  if (tcDlg && tcForm) {
+    const st = $('#tcStatus'), btn = tcForm.querySelector('button[type="submit"]'), msgT = $('#tc-msg'), cnt = $('#tc-count'), arq = $('#tc-arq'), info = $('#tc-arq-info');
+    const infoPadrao = info.textContent;
+    let ultimo = null;
+    const abrir = e => { if (e) e.preventDefault(); ultimo = document.activeElement; if (typeof tcDlg.showModal === 'function') { if (!tcDlg.open) tcDlg.showModal(); } else tcDlg.setAttribute('open', ''); setTimeout(() => { const n = $('#tc-nome'); if (n) n.focus(); }, 30); };
+    const fechar = () => { if (tcDlg.open) { if (typeof tcDlg.close === 'function') tcDlg.close(); else tcDlg.removeAttribute('open'); } };
+    tcDlg.addEventListener('close', () => { if (location.hash === '#trabalhe-conosco') history.replaceState(null, '', location.pathname + location.search); if (ultimo && ultimo.focus) ultimo.focus(); });
+    tcDlg.addEventListener('click', e => { if (e.target === tcDlg) fechar(); });   /* clique fora da janela fecha */
+    $$('[data-tc-open]').forEach(b => b.addEventListener('click', abrir));
+    $$('[data-tc-close]').forEach(b => b.addEventListener('click', fechar));
+    if (location.hash === '#trabalhe-conosco') setTimeout(abrir, 300);
+    window.addEventListener('hashchange', () => { if (location.hash === '#trabalhe-conosco') abrir(); });
+    msgT.addEventListener('input', () => { cnt.textContent = msgT.value.length; });
+    const dig = v => String(v || '').replace(/\D/g, '');
+    const cpfOk = v => { const d = dig(v); if (d.length !== 11 || /^(\d)\1{10}$/.test(d)) return false; let s = 0; for (let i = 0; i < 9; i++) s += +d[i] * (10 - i); let r = (s * 10) % 11 % 10; if (r !== +d[9]) return false; s = 0; for (let i = 0; i < 10; i++) s += +d[i] * (11 - i); r = (s * 10) % 11 % 10; return r === +d[10]; };
+    $('#tc-cpf').addEventListener('input', e => { const d = dig(e.target.value).slice(0, 11); e.target.value = d.replace(/^(\d{3})(\d)/, '$1.$2').replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3').replace(/\.(\d{3})(\d{1,2})$/, '.$1-$2'); });
+    const EXT = /\.(pdf|docx?|odt|rtf|jpe?g|png)$/i;
+    const tamanho = n => n >= 1048576 ? (n / 1048576).toFixed(1).replace('.', ',') + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB';
+    const fields = [
+      { el: $('#tc-nome'), check: v => v.trim().length >= 3 || 'Informe seu nome completo.' },
+      { el: $('#tc-cpf'), check: v => !v.trim() || cpfOk(v) || 'CPF inválido. Confira os números ou deixe em branco.' },
+      { el: $('#tc-email'), check: v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) || 'Informe um e-mail válido, como nome@exemplo.com.' },
+      { el: $('#tc-tel'), check: v => dig(v).length >= 10 || 'Informe o telefone com DDD.' },
+      { el: $('#tc-cidade'), check: v => v.trim().length >= 2 || 'Informe a cidade onde mora.' },
+      { el: $('#tc-cargo'), check: v => Boolean(v) || 'Escolha o cargo de interesse.' },
+      { el: arq, check: () => { const f = arq.files && arq.files[0]; if (!f) return 'Anexe o seu currículo.'; if (!EXT.test(f.name)) return 'Formato não aceito. Envie PDF, Word, ODT, RTF, JPG ou PNG.'; if (f.size > CONFIG.curriculoMax) return `Arquivo com ${tamanho(f.size)}: o limite é 2,5 MB. Salve como PDF ou reduza a foto.`; return true; } },
+      { el: $('#tc-ok'), check: () => $('#tc-ok').checked || 'Marque a autorização para enviarmos seu currículo ao RH.' }
+    ];
+    const mark = (f, res) => { const err = document.getElementById(f.el.id + '-err'); if (res === true) { f.el.removeAttribute('aria-invalid'); if (err) err.textContent = ''; return true; } f.el.setAttribute('aria-invalid', 'true'); if (err) err.textContent = res; return false; };
+    fields.forEach(f => { const ev = f.el.type === 'file' || f.el.type === 'checkbox' ? 'change' : 'blur'; f.el.addEventListener(ev, () => { if (f.el.value || f.el.type === 'checkbox') mark(f, f.check(f.el.value)); }); f.el.addEventListener('input', () => { if (f.el.getAttribute('aria-invalid')) mark(f, f.check(f.el.value)); }); });
+    arq.addEventListener('change', () => { const f = arq.files && arq.files[0]; info.textContent = f ? `${f.name} · ${tamanho(f.size)}` : infoPadrao; });
+    const hoje = () => { const p = new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', year: '2-digit', month: '2-digit', day: '2-digit' }).formatToParts(new Date()); const g = t => (p.find(x => x.type === t) || {}).value || ''; return g('year') + g('month') + g('day'); };
+    const protocolo = () => { const abc = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', r = new Uint32Array(4); crypto.getRandomValues(r); return 'CV-' + hoje() + '-' + Array.from(r, x => abc[x % abc.length]).join(''); };
+    const base64 = f => new Promise((ok, falha) => { const rd = new FileReader(); rd.onload = () => ok(String(rd.result).split(',')[1] || ''); rd.onerror = () => falha(new Error('leitura')); rd.readAsDataURL(f); });
+    const show = html => { st.innerHTML = html; st.hidden = false; st.focus({ preventScroll: true }); st.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); };
+    const setBusy = on => { btn.disabled = on; tcForm.setAttribute('aria-busy', String(on)); btn.querySelector('.btn-label').textContent = on ? 'Enviando…' : 'Enviar currículo'; };
+    const resumo = (id, d) => `Currículo ${id}\nNome: ${d.nome}` + (d.cpf ? `\nCPF: ${d.cpf}` : '') + `\nE-mail: ${d.email}\nTelefone: ${d.telefone}\nCidade: ${d.cidade}\nCargo de interesse: ${d.cargo}` + (d.cnh ? `\nCNH: ${d.cnh}` : '') + (d.mensagem ? `\n\n${d.mensagem}` : '');
+    const manual = (id, d) => { const text = resumo(id, d), mailto = 'mailto:' + CONFIG.curriculoEmail + '?subject=' + encodeURIComponent(`[${id}] Currículo — ${d.nome} — ${d.cargo}`) + '&body=' + encodeURIComponent(text + '\n\n(anexe o currículo a este e-mail)');
+      return `<textarea id="tc-resumo" readonly rows="6" aria-label="Resumo do envio">${esc(text)}</textarea><div class="st-actions"><a class="copy" href="${esc(mailto)}"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg>Abrir no e-mail (anexe o currículo)</a></div>`; };
+    tcForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      if (tcForm.elements.company.value) return;   /* campo-armadilha */
+      let firstBad = null;
+      fields.forEach(f => { if (!mark(f, f.check(f.el.value)) && !firstBad) firstBad = f.el; });
+      if (firstBad) { firstBad.focus(); return; }
+      const f = arq.files[0], id = protocolo();
+      const d = { nome: $('#tc-nome').value.trim(), cpf: $('#tc-cpf').value.trim(), email: $('#tc-email').value.trim(), telefone: $('#tc-tel').value.trim(), cidade: $('#tc-cidade').value.trim(), cargo: $('#tc-cargo').value, cnh: $('#tc-cnh').value, mensagem: msgT.value.trim() };
+      setBusy(true);
+      try {
+        const corpo = new URLSearchParams(Object.assign({}, d, { consentimento: 'sim', protocolo: id, arquivoNome: f.name.slice(-120), arquivoBase64: await base64(f) }));
+        const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 60000);
+        let r; try { r = await fetch(CONFIG.curriculoHook, { method: 'POST', body: corpo, signal: ctl.signal }); } finally { clearTimeout(t); }
+        let j = null; try { j = await r.json(); } catch (e2) {}
+        if (!r.ok || !j || j.ok !== true) throw new Error('envio');
+        /* confirmação ao candidato pelo mesmo e-mail automático do SAC (EmailJS), quando ativo */
+        let confirmou = false;
+        if (CONFIG.emailjs.publicKey) {
+          try {
+            const api = window.emailjs || await new Promise((ok, falha) => { const s = document.createElement('script'); s.src = CONFIG.emailjs.src; s.integrity = CONFIG.emailjs.sri; s.crossOrigin = 'anonymous'; s.onload = () => window.emailjs ? ok(window.emailjs) : falha(new Error('x')); s.onerror = falha; document.head.appendChild(s); });
+            await api.send(CONFIG.emailjs.serviceId, CONFIG.emailjs.templateAutoReply, { name: d.nome, email: d.email, reply_to: CONFIG.curriculoEmail, phone: d.telefone, subject: 'Trabalhe Conosco · currículo recebido', message: `Recebemos o seu currículo (${f.name}) para ${d.cargo}. Ele foi encaminhado ao RH da Nova Macabu; entraremos em contato se houver vaga compatível com o seu perfil.`, ticket_id: id, time: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo', dateStyle: 'short', timeStyle: 'short' }) }, { publicKey: CONFIG.emailjs.publicKey });
+            confirmou = true;
+          } catch (e3) { confirmou = false; }
+        }
+        show(`<div class="st st-ok"><h4>Currículo enviado</h4><p>Número do envio: <span class="ticket">${esc(id)}</span></p><p>${confirmou ? `Enviamos uma confirmação para <strong>${esc(d.email)}</strong>. ` : ''}O RH da Nova Macabu recebeu o seu currículo e entra em contato se houver vaga compatível com o seu perfil.</p></div>`);
+        tcForm.reset(); cnt.textContent = '0'; info.textContent = infoPadrao;
+      } catch (err) {
+        show(`<div class="st st-err"><h4>Não foi possível enviar agora</h4><p>Verifique sua conexão e tente de novo. Se preferir, envie o currículo por e-mail para <strong>${esc(CONFIG.curriculoEmail)}</strong>, informando o número <span class="ticket">${esc(id)}</span>.</p>${manual(id, d)}</div>`);
+      } finally { setBusy(false); }
     });
   }
 

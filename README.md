@@ -23,6 +23,7 @@ assets/
 - **Contatos e EmailJS:** bloco `CONFIG` no início do `<script>`, no fim do `index.html`.
   - `whatsapp`: DDI + DDD + número, só dígitos (ex.: `5522999990000`). Vazio mantém os botões apontando para a seção Atendimento.
   - `emailjs.publicKey`: chave pública do EmailJS (Account → General). Vazio mantém o formulário em modo manual (gera o número do chamado e oferece o resumo para enviar ao SAC).
+- **Trabalhe Conosco** (Atendimento › cartão "Trabalhe Conosco", janela expandida; também `#trabalhe-conosco` e o link do rodapé): o formulário manda os dados e o currículo (PDF, Word, ODT, RTF, JPG ou PNG, até 2,5 MB) para `CONFIG.curriculoHook`, o cenário do Make "🌐 Site — Trabalhe Conosco (currículo → curriculo@ + Banco de Talentos)". O Make envia o e-mail para **curriculo@novamacabu.com.br** (responder vai para o candidato) e põe uma cópia na pasta Curriculo-Auto, que a captura de currículos do RH lê para o **Banco de Talentos** do ERP. A confirmação ao candidato usa o e-mail automático do EmailJS (o mesmo do SAC). Sem o Make, a tela oferece enviar por e-mail.
 - **Textos a confirmar:** marcados com `class="todo"` ou `data-todo`. Abra o site com `#revisao` no fim do endereço para destacá-los em amarelo.
 
 ## Endereço oficial
