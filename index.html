@@ -707,7 +707,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
       <h1 id="hero-t">Sua Viagem Começa Aqui!</h1>
       <p class="lead">Conforto, segurança e pontualidade conectando Macaé a Conceição, Madalena, Trajano &amp; Região</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="#horarios"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Consultar horários</a>
+        <a class="btn btn-primary" href="#horarios"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Consultar Horários</a>
         <a class="arrow" href="#atendimento" data-wa="">Autoatendimento no WhatsApp<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       </div>
     </div>
@@ -806,7 +806,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
     </table>
     <div class="routes-foot">
       <p class="small">Tarifas por seção publicadas no Diário Oficial (<span class="todo">confirmar data de vigência</span>), sujeitas a reajuste. Para um ponto de parada, use o localizador no topo ou a tabela de trechos no quadro de horários.</p>
-      <a class="btn btn-dark" href="#horarios">Ver quadro de horários</a>
+      <a class="btn btn-dark" href="#horarios">Ver Quadro de Horários</a>
     </div>
   </div>
 </section>
@@ -1045,14 +1045,14 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
         <h3>Autoatendimento</h3>
         <p class="ch-val"><span data-wa-number>(22) 2298-0121</span></p>
         <p class="ch-desc">Atendimento automático pelo WhatsApp: linhas, horários, tarifas e informações.</p>
-        <div class="ch-actions"><a class="btn btn-wa btn-sm" href="#atendimento" data-wa="" data-wa-button>Abrir conversa</a></div>
+        <div class="ch-actions"><a class="btn btn-wa btn-sm" href="#atendimento" data-wa="" data-wa-button>Abrir Conversa</a></div>
       </article>
       <article class="channel">
         <span class="ch-ic"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg></span>
         <h3>E-mail</h3>
         <p class="ch-val"><a href="mailto:sac@novamacabu.com.br" id="sac-mail">sac@novamacabu.com.br</a></p>
         <p class="ch-desc">Para assuntos que precisam de registro.</p>
-        <div class="ch-actions"><button class="copy" type="button" data-copy="sac@novamacabu.com.br" data-copy-target="sac-mail"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg><span class="copy-label">Copiar e-mail</span></button></div>
+        <div class="ch-actions"><button class="copy" type="button" data-copy="sac@novamacabu.com.br" data-copy-target="sac-mail"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg><span class="copy-label">Copiar E-mail</span></button></div>
       </article>
       <article class="channel">
         <span class="ch-ic"><svg class="ic" aria-hidden="true"><use href="#i-ticket"/></svg></span>
@@ -1128,7 +1128,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
           <div class="hp" aria-hidden="true"><label for="f-empresa">Empresa</label><input id="f-empresa" name="company" type="text" tabindex="-1" autocomplete="off"></div>
           <div class="form-foot">
             <p class="consent">Usamos seus dados apenas para responder a este chamado.</p>
-            <button class="btn btn-primary" type="submit"><span class="btn-label">Enviar mensagem</span></button>
+            <button class="btn btn-primary" type="submit"><span class="btn-label">Enviar Mensagem</span></button>
           </div>
           <div class="status" id="formStatus" role="status" aria-live="polite" tabindex="-1" hidden></div>
         </form>
@@ -1298,7 +1298,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
 <a class="totop" id="toTop" href="#inicio" aria-label="Voltar ao topo"><svg class="ic" aria-hidden="true"><use href="#i-up"/></svg></a>
 <div class="review-badge" id="reviewBadge" hidden>
   <span class="rb-dot" aria-hidden="true"></span><span class="rb-txt">Prévia · modelo 2 · piloto</span>
-  <button type="button" id="reviewToggle" aria-pressed="false">Destacar pendências (<span id="reviewCount">0</span>)</button>
+  <button type="button" id="reviewToggle" aria-pressed="false">Destacar Pendências (<span id="reviewCount">0</span>)</button>
 </div>
 
 <script>
@@ -1374,7 +1374,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
       note: 'Entre Macaé e Conceição de Macabu segue o trajeto da linha 1000.' }
   };
   const PLACES = ['Macaé', 'Lagomar', 'Trevo dos 40', 'Brejo Grande', 'Curato', 'Conceição de Macabu', 'Triunfo', 'Visconde do Imbé', 'Dr. Loreti', 'Trajano de Moraes', 'Santa Maria Madalena'];
-  const DAYS = { uteis: 'Dias úteis', sabado: 'Sábados', domingo: 'Domingos' };
+  const DAYS = { uteis: 'Dias Úteis', sabado: 'Sábados', domingo: 'Domingos' };
   const WD = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const dayType = i => i === 0 ? 'domingo' : i === 6 ? 'sabado' : 'uteis';
   const spNow = () => {
@@ -1608,7 +1608,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
     const label = btn.querySelector('.copy-label') || btn;
     const prev = label.dataset.prev || label.textContent;
     label.dataset.prev = prev;
-    label.textContent = ok ? 'Copiado' : 'Texto selecionado';
+    label.textContent = ok ? 'Copiado' : 'Texto Selecionado';
     btn.dataset.done = '1';
     clearTimeout(btn._t);
     btn._t = setTimeout(() => { label.textContent = prev; delete btn.dataset.done; }, 1800);
@@ -1677,14 +1677,14 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
       const mailto = 'mailto:' + CONFIG.sacEmail + '?subject=' + encodeURIComponent(`[${id}] ${d.subject}`) + '&body=' + encodeURIComponent(text);
       return `<textarea id="st-resumo" readonly rows="6" aria-label="Resumo do chamado">${esc(text)}</textarea>
         <div class="st-actions">
-          <button class="copy" type="button" data-copy="${esc(text)}" data-copy-target="st-resumo"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg><span class="copy-label">Copiar resumo</span></button>
-          <a class="copy" href="${esc(mailto)}"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg>Abrir no e-mail</a>
+          <button class="copy" type="button" data-copy="${esc(text)}" data-copy-target="st-resumo"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg><span class="copy-label">Copiar Resumo</span></button>
+          <a class="copy" href="${esc(mailto)}"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg>Abrir no E-mail</a>
         </div>`;
     };
     const setBusy = on => {
       submit.disabled = on;
       form.setAttribute('aria-busy', String(on));
-      submit.querySelector('.btn-label').textContent = on ? 'Enviando…' : 'Enviar mensagem';
+      submit.querySelector('.btn-label').textContent = on ? 'Enviando…' : 'Enviar Mensagem';
     };
 
     form.addEventListener('submit', e => {
