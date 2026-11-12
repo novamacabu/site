@@ -487,11 +487,12 @@ button{font:inherit}
 .ticket{font:700 1.02rem/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em;color:var(--heading);white-space:nowrap}
 
 /* ---------- Trabalhe Conosco (12/11/2026): cartão em Atendimento e janela expandida com o envio do currículo ---------- */
-/* 12/11 (14:59): os e-mails não quebram; os 4 canais ficam como antes e o Trabalhe Conosco ocupa uma faixa inteira abaixo deles */
+/* 12/11 (15:08): o Trabalhe Conosco é um cartão na sequência dos outros. Em tela larga: 3 cartões na 1ª linha e 2 na 2ª, para os e-mails não quebrarem */
 @media (min-width:380px){.ch-val a[href^="mailto:"]{white-space:nowrap}}
-.channel.tc{grid-column:1/-1}
-@media (min-width:900px){.channel.tc{display:grid;grid-template-columns:44px minmax(0,auto) minmax(0,auto) minmax(0,1fr) auto;align-items:center;column-gap:28px}.channel.tc .ch-ic{margin:0}.channel.tc .ch-actions{margin:0;padding:0}.channel.tc h3{white-space:nowrap}}
+@media (min-width:1100px){.channels{grid-template-columns:repeat(6,minmax(0,1fr))}.channels>.channel{grid-column:span 2}.channels>.channel:nth-child(n+4){grid-column:span 3}}
+@media (min-width:621px) and (max-width:1099px){.channels>.channel.tc{grid-column:1/-1}}
 .channel.tc .ch-ic{background:var(--navy);border-color:var(--navy);color:#FFFFFF}
+.channel.tc .btn-dark:hover,.channel.tc .btn-dark:focus-visible,.tc-dialog .btn-dark:hover,.tc-dialog .btn-dark:focus-visible{background:var(--navy-2);color:#FFFFFF}
 .tc-dialog{width:min(1080px,calc(100vw - 32px));max-width:none;max-height:calc(100dvh - 32px);padding:0;border:0;border-radius:var(--radius);background:var(--surface);color:var(--text);box-shadow:0 30px 80px rgba(11,22,40,.35);overflow:hidden}
 .tc-dialog::backdrop{background:rgba(16,18,40,.62)}
 .tc-dialog[open]{display:flex;flex-direction:column}
@@ -1184,8 +1185,8 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
         </div>
         <div class="field">
           <label for="tc-cidade">Cidade Onde Mora</label>
-          <input id="tc-cidade" name="cidade" type="text" list="tc-cidades" autocomplete="off" maxlength="80" required placeholder="Digite e escolha na lista" aria-describedby="tc-cidade-err">
-          <datalist id="tc-cidades"></datalist>
+          <select id="tc-cidade" name="cidade" required aria-describedby="tc-cidade-err"><option value="">Selecione o estado</option></select>
+          <input id="tc-cidade-livre" type="text" autocomplete="address-level2" maxlength="80" placeholder="Digite a cidade" aria-describedby="tc-cidade-err" hidden>
           <p class="err" id="tc-cidade-err"></p>
         </div>
         <div class="field">
@@ -1748,21 +1749,26 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
     const dig = v => String(v || '').replace(/\D/g, '');
     const cpfOk = v => { const d = dig(v); if (d.length !== 11 || /^(\d)\1{10}$/.test(d)) return false; let s = 0; for (let i = 0; i < 9; i++) s += +d[i] * (10 - i); let r = (s * 10) % 11 % 10; if (r !== +d[9]) return false; s = 0; for (let i = 0; i < 10; i++) s += +d[i] * (11 - i); r = (s * 10) % 11 % 10; return r === +d[10]; };
     $('#tc-cpf').addEventListener('input', e => { const d = dig(e.target.value).slice(0, 11); e.target.value = d.replace(/^(\d{3})(\d)/, '$1.$2').replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3').replace(/\.(\d{3})(\d{1,2})$/, '.$1-$2'); });
-    /* Estado → cidades do IBGE (como em CAP/Terceiros no ERP); sem resposta do IBGE, a cidade fica digitada */
+    /* Estado → cidades do IBGE, numa lista igual à do Estado (12/11, 15:10); sem resposta do IBGE, a cidade é digitada */
     const TC_CID = { uf: '', lista: [], cache: {} };
     const semAc = t => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
     const tcCidadeDe = t => { const k = semAc(t); return TC_CID.lista.find(c => semAc(c) === k) || ''; };
+    const tcCidSel = $('#tc-cidade'), tcCidLivre = $('#tc-cidade-livre');
+    const tcCidLivreModo = on => { tcCidSel.hidden = on; tcCidSel.required = !on; tcCidSel.disabled = on; tcCidLivre.hidden = !on; tcCidLivre.required = on; };
+    const tcCidadeEl = () => tcCidLivre.hidden ? tcCidSel : tcCidLivre;
     const tcCidades = async uf => {
-      const dl = $('#tc-cidades'); TC_CID.uf = uf; TC_CID.lista = []; dl.innerHTML = ''; if (!uf) return;
+      TC_CID.uf = uf; TC_CID.lista = []; tcCidLivreModo(false);
+      tcCidSel.innerHTML = `<option value="">${uf ? 'Carregando as cidades…' : 'Selecione o estado'}</option>`; if (!uf) return;
       try {
         if (!TC_CID.cache[uf]) { const r = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios?orderBy=nome`); if (!r.ok) throw new Error('ibge'); TC_CID.cache[uf] = (await r.json()).map(m => m.nome); }
         if (TC_CID.uf !== uf) return;
-        TC_CID.lista = TC_CID.cache[uf]; dl.innerHTML = TC_CID.lista.map(n => `<option value="${esc(n)}">`).join('');
-      } catch (e) { TC_CID.lista = []; }
+        TC_CID.lista = TC_CID.cache[uf];
+        tcCidSel.innerHTML = '<option value="">Selecione</option>' + TC_CID.lista.map(n => `<option value="${esc(n)}">${esc(n)}</option>`).join('');
+      } catch (e) { if (TC_CID.uf === uf) { TC_CID.lista = []; tcCidLivreModo(true); } }
     };
-    $('#tc-uf').addEventListener('change', e => { const c = $('#tc-cidade'); c.value = ''; c.removeAttribute('aria-invalid'); $('#tc-cidade-err').textContent = ''; tcCidades(e.target.value); });
+    const tcCidLimpa = () => { [tcCidSel, tcCidLivre].forEach(c => c.removeAttribute('aria-invalid')); $('#tc-cidade-err').textContent = ''; tcCidLivre.value = ''; };
+    $('#tc-uf').addEventListener('change', e => { tcCidLimpa(); tcCidades(e.target.value); });
     tcDlg.addEventListener('focusin', () => { if (!TC_CID.uf && $('#tc-uf').value) tcCidades($('#tc-uf').value); }, { once: true });
-    $('#tc-cidade').addEventListener('change', e => { const n = tcCidadeDe(e.target.value); if (n) e.target.value = n; });
     const EXT = /\.(pdf|docx?|odt|rtf|jpe?g|png)$/i;
     const tamanho = n => n >= 1048576 ? (n / 1048576).toFixed(1).replace('.', ',') + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB';
     const fields = [
@@ -1772,13 +1778,13 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
       { el: $('#tc-email'), check: v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) || 'Informe um e-mail válido, como nome@exemplo.com.' },
       { el: $('#tc-tel'), check: v => dig(v).length >= 10 || 'Informe o telefone com DDD.' },
       { el: $('#tc-uf'), check: v => Boolean(v) || 'Escolha o estado.' },
-      { el: $('#tc-cidade'), check: v => { const t = v.trim(); if (t.length < 2) return 'Informe a cidade onde mora.'; if (TC_CID.lista.length && !tcCidadeDe(t)) return 'Escolha a cidade na lista do estado selecionado.'; return true; } },
+      { get el() { return tcCidadeEl(); }, errId: 'tc-cidade-err', check: v => { const t = v.trim(); if (t.length < 2) return tcCidLivre.hidden ? 'Selecione a cidade onde mora.' : 'Informe a cidade onde mora.'; if (TC_CID.lista.length && !tcCidadeDe(t)) return 'Selecione a cidade na lista do estado escolhido.'; return true; } },
       { el: $('#tc-cargo'), check: v => Boolean(v) || 'Escolha o cargo de interesse.' },
       { el: arq, check: () => { const f = arq.files && arq.files[0]; if (!f) return 'Anexe o seu currículo.'; if (!EXT.test(f.name)) return 'Formato não aceito. Envie PDF, Word, ODT, RTF, JPG ou PNG.'; if (f.size > CONFIG.curriculoMax) return `Arquivo com ${tamanho(f.size)}: o limite é 2,5 MB. Salve como PDF ou reduza a foto.`; return true; } },
       { el: $('#tc-ok'), check: () => $('#tc-ok').checked || 'Marque a autorização para enviarmos seu currículo ao RH.' }
     ];
-    const mark = (f, res) => { const err = document.getElementById(f.el.id + '-err'); if (res === true) { f.el.removeAttribute('aria-invalid'); if (err) err.textContent = ''; return true; } f.el.setAttribute('aria-invalid', 'true'); if (err) err.textContent = res; return false; };
-    fields.forEach(f => { const ev = f.el.type === 'file' || f.el.type === 'checkbox' ? 'change' : 'blur'; f.el.addEventListener(ev, () => { if (f.el.value || f.el.type === 'checkbox') mark(f, f.check(f.el.value)); }); f.el.addEventListener('input', () => { if (f.el.getAttribute('aria-invalid')) mark(f, f.check(f.el.value)); }); });
+    const mark = (f, res) => { const err = document.getElementById(f.errId || f.el.id + '-err'); if (res === true) { f.el.removeAttribute('aria-invalid'); if (err) err.textContent = ''; return true; } f.el.setAttribute('aria-invalid', 'true'); if (err) err.textContent = res; return false; };
+    fields.forEach(f => { const ev = f.el.type === 'file' || f.el.type === 'checkbox' ? 'change' : 'blur'; const alvos = f.errId === 'tc-cidade-err' ? [tcCidSel, tcCidLivre] : [f.el]; alvos.forEach(a => { const evA = a.tagName === 'SELECT' ? 'change' : ev; a.addEventListener(evA, () => { if (f.el.value || f.el.type === 'checkbox') mark(f, f.check(f.el.value)); }); a.addEventListener('input', () => { if (f.el.getAttribute('aria-invalid')) mark(f, f.check(f.el.value)); }); }); });
     arq.addEventListener('change', () => { const f = arq.files && arq.files[0]; info.textContent = f ? `${f.name} · ${tamanho(f.size)}` : infoPadrao; });
     const hoje = () => { const p = new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', year: '2-digit', month: '2-digit', day: '2-digit' }).formatToParts(new Date()); const g = t => (p.find(x => x.type === t) || {}).value || ''; return g('year') + g('month') + g('day'); };
     const protocolo = () => { const abc = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', r = new Uint32Array(4); crypto.getRandomValues(r); return 'CV-' + hoje() + '-' + Array.from(r, x => abc[x % abc.length]).join(''); };
@@ -1795,8 +1801,8 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
       fields.forEach(f => { if (!mark(f, f.check(f.el.value)) && !firstBad) firstBad = f.el; });
       if (firstBad) { firstBad.focus(); return; }
       const f = arq.files[0], id = protocolo();
-      const cidOk = tcCidadeDe($('#tc-cidade').value.trim());
-      const d = { nome: ($('#tc-nome').value.trim() + ' ' + $('#tc-sobrenome').value.trim()).replace(/\s+/g, ' '), cpf: $('#tc-cpf').value.trim(), email: $('#tc-email').value.trim(), telefone: $('#tc-tel').value.trim(), cidade: (cidOk || $('#tc-cidade').value.trim()) + '/' + $('#tc-uf').value, cargo: $('#tc-cargo').value, cnh: $('#tc-cnh').value, mensagem: msgT.value.trim() };
+      const cidOk = tcCidadeDe(tcCidadeEl().value.trim());
+      const d = { nome: ($('#tc-nome').value.trim() + ' ' + $('#tc-sobrenome').value.trim()).replace(/\s+/g, ' '), cpf: $('#tc-cpf').value.trim(), email: $('#tc-email').value.trim(), telefone: $('#tc-tel').value.trim(), cidade: (cidOk || tcCidadeEl().value.trim()) + '/' + $('#tc-uf').value, cargo: $('#tc-cargo').value, cnh: $('#tc-cnh').value, mensagem: msgT.value.trim() };
       setBusy(true);
       try {
         const corpo = new URLSearchParams(Object.assign({}, d, { consentimento: 'sim', protocolo: id, arquivoNome: f.name.slice(-120), arquivoBase64: await base64(f) }));
