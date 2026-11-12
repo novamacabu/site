@@ -97,7 +97,7 @@
       if (document.getElementById('nm-espera')) return;
       var d = document.createElement('div'); d.id = 'nm-espera'; d.setAttribute('role', 'main');
       d.innerHTML = '<div class="cx"><img src="assets/img/logo-horizontal-branco.png" alt="Nova Macabu" width="588" height="128">'
-        + '<h1>Estamos ajustando o nosso site</h1>'
+        + '<h1>Estamos Ajustando o Nosso Site</h1>'
         + '<p>Voltamos em instantes<span class="pts" aria-hidden="true"><i></i><i></i><i></i></span></p>'
         + '<div class="rua" aria-hidden="true"><svg viewBox="0 0 84 42"><rect x="2" y="4" width="78" height="28" rx="6" fill="#fff"/><rect x="2" y="22" width="78" height="5" fill="#E86A38"/>'
         + '<rect x="8" y="9" width="12" height="9" rx="1.5" fill="#2B2D66"/><rect x="24" y="9" width="12" height="9" rx="1.5" fill="#2B2D66"/><rect x="40" y="9" width="12" height="9" rx="1.5" fill="#2B2D66"/><rect x="56" y="9" width="10" height="9" rx="1.5" fill="#2B2D66"/><rect x="69" y="9" width="9" height="15" rx="1.5" fill="#2B2D66"/>'
@@ -441,7 +441,7 @@ button{font:inherit}
 .ch-desc{font-size:.95rem;color:var(--text-2)}
 .ch-list{display:grid;gap:10px;font-size:.95rem;color:var(--text-2)}
 .ch-list b{display:block;font-weight:600;color:var(--text)}
-.channel .soon{display:inline-block;margin-top:2px;padding:2px 10px;border-radius:999px;background:var(--orange);color:var(--navy);font-size:.8rem;font-weight:600;letter-spacing:.02em}
+.channel .soon{display:inline-block;margin-top:2px;padding:2px 10px;border-radius:999px;background:var(--orange);color:#FFFFFF;font-size:.8rem;font-weight:600;letter-spacing:.02em}
 .ch-actions{margin-top:auto;padding-top:8px;display:flex;flex-wrap:wrap;gap:8px}
 .copy{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;border-radius:var(--radius);border:1.5px solid var(--field-line);background:transparent;color:var(--heading);font-weight:600;font-size:.9rem;cursor:pointer;text-decoration:none}
 .copy:hover{border-color:var(--heading)}
@@ -487,9 +487,11 @@ button{font:inherit}
 .ticket{font:700 1.02rem/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em;color:var(--heading);white-space:nowrap}
 
 /* ---------- Trabalhe Conosco (12/11/2026): cartão em Atendimento e janela expandida com o envio do currículo ---------- */
-/* 12/11 (15:08): o Trabalhe Conosco é um cartão na sequência dos outros. Em tela larga: 3 cartões na 1ª linha e 2 na 2ª, para os e-mails não quebrarem */
+/* 12/11 (15:39): os 5 cartões numa sequência única em tela larga, como antes; as colunas dos e-mails são um pouco mais largas e o e-mail
+   fica um pouco menor, para caber numa linha só. Abaixo de 1100 px, 2 por linha (Trabalhe Conosco ocupa a última linha inteira) e, no celular, empilhados */
 @media (min-width:380px){.ch-val a[href^="mailto:"]{white-space:nowrap}}
-@media (min-width:1100px){.channels{grid-template-columns:repeat(6,minmax(0,1fr))}.channels>.channel{grid-column:span 2}.channels>.channel:nth-child(n+4){grid-column:span 3}}
+@media (min-width:1100px){.channels{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr) minmax(0,1fr) minmax(0,.95fr) minmax(0,1.2fr)}.channels>.channel{padding:24px 22px}.ch-val a[href^="mailto:"]{font-size:15px}}
+@media (min-width:1100px) and (max-width:1239px){.channels>.channel{padding:22px 18px}.ch-val a[href^="mailto:"]{font-size:14px}}
 @media (min-width:621px) and (max-width:1099px){.channels>.channel.tc{grid-column:1/-1}}
 .channel.tc .ch-ic{background:var(--navy);border-color:var(--navy);color:#FFFFFF}
 .channel.tc .btn-dark:hover,.channel.tc .btn-dark:focus-visible,.tc-dialog .btn-dark:hover,.tc-dialog .btn-dark:focus-visible{background:var(--navy-2);color:#FFFFFF}
@@ -701,8 +703,8 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
 <section class="hero" id="inicio" aria-labelledby="hero-t">
   <div class="container hero-grid">
     <div class="hero-copy">
-      <p class="eyebrow">Transporte intermunicipal · Macaé e interior do RJ</p>
-      <h1 id="hero-t">Sua viagem começa aqui!</h1>
+      <p class="eyebrow">Transporte Intermunicipal · Macaé e Interior do RJ</p>
+      <h1 id="hero-t">Sua Viagem Começa Aqui!</h1>
       <p class="lead">Conforto, segurança e pontualidade conectando Macaé a Conceição, Madalena, Trajano &amp; Região</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="#horarios"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Consultar horários</a>
@@ -733,14 +735,14 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
 <section class="section" id="porque" aria-labelledby="porque-t">
   <div class="container split">
     <div class="split-head sticky">
-      <p class="eyebrow">Nova fase</p>
-      <h2 class="h2" id="porque-t">Por que viajar com a Nova Macabu?</h2>
+      <p class="eyebrow">Nova Fase</p>
+      <h2 class="h2" id="porque-t">Por Que Viajar com a Nova Macabu?</h2>
       <p class="lead">Uma nova fase, com mais conforto, tecnologia e cuidado com você.</p>
     </div>
     <div class="values">
       <article class="value">
         <svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg>
-        <h3>Segurança em primeiro lugar</h3>
+        <h3>Segurança em Primeiro Lugar</h3>
         <p>Frota com manutenção preventiva rigorosa e motoristas treinados continuamente.</p>
       </article>
       <article class="value">
@@ -750,12 +752,12 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
       </article>
       <article class="value">
         <svg class="ic" aria-hidden="true"><use href="#i-seat"/></svg>
-        <h3>Conforto renovado</h3>
+        <h3>Conforto Renovado</h3>
         <p>Veículos com poltronas reclináveis, ar-condicionado e ambiente limpo.</p>
       </article>
       <article class="value">
         <svg class="ic" aria-hidden="true"><use href="#i-phone-app"/></svg>
-        <h3>Atendimento digital</h3>
+        <h3>Atendimento Digital</h3>
         <p>Fale com a gente pelo WhatsApp ou abra um chamado pelo site e receba o número do atendimento por e-mail.</p>
       </article>
     </div>
@@ -767,13 +769,13 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
   <div class="container">
     <div class="section-head">
       <p class="eyebrow">Linhas</p>
-      <h2 class="h2" id="rotas-t">Principais rotas</h2>
+      <h2 class="h2" id="rotas-t">Principais Rotas</h2>
       <p class="lead">Conectando você aos destinos da sua vida!</p>
     </div>
     <table class="lines">
       <caption class="sr-only">Linhas regulares da Nova Macabu, com serviço, tempo de viagem e tarifa</caption>
       <thead>
-        <tr><th scope="col">Linha</th><th scope="col">Trajeto</th><th scope="col">Serviço</th><th scope="col">Tempo de viagem</th><th scope="col">Tarifa <small>trecho completo</small></th><th scope="col"><span class="sr-only">Horários</span></th></tr>
+        <tr><th scope="col">Linha</th><th scope="col">Trajeto</th><th scope="col">Serviço</th><th scope="col">Tempo de Viagem</th><th scope="col">Tarifa <small>Trecho Completo</small></th><th scope="col"><span class="sr-only">Horários</span></th></tr>
       </thead>
       <tbody>
         <tr id="linha-1000">
@@ -813,8 +815,8 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
 <section class="section" id="horarios" aria-labelledby="hor-t">
   <div class="container">
     <div class="section-head">
-      <p class="eyebrow">Horários e tarifas</p>
-      <h2 class="h2" id="hor-t">Quadro de horários</h2>
+      <p class="eyebrow">Horários e Tarifas</p>
+      <h2 class="h2" id="hor-t">Quadro de Horários</h2>
       <p class="lead">Escolha a linha, o sentido e o dia da viagem. A tarifa de cada trecho aparece abaixo do quadro.</p>
     </div>
     <p class="pilot" data-todo="conferir quadro e tarifas com a operação"><b>Quadro vigente desde 02/03/2026.</b> Horários de saída dos pontos iniciais, conforme o autoatendimento. Tarifas por trecho conforme o quadro de seções do Diário Oficial. Conferir com a operação antes da publicação.</p>
@@ -837,7 +839,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
   <div class="container">
     <div class="section-head">
       <p class="eyebrow">Itinerários</p>
-      <h2 class="h2" id="par-t">Paradas registradas por linha</h2>
+      <h2 class="h2" id="par-t">Paradas Registradas por Linha</h2>
       <p class="lead">Ponto inicial, paradas e ponto final de cada linha, no sentido Macaé → destino, com a tarifa até cada ponto. Na volta, o trajeto é o mesmo em sentido contrário.</p>
     </div>
     <div class="routes-flow" id="rflow" aria-live="off"></div>
@@ -850,7 +852,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
   <div class="container">
     <div class="section-head">
       <p class="eyebrow">Serviços</p>
-      <h2 class="h2" id="mod-t">Modalidades de serviço</h2>
+      <h2 class="h2" id="mod-t">Modalidades de Serviço</h2>
       <p class="lead">Conheça os tipos de serviço disponíveis nas nossas linhas.</p>
     </div>
     <article class="teaser conv">
@@ -858,7 +860,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
         <img src="assets/img/convencional.webp" width="960" height="720" loading="lazy" decoding="async" alt="Frente de um ônibus da Nova Macabu, com o aviso de ar-condicionado e o símbolo de acessibilidade no para-brisa">
               </figure>
       <div class="teaser-body">
-        <p class="kicker">Linha 1000 · parador</p>
+        <p class="kicker">Linha 1000 · Parador</p>
         <h3>Convencional</h3>
         <p>Serviço parador com paradas ao longo do trajeto. Ar condicionado, acessibilidade e tarifa econômica.</p>
         <dl class="specs">
@@ -873,7 +875,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
         <img src="assets/img/semi-leito.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Ônibus rodoviário da Nova Macabu, com pintura branca, vermelha e azul e a porta aberta">
               </figure>
       <div class="teaser-body">
-        <p class="kicker">Linha 1001 · direto</p>
+        <p class="kicker">Linha 1001 · Direto</p>
         <h3>Semi-Leito</h3>
         <p>Serviço direto com poltronas reclináveis, mais espaço entre assentos e maior conforto para viagens mais longas.</p>
         <dl class="specs">
@@ -890,29 +892,29 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
 <section class="section alt" id="gratuidade" aria-labelledby="grat-t">
   <div class="container">
     <div class="section-head">
-      <p class="eyebrow">Direitos do passageiro</p>
-      <h2 class="h2" id="grat-t">Gratuidade e direitos do passageiro</h2>
+      <p class="eyebrow">Direitos do Passageiro</p>
+      <h2 class="h2" id="grat-t">Gratuidade e Direitos do Passageiro</h2>
       <p class="lead">Saiba quem tem direito à gratuidade ou desconto e como solicitar.</p>
     </div>
     <div class="rights">
       <article class="right">
         <p class="right-tag" aria-hidden="true">60+</p>
         <h3>Idoso</h3>
-        <p class="right-sub">60 anos ou mais</p>
+        <p class="right-sub">60 Anos ou Mais</p>
         <p><span class="todo">Direito garantido pelo Estatuto do Idoso.</span> Apresente documento oficial com foto na bilheteria com antecedência mínima de 3 horas para retirada do bilhete gratuito.</p>
         <p class="law"><span class="todo">Estatuto do Idoso</span></p>
       </article>
       <article class="right">
         <p class="right-tag" aria-hidden="true">PcD</p>
-        <h3>Pessoa com deficiência</h3>
+        <h3>Pessoa com Deficiência</h3>
         <p class="right-sub">Vale Social</p>
         <p>Gratuidade garantida pela legislação estadual (Lei 4.510/2005). São reservadas 2 poltronas com isenção total; demais vagas com 50% de desconto. Solicite o benefício pelo Vale Social <span class="todo">(Setrans-RJ)</span> em <a class="todo" href="https://www.valesocial.rj.gov.br" target="_blank" rel="noopener">www.valesocial.rj.gov.br</a></p>
         <p class="law">Lei Estadual 4.510/2005 · Vale Social</p>
       </article>
       <article class="right">
         <p class="right-tag" aria-hidden="true">0–5</p>
-        <h3>Criança de colo</h3>
-        <p class="right-sub">0 a 5 anos</p>
+        <h3>Criança de Colo</h3>
+        <p class="right-sub">0 a 5 Anos</p>
         <p>Crianças de 0 a 5 anos viajam gratuitamente no colo do responsável, sem ocupar poltrona, conforme legislação vigente. Apresente documento de identificação da criança (certidão de nascimento) no momento do embarque.</p>
         <p class="law">Legislação vigente</p>
       </article>
@@ -925,16 +927,16 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
 <section class="section" id="viagem" aria-labelledby="via-t">
   <div class="container split">
     <div class="split-head sticky">
-      <p class="eyebrow">Antes de viajar</p>
-      <h2 class="h2" id="via-t">Informações para o embarque</h2>
+      <p class="eyebrow">Antes de Viajar</p>
+      <h2 class="h2" id="via-t">Informações para o Embarque</h2>
       <p class="lead">O essencial para uma viagem tranquila.</p>
       <p class="pilot" data-todo="regras de embarque"><b>Piloto.</b> Regras a validar com a operação antes da publicação.</p>
     </div>
     <div class="values">
       <article class="value"><svg class="ic" aria-hidden="true"><use href="#i-id"/></svg><h3>Documentos</h3><p><span class="todo">Tenha em mãos um documento oficial com foto. Para gratuidades, leve também o documento exigido pelo benefício.</span></p></article>
       <article class="value"><svg class="ic" aria-hidden="true"><use href="#i-bag"/></svg><h3>Bagagem</h3><p><span class="todo">Volumes maiores vão no bagageiro. Consulte limites de peso e tamanho no autoatendimento.</span></p></article>
-      <article class="value"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg><h3>Chegue antes</h3><p><span class="todo">Esteja no ponto de embarque 15 minutos antes do horário de partida.</span></p></article>
-      <article class="value"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><h3>Achados e perdidos</h3><p>Esqueceu algo no ônibus? Abra um chamado no <a href="#chamado">SAC</a> informando linha, dia e horário da viagem.</p></article>
+      <article class="value"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg><h3>Chegue Antes</h3><p><span class="todo">Esteja no ponto de embarque 15 minutos antes do horário de partida.</span></p></article>
+      <article class="value"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><h3>Achados e Perdidos</h3><p>Esqueceu algo no ônibus? Abra um chamado no <a href="#chamado">SAC</a> informando linha, dia e horário da viagem.</p></article>
     </div>
   </div>
 </section>
@@ -979,10 +981,10 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
   <div class="container split">
     <div class="split-head sticky">
       <p class="eyebrow">Dúvidas</p>
-      <h2 class="h2" id="faq-t">Perguntas frequentes</h2>
+      <h2 class="h2" id="faq-t">Perguntas Frequentes</h2>
       <p class="lead">Tire suas dúvidas mais comuns sobre nossas viagens.</p>
       <div class="help">
-        <h3>Não encontrou sua dúvida?</h3>
+        <h3>Não Encontrou Sua Dúvida?</h3>
         <p>Use o autoatendimento pelo WhatsApp ou abra um chamado no SAC.</p>
         <a class="btn btn-wa btn-sm" href="#atendimento" data-wa="Olá! Tenho uma dúvida sobre as viagens da Nova Macabu."><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg>Falar no WhatsApp</a>
         <a class="arrow" href="#chamado">Abrir um chamado<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
@@ -1063,8 +1065,8 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
       </article>
       <article class="channel">
         <span class="ch-ic"><svg class="ic" aria-hidden="true"><use href="#i-phone-app"/></svg></span>
-        <h3>Vendas online</h3>
-        <p class="ch-val"><span class="soon">Em breve</span></p>
+        <h3>Vendas Online</h3>
+        <p class="ch-val"><span class="soon">Em Breve</span></p>
         <p class="ch-desc">Compra de passagens pelo site, sem fila no guichê. Enquanto isso, compre nas bilheterias.</p>
       </article>
       <article class="channel tc" id="trabalhe-conosco">
@@ -1079,7 +1081,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
     <div class="sac" id="chamado">
       <div class="sac-side">
         <p class="eyebrow">SAC</p>
-        <h3>Abra um chamado</h3>
+        <h3>Abra um Chamado</h3>
         <p>Reclamações, sugestões, elogios e achados e perdidos. Nossa equipe responde pelo e-mail que você informar.</p>
         <ol class="steps">
           <li><span>Preencha o formulário</span></li>
@@ -1090,7 +1092,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
       <div class="sac-main">
         <form class="form" id="sacForm" novalidate>
           <div class="field">
-            <label for="f-nome">Nome completo</label>
+            <label for="f-nome">Nome Completo</label>
             <input id="f-nome" name="name" type="text" autocomplete="name" maxlength="120" required aria-describedby="f-nome-err">
             <p class="err" id="f-nome-err"></p>
           </div>
@@ -1280,7 +1282,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
       </ul>
     </div>
     <div>
-      <h2 class="foot-h">Sede e garagem</h2>
+      <h2 class="foot-h">Sede e Garagem</h2>
       <address>Rua Bento Andrade Lemos, 157<br>Paraíso, Conceição de Macabu – RJ<br>CEP 28740-000</address>
     </div>
   </div>
@@ -1702,7 +1704,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
       const params = { name: d.name, email: d.email, reply_to: d.email, phone: d.phone, subject: d.subject, message: d.message, ticket_id: id, time: now() };
 
       if (!configured) {
-        show(`<div class="st st-warn"><h4>Envio automático em ativação</h4>
+        show(`<div class="st st-warn"><h4>Envio Automático em Ativação</h4>
           <p>Seu número de chamado é <span class="ticket">${esc(id)}</span>. Enquanto o envio pelo site não é ativado, copie o resumo e envie para <strong>${esc(CONFIG.sacEmail)}</strong>.</p>${manual(id, d)}</div>`);
         return;
       }
@@ -1715,7 +1717,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
             .then(() => api.send(CONFIG.emailjs.serviceId, CONFIG.emailjs.templateAutoReply, params, opts).then(() => true, () => false));
         })
         .then(replied => {
-          show(`<div class="st st-ok"><h4>Mensagem enviada</h4>
+          show(`<div class="st st-ok"><h4>Mensagem Enviada</h4>
             <p>Número do chamado: <span class="ticket">${esc(id)}</span></p>
             <p>${replied
               ? `Enviamos uma confirmação para <strong>${esc(d.email)}</strong>. Guarde este número para acompanhar seu atendimento.`
@@ -1724,7 +1726,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
           count.textContent = '0';
         })
         .catch(() => {
-          show(`<div class="st st-err"><h4>Não foi possível enviar agora</h4>
+          show(`<div class="st st-err"><h4>Não Foi Possível Enviar Agora</h4>
             <p>Verifique sua conexão e tente de novo. Se preferir, copie o resumo e envie para <strong>${esc(CONFIG.sacEmail)}</strong>, informando o chamado <span class="ticket">${esc(id)}</span>.</p>${manual(id, d)}</div>`);
         })
         .finally(() => setBusy(false));
