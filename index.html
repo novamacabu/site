@@ -247,8 +247,8 @@ button{font:inherit}
 /* ---------- botões e links ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:12px 24px;border-radius:var(--radius);border:1.5px solid transparent;font:600 1rem/1.2 var(--f-sans);text-decoration:none;cursor:pointer;transition:background .2s ease,border-color .2s ease,color .2s ease;white-space:nowrap}
 .btn .ic{width:20px;height:20px}
-.btn-primary{background:var(--orange);color:var(--navy)}
-.btn-primary:hover{background:var(--orange-hover);color:var(--navy)}
+.btn-primary{background:var(--orange);color:#FFFFFF}
+.btn-primary:hover{background:#D4572A;color:#FFFFFF}   /* 12/11: texto branco nos botões laranja; hover mais escuro para manter o contraste */
 .btn-dark{background:var(--btn-dark-bg);color:var(--btn-dark-fg)}
 .btn-dark:hover{background:var(--orange);color:var(--navy)}
 .btn-wa{background:var(--wa);color:#fff}
@@ -274,6 +274,7 @@ button{font:inherit}
 .nav a:not(.btn):hover{color:var(--heading)}
 .nav a:not(.btn):hover::after,.nav a.active::after{transform:scaleX(1)}
 .nav .btn{margin-left:14px;padding:12px 20px;font-size:.96rem}
+.nav a.btn-primary,.nav a.btn-primary:hover{color:#FFFFFF}   /* 12/11: o Autoatendimento do topo também com texto branco */
 .menu-btn{display:none;align-items:center;gap:8px;min-height:44px;padding:8px 12px;border:0;background:transparent;color:var(--heading);font-weight:600;cursor:pointer}
 .menu-btn .i-close{display:none}
 .menu-btn[aria-expanded="true"] .i-open{display:none}
@@ -486,9 +487,11 @@ button{font:inherit}
 .ticket{font:700 1.02rem/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em;color:var(--heading);white-space:nowrap}
 
 /* ---------- Trabalhe Conosco (12/11/2026): cartão em Atendimento e janela expandida com o envio do currículo ---------- */
-@media (min-width:1100px){.channels.has-tc{grid-template-columns:repeat(5,minmax(0,1fr))}}
-@media (min-width:621px) and (max-width:1099px){.channel.tc{grid-column:1/-1}}
-.channel.tc .ch-ic{background:var(--orange);border-color:var(--orange);color:var(--navy)}
+/* 12/11 (14:59): os e-mails não quebram; os 4 canais ficam como antes e o Trabalhe Conosco ocupa uma faixa inteira abaixo deles */
+@media (min-width:380px){.ch-val a[href^="mailto:"]{white-space:nowrap}}
+.channel.tc{grid-column:1/-1}
+@media (min-width:900px){.channel.tc{display:grid;grid-template-columns:44px minmax(0,auto) minmax(0,auto) minmax(0,1fr) auto;align-items:center;column-gap:28px}.channel.tc .ch-ic{margin:0}.channel.tc .ch-actions{margin:0;padding:0}.channel.tc h3{white-space:nowrap}}
+.channel.tc .ch-ic{background:var(--navy);border-color:var(--navy);color:#FFFFFF}
 .tc-dialog{width:min(1080px,calc(100vw - 32px));max-width:none;max-height:calc(100dvh - 32px);padding:0;border:0;border-radius:var(--radius);background:var(--surface);color:var(--text);box-shadow:0 30px 80px rgba(11,22,40,.35);overflow:hidden}
 .tc-dialog::backdrop{background:rgba(16,18,40,.62)}
 .tc-dialog[open]{display:flex;flex-direction:column}
@@ -1068,7 +1071,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
         <h3>Trabalhe Conosco</h3>
         <p class="ch-val"><a href="mailto:curriculo@novamacabu.com.br">curriculo@novamacabu.com.br</a></p>
         <p class="ch-desc">Quer fazer parte da equipe? Envie seu currículo direto para o RH da Nova Macabu.</p>
-        <div class="ch-actions"><button class="btn btn-primary btn-sm" type="button" data-tc-open>Enviar currículo</button></div>
+        <div class="ch-actions"><button class="btn btn-dark btn-sm" type="button" data-tc-open>Enviar Currículo</button></div>
       </article>
     </div>
 
@@ -1135,7 +1138,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
   <div class="tc-wrap">
     <div class="sac-side">
       <p class="eyebrow">Trabalhe Conosco</p>
-      <h3 id="tc-t">Envie seu currículo</h3>
+      <h3 id="tc-t">Envie Seu Currículo</h3>
       <p>Seu currículo vai direto para o RH da Nova Macabu. Quando houver vaga compatível com o seu perfil, entramos em contato pelo e-mail ou telefone informado.</p>
       <ol class="steps">
         <li><span>Preencha seus dados profissionais</span></li>
@@ -1147,13 +1150,18 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
       <button class="tc-close" type="button" data-tc-close aria-label="Fechar"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button>
       <form class="form" id="tcForm" novalidate>
         <div class="field">
-          <label for="tc-nome">Nome completo</label>
-          <input id="tc-nome" name="nome" type="text" autocomplete="name" maxlength="120" required aria-describedby="tc-nome-err">
+          <label for="tc-nome">Nome</label>
+          <input id="tc-nome" name="nome" type="text" autocomplete="given-name" maxlength="60" required aria-describedby="tc-nome-err">
           <p class="err" id="tc-nome-err"></p>
         </div>
         <div class="field">
-          <label for="tc-cpf">CPF <span class="opt">(opcional)</span></label>
-          <input id="tc-cpf" name="cpf" type="text" inputmode="numeric" autocomplete="off" maxlength="14" placeholder="000.000.000-00" aria-describedby="tc-cpf-err">
+          <label for="tc-sobrenome">Sobrenome</label>
+          <input id="tc-sobrenome" name="sobrenome" type="text" autocomplete="family-name" maxlength="80" required aria-describedby="tc-sobrenome-err">
+          <p class="err" id="tc-sobrenome-err"></p>
+        </div>
+        <div class="field">
+          <label for="tc-cpf">CPF</label>
+          <input id="tc-cpf" name="cpf" type="text" inputmode="numeric" autocomplete="off" maxlength="14" placeholder="000.000.000-00" required aria-describedby="tc-cpf-err">
           <p class="err" id="tc-cpf-err"></p>
         </div>
         <div class="field">
@@ -1167,12 +1175,21 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
           <p class="err" id="tc-tel-err"></p>
         </div>
         <div class="field">
-          <label for="tc-cidade">Cidade onde mora</label>
-          <input id="tc-cidade" name="cidade" type="text" autocomplete="address-level2" maxlength="80" required aria-describedby="tc-cidade-err">
+          <label for="tc-uf">Estado Onde Mora</label>
+          <select id="tc-uf" name="uf" required aria-describedby="tc-uf-err">
+            <option value="">Selecione</option>
+            <option value="AC">Acre</option><option value="AL">Alagoas</option><option value="AP">Amapá</option><option value="AM">Amazonas</option><option value="BA">Bahia</option><option value="CE">Ceará</option><option value="DF">Distrito Federal</option><option value="ES">Espírito Santo</option><option value="GO">Goiás</option><option value="MA">Maranhão</option><option value="MT">Mato Grosso</option><option value="MS">Mato Grosso do Sul</option><option value="MG">Minas Gerais</option><option value="PA">Pará</option><option value="PB">Paraíba</option><option value="PR">Paraná</option><option value="PE">Pernambuco</option><option value="PI">Piauí</option><option value="RJ" selected>Rio de Janeiro</option><option value="RN">Rio Grande do Norte</option><option value="RS">Rio Grande do Sul</option><option value="RO">Rondônia</option><option value="RR">Roraima</option><option value="SC">Santa Catarina</option><option value="SP">São Paulo</option><option value="SE">Sergipe</option><option value="TO">Tocantins</option>
+          </select>
+          <p class="err" id="tc-uf-err"></p>
+        </div>
+        <div class="field">
+          <label for="tc-cidade">Cidade Onde Mora</label>
+          <input id="tc-cidade" name="cidade" type="text" list="tc-cidades" autocomplete="off" maxlength="80" required placeholder="Digite e escolha na lista" aria-describedby="tc-cidade-err">
+          <datalist id="tc-cidades"></datalist>
           <p class="err" id="tc-cidade-err"></p>
         </div>
         <div class="field">
-          <label for="tc-cargo">Cargo de interesse</label>
+          <label for="tc-cargo">Cargo de Interesse</label>
           <select id="tc-cargo" name="cargo" required aria-describedby="tc-cargo-err">
             <option value="">Selecione</option>
             <option>Motorista</option>
@@ -1225,7 +1242,7 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
         <div class="hp" aria-hidden="true"><label for="tc-empresa">Empresa</label><input id="tc-empresa" name="company" type="text" tabindex="-1" autocomplete="off"></div>
         <div class="form-foot">
           <p class="consent">Você pode pedir a exclusão dos seus dados a qualquer momento pelo e-mail curriculo@novamacabu.com.br.</p>
-          <button class="btn btn-primary" type="submit"><span class="btn-label">Enviar currículo</span></button>
+          <button class="btn btn-dark" type="submit"><span class="btn-label">Enviar Currículo</span></button>
         </div>
         <div class="status" id="tcStatus" role="status" aria-live="polite" tabindex="-1" hidden></div>
       </form>
@@ -1731,14 +1748,31 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
     const dig = v => String(v || '').replace(/\D/g, '');
     const cpfOk = v => { const d = dig(v); if (d.length !== 11 || /^(\d)\1{10}$/.test(d)) return false; let s = 0; for (let i = 0; i < 9; i++) s += +d[i] * (10 - i); let r = (s * 10) % 11 % 10; if (r !== +d[9]) return false; s = 0; for (let i = 0; i < 10; i++) s += +d[i] * (11 - i); r = (s * 10) % 11 % 10; return r === +d[10]; };
     $('#tc-cpf').addEventListener('input', e => { const d = dig(e.target.value).slice(0, 11); e.target.value = d.replace(/^(\d{3})(\d)/, '$1.$2').replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3').replace(/\.(\d{3})(\d{1,2})$/, '.$1-$2'); });
+    /* Estado → cidades do IBGE (como em CAP/Terceiros no ERP); sem resposta do IBGE, a cidade fica digitada */
+    const TC_CID = { uf: '', lista: [], cache: {} };
+    const semAc = t => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+    const tcCidadeDe = t => { const k = semAc(t); return TC_CID.lista.find(c => semAc(c) === k) || ''; };
+    const tcCidades = async uf => {
+      const dl = $('#tc-cidades'); TC_CID.uf = uf; TC_CID.lista = []; dl.innerHTML = ''; if (!uf) return;
+      try {
+        if (!TC_CID.cache[uf]) { const r = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios?orderBy=nome`); if (!r.ok) throw new Error('ibge'); TC_CID.cache[uf] = (await r.json()).map(m => m.nome); }
+        if (TC_CID.uf !== uf) return;
+        TC_CID.lista = TC_CID.cache[uf]; dl.innerHTML = TC_CID.lista.map(n => `<option value="${esc(n)}">`).join('');
+      } catch (e) { TC_CID.lista = []; }
+    };
+    $('#tc-uf').addEventListener('change', e => { const c = $('#tc-cidade'); c.value = ''; c.removeAttribute('aria-invalid'); $('#tc-cidade-err').textContent = ''; tcCidades(e.target.value); });
+    tcDlg.addEventListener('focusin', () => { if (!TC_CID.uf && $('#tc-uf').value) tcCidades($('#tc-uf').value); }, { once: true });
+    $('#tc-cidade').addEventListener('change', e => { const n = tcCidadeDe(e.target.value); if (n) e.target.value = n; });
     const EXT = /\.(pdf|docx?|odt|rtf|jpe?g|png)$/i;
     const tamanho = n => n >= 1048576 ? (n / 1048576).toFixed(1).replace('.', ',') + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB';
     const fields = [
-      { el: $('#tc-nome'), check: v => v.trim().length >= 3 || 'Informe seu nome completo.' },
-      { el: $('#tc-cpf'), check: v => !v.trim() || cpfOk(v) || 'CPF inválido. Confira os números ou deixe em branco.' },
+      { el: $('#tc-nome'), check: v => v.trim().length >= 2 || 'Informe o seu nome.' },
+      { el: $('#tc-sobrenome'), check: v => v.trim().length >= 2 || 'Informe o seu sobrenome.' },
+      { el: $('#tc-cpf'), check: v => cpfOk(v) || (v.trim() ? 'CPF inválido. Confira os números.' : 'Informe o seu CPF.') },
       { el: $('#tc-email'), check: v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) || 'Informe um e-mail válido, como nome@exemplo.com.' },
       { el: $('#tc-tel'), check: v => dig(v).length >= 10 || 'Informe o telefone com DDD.' },
-      { el: $('#tc-cidade'), check: v => v.trim().length >= 2 || 'Informe a cidade onde mora.' },
+      { el: $('#tc-uf'), check: v => Boolean(v) || 'Escolha o estado.' },
+      { el: $('#tc-cidade'), check: v => { const t = v.trim(); if (t.length < 2) return 'Informe a cidade onde mora.'; if (TC_CID.lista.length && !tcCidadeDe(t)) return 'Escolha a cidade na lista do estado selecionado.'; return true; } },
       { el: $('#tc-cargo'), check: v => Boolean(v) || 'Escolha o cargo de interesse.' },
       { el: arq, check: () => { const f = arq.files && arq.files[0]; if (!f) return 'Anexe o seu currículo.'; if (!EXT.test(f.name)) return 'Formato não aceito. Envie PDF, Word, ODT, RTF, JPG ou PNG.'; if (f.size > CONFIG.curriculoMax) return `Arquivo com ${tamanho(f.size)}: o limite é 2,5 MB. Salve como PDF ou reduza a foto.`; return true; } },
       { el: $('#tc-ok'), check: () => $('#tc-ok').checked || 'Marque a autorização para enviarmos seu currículo ao RH.' }
@@ -1750,10 +1784,10 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
     const protocolo = () => { const abc = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', r = new Uint32Array(4); crypto.getRandomValues(r); return 'CV-' + hoje() + '-' + Array.from(r, x => abc[x % abc.length]).join(''); };
     const base64 = f => new Promise((ok, falha) => { const rd = new FileReader(); rd.onload = () => ok(String(rd.result).split(',')[1] || ''); rd.onerror = () => falha(new Error('leitura')); rd.readAsDataURL(f); });
     const show = html => { st.innerHTML = html; st.hidden = false; st.focus({ preventScroll: true }); st.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); };
-    const setBusy = on => { btn.disabled = on; tcForm.setAttribute('aria-busy', String(on)); btn.querySelector('.btn-label').textContent = on ? 'Enviando…' : 'Enviar currículo'; };
-    const resumo = (id, d) => `Currículo ${id}\nNome: ${d.nome}` + (d.cpf ? `\nCPF: ${d.cpf}` : '') + `\nE-mail: ${d.email}\nTelefone: ${d.telefone}\nCidade: ${d.cidade}\nCargo de interesse: ${d.cargo}` + (d.cnh ? `\nCNH: ${d.cnh}` : '') + (d.mensagem ? `\n\n${d.mensagem}` : '');
+    const setBusy = on => { btn.disabled = on; tcForm.setAttribute('aria-busy', String(on)); btn.querySelector('.btn-label').textContent = on ? 'Enviando…' : 'Enviar Currículo'; };
+    const resumo = (id, d) => `Currículo ${id}\nNome: ${d.nome}\nCPF: ${d.cpf}` + `\nE-mail: ${d.email}\nTelefone: ${d.telefone}\nCidade: ${d.cidade}\nCargo de interesse: ${d.cargo}` + (d.cnh ? `\nCNH: ${d.cnh}` : '') + (d.mensagem ? `\n\n${d.mensagem}` : '');
     const manual = (id, d) => { const text = resumo(id, d), mailto = 'mailto:' + CONFIG.curriculoEmail + '?subject=' + encodeURIComponent(`[${id}] Currículo — ${d.nome} — ${d.cargo}`) + '&body=' + encodeURIComponent(text + '\n\n(anexe o currículo a este e-mail)');
-      return `<textarea id="tc-resumo" readonly rows="6" aria-label="Resumo do envio">${esc(text)}</textarea><div class="st-actions"><a class="copy" href="${esc(mailto)}"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg>Abrir no e-mail (anexe o currículo)</a></div>`; };
+      return `<textarea id="tc-resumo" readonly rows="6" aria-label="Resumo do envio">${esc(text)}</textarea><div class="st-actions"><a class="copy" href="${esc(mailto)}"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg>Abrir no E-mail (Anexe o Currículo)</a></div>`; };
     tcForm.addEventListener('submit', async e => {
       e.preventDefault();
       if (tcForm.elements.company.value) return;   /* campo-armadilha */
@@ -1761,7 +1795,8 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
       fields.forEach(f => { if (!mark(f, f.check(f.el.value)) && !firstBad) firstBad = f.el; });
       if (firstBad) { firstBad.focus(); return; }
       const f = arq.files[0], id = protocolo();
-      const d = { nome: $('#tc-nome').value.trim(), cpf: $('#tc-cpf').value.trim(), email: $('#tc-email').value.trim(), telefone: $('#tc-tel').value.trim(), cidade: $('#tc-cidade').value.trim(), cargo: $('#tc-cargo').value, cnh: $('#tc-cnh').value, mensagem: msgT.value.trim() };
+      const cidOk = tcCidadeDe($('#tc-cidade').value.trim());
+      const d = { nome: ($('#tc-nome').value.trim() + ' ' + $('#tc-sobrenome').value.trim()).replace(/\s+/g, ' '), cpf: $('#tc-cpf').value.trim(), email: $('#tc-email').value.trim(), telefone: $('#tc-tel').value.trim(), cidade: (cidOk || $('#tc-cidade').value.trim()) + '/' + $('#tc-uf').value, cargo: $('#tc-cargo').value, cnh: $('#tc-cnh').value, mensagem: msgT.value.trim() };
       setBusy(true);
       try {
         const corpo = new URLSearchParams(Object.assign({}, d, { consentimento: 'sim', protocolo: id, arquivoNome: f.name.slice(-120), arquivoBase64: await base64(f) }));
@@ -1778,10 +1813,10 @@ body.review [data-todo]{outline:2px dashed var(--review-line);outline-offset:3px
             confirmou = true;
           } catch (e3) { confirmou = false; }
         }
-        show(`<div class="st st-ok"><h4>Currículo enviado</h4><p>Número do envio: <span class="ticket">${esc(id)}</span></p><p>${confirmou ? `Enviamos uma confirmação para <strong>${esc(d.email)}</strong>. ` : ''}O RH da Nova Macabu recebeu o seu currículo e entra em contato se houver vaga compatível com o seu perfil.</p></div>`);
-        tcForm.reset(); cnt.textContent = '0'; info.textContent = infoPadrao;
+        show(`<div class="st st-ok"><h4>Currículo Enviado</h4><p>Número do envio: <span class="ticket">${esc(id)}</span></p><p>${confirmou ? `Enviamos uma confirmação para <strong>${esc(d.email)}</strong>. ` : ''}O RH da Nova Macabu recebeu o seu currículo e entra em contato se houver vaga compatível com o seu perfil.</p></div>`);
+        tcForm.reset(); cnt.textContent = '0'; info.textContent = infoPadrao; tcCidades($('#tc-uf').value);
       } catch (err) {
-        show(`<div class="st st-err"><h4>Não foi possível enviar agora</h4><p>Verifique sua conexão e tente de novo. Se preferir, envie o currículo por e-mail para <strong>${esc(CONFIG.curriculoEmail)}</strong>, informando o número <span class="ticket">${esc(id)}</span>.</p>${manual(id, d)}</div>`);
+        show(`<div class="st st-err"><h4>Não Foi Possível Enviar Agora</h4><p>Verifique sua conexão e tente de novo. Se preferir, envie o currículo por e-mail para <strong>${esc(CONFIG.curriculoEmail)}</strong>, informando o número <span class="ticket">${esc(id)}</span>.</p>${manual(id, d)}</div>`);
       } finally { setBusy(false); }
     });
   }
